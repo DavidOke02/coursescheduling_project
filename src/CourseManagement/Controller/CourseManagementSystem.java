@@ -2,7 +2,7 @@ package CourseManagement.Controller;
 
 import CourseManagement.Model.*;
 import CourseManagement.View.CourseDetailView;
-import CourseManagement.View.InstructorDashboard;
+import CourseManagement.View.AdminDashboard2;
 
 /**
  * Main class demonstrating the Course Management System
@@ -29,7 +29,7 @@ public class CourseManagementSystem {
         CourseDetailView detailPage = new CourseDetailView();
         detailPage.displayCourseDetails(course);
 
-        InstructorDashboard dashboard = new InstructorDashboard();
+        AdminDashboard2 dashboard = new AdminDashboard2();
         dashboard.displayDashboard(professor);
 
         // Demonstrate waitlist functionality

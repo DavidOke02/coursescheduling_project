@@ -5,7 +5,7 @@ import CourseManagement.Model.Professor;
 /**
  * View for instructor dashboard
  */
-public class InstructorDashboard {
+public class AdminDashboard2 {
     /**
      * Display instructor dashboard
      */

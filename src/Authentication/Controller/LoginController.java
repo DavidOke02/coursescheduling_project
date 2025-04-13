@@ -21,11 +21,29 @@ public class LoginController {
         Connection connection = DBConnection.getConnection();
         try {
             Statement createUserTable = connection.createStatement();
-            createUserTable.executeUpdate("CREATE TABLE IF NOT EXISTS User");
-            System.out.println("Table created!"); //Check if it's actually made in both workbench and the Database window in IntelliJ
+            createUserTable.executeUpdate("CREATE TABLE IF NOT EXISTS User (" +
+                    "  `id` INT NOT NULL AUTO_INCREMENT," +
+                    "  `username` VARCHAR(45) NULL," +
+                    "  `password` VARCHAR(45) NULL," +
+                    "  `role` VARCHAR(45) NULL," +
+                    "  PRIMARY KEY (`id`))");
+            System.out.println("User table created, or already exists!"); //Check if it's actually made in both workbench and the Database window in IntelliJ
         }catch (SQLException e){
             System.out.println(e.getMessage());
             System.out.println("Could not create table");
         }
+    }
+
+    //Show Table
+
+    //Add User
+
+    //Delete User
+
+    //View User
+
+    // Authenticates student login using email and password
+    public boolean authenticate(String enteredEmail, String enteredPassword) {
+        return true;
     }
 }

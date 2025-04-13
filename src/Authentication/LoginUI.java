@@ -1,5 +1,6 @@
 package Authentication;
 
+import Authentication.Controller.LoginController;
 import Scheduling.View.StudentLogin;
 
 import javax.swing.*;
@@ -13,11 +14,14 @@ public class LoginUI extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
 
+    private LoginController controller;
+
     public LoginUI() {
         setTitle("PSU Student Login");
         setSize(400, 200);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        LoginController controller = new LoginController();
 
         initializeComponents();
     }
@@ -51,15 +55,12 @@ public class LoginUI extends JFrame {
             String enteredEmail = emailField.getText().trim();
             String enteredPassword = new String(passwordField.getPassword()).trim();
 
-            StudentLogin login = new StudentLogin();
-
-
             if (!enteredEmail.endsWith("@psu.edu")) {
                 JOptionPane.showMessageDialog(LoginUI.this, "Email must end with @psu.edu", "Invalid Email", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            boolean isAuthenticated = login.authenticate(enteredEmail, enteredPassword);
+            boolean isAuthenticated = controller.authenticate(enteredEmail, enteredPassword);
             if (isAuthenticated) {
                 JOptionPane.showMessageDialog(LoginUI.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Proceed to next screen (for example, a student dashboard)
