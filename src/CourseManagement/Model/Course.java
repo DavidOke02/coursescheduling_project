@@ -9,6 +9,9 @@ public class Course {
     private int credits;
     private String departmentCode;
     private int availableSeats;
+    private String professor;
+    private String prerequisites;
+    private String semesterOffered;
 
     /**
      * Default constructor initializing course with default values
@@ -19,12 +22,18 @@ public class Course {
         this.credits = 3;
         this.departmentCode = "IST";
         this.availableSeats = 30;
+        this.professor = "TBD";
+        this.prerequisites = "None";
+        this.semesterOffered = "Fall";
     }
 
     public Course(String courseName, int credits) {
         this.courseID = "IST101";
         this.courseName = "Introduction to Technology";
         this.credits = 3;
+        this.professor = "TBD";
+        this.prerequisites = "None";
+        this.semesterOffered = "Fall";
     }
 
     // Getters and setters
@@ -67,5 +76,28 @@ public class Course {
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
     }
-}
 
+    public String getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
+    }
+
+    public String getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(String prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    public String getSemesterOffered() {
+        return semesterOffered;
+    }
+
+    public void setSemesterOffered(String semesterOffered) {
+        this.semesterOffered = semesterOffered;
+    }
+}
