@@ -28,6 +28,11 @@ public class Course {
     }
 
     public Course(String courseName, int credits) {
+        this.courseName = courseName;
+        this.credits = credits;
+    }
+
+    public Course(String id, String courseName, int credits, String departmentCode, int availableSeats, String professor, String prerequisites, String semesterOffered) {
         this.courseID = "IST101";
         this.courseName = "Introduction to Technology";
         this.credits = 3;
