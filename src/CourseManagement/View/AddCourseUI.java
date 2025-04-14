@@ -89,6 +89,8 @@ public class AddCourseUI extends JFrame {
                     ManagePrerequisites prereqCtrl = new ManagePrerequisites();
 
                     boolean added = addCourseCtrl.addCourse(course);
+                    AddCourseController controller = new AddCourseController();
+                    controller.addCourse(courseID, courseName, credits, dept, seats, professorID, prereq, semester);
                     boolean profAssigned = assignProfCtrl.assignProfessor(professorID, courseID);
                     boolean prereqAdded = prereq.isEmpty() || prereqCtrl.addPrerequisite(courseID, prereq);
 
