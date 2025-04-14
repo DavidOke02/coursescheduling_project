@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConnection {
     private static Connection connection;
     private static String user = "root";
-    private static String password = "java"; //Remember to change back to java when pushing
+    private static String password = "Chiru@2004"; //Remember to change back to java when pushing
     private static String url = "jdbc:mysql://localhost:3306/coursescheduling_db"; //This will be the name of our app's db, only change for testing purposes
 
     public static Connection getConnection()
