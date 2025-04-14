@@ -1,11 +1,14 @@
 package CourseManagement.View;
 
+import CourseManagement.Controller.CourseListViewController;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CourseListView {
+    public  CourseListViewController controller;
     private JPanel courseListPanel;
     private JTable table1;
     private JComboBox<String> DepartmentCombo;
@@ -14,9 +17,8 @@ public class CourseListView {
 
     private DefaultTableModel tableModel;
 
-    public CourseListView() {
-
-
+    public CourseListView(CourseListViewController controller) {
+        this.controller = controller;
         DepartmentCombo.addItem("All");
         DepartmentCombo.addItem("IST");
         DepartmentCombo.addItem("MATH");
@@ -69,8 +71,12 @@ public class CourseListView {
     }
 
     public static void main(String[] args) {
+        CourseListViewController controller = new CourseListViewController();
+        CourseListView view = new CourseListView(controller);
+        controller.setView(view);
+
         JFrame frame = new JFrame("Course List");
-        frame.setContentPane(new CourseListView().getMainPanel());
+        frame.setContentPane(view.getMainPanel());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
