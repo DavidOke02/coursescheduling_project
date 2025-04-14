@@ -120,7 +120,25 @@ public class LoginController {
     }
 
     // Authenticates student login using email and password
-    public boolean authenticate(String enteredEmail, String enteredPassword) {
-        return true;
+    public boolean authenticate(String enteredUsername, String enteredPassword) {
+        Connection connection = DBConnection.getConnection();
+        try {
+            String query = "SELECT * FROM User WHERE username = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, enteredUsername);
+            preparedStatement.setString(2, enteredPassword);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            boolean userExists = resultSet.next();
+
+            resultSet.close();
+            preparedStatement.close();
+
+            return userExists;
+        } catch (SQLException e) {
+            System.out.println("Error during authentication: ");
+            return false;
+        }
+    }
     }
 }
