@@ -1,4 +1,6 @@
 import Authentication.Controller.LoginController;
+import CourseManagement.Controller.CourseListViewController;
+import CourseManagement.Model.Course;
 import db.DBConnection;
 
 import java.sql.Connection;
