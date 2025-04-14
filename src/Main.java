@@ -8,8 +8,7 @@ import java.sql.Connection;
 public class Main {
     public static void main(String[] args) {
         //App start (From login screen)
-        //LoginController loginController = new LoginController();
-        CourseListViewController controller2= new CourseListViewController();
+        LoginController loginController = new LoginController();
 
         //Db Connect
         Connection connection = DBConnection.getConnection();
