@@ -129,16 +129,19 @@ public class LoginController {
             preparedStatement.setString(2, enteredPassword);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            boolean userExists = resultSet.next();
+            if(!resultSet.isBeforeFirst()){
+                System.out.println("User not found.");
+                return false;
+            }
 
             resultSet.close();
             preparedStatement.close();
 
-            return userExists;
+            System.out.println("User authenticated.");
+            return true;
         } catch (SQLException e) {
             System.out.println("Error during authentication: ");
             return false;
         }
     }
     }
-}
