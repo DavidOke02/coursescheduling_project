@@ -4,10 +4,7 @@ import CourseManagement.Model.Course;
 import CourseManagement.View.CourseListView;
 import db.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class CourseListViewController {
     CourseListView courseListView;
@@ -15,6 +12,28 @@ public class CourseListViewController {
     public CourseListViewController() {
         System.out.println("Displaying Course List View...");
         courseListView = new CourseListView(this);
+        createCourseTable();
+    }
+
+    public void createCourseTable(){
+        Connection connection = DBConnection.getConnection();
+
+        try {
+            Statement createUserTable = connection.createStatement();
+            createUserTable.executeUpdate("CREATE TABLE IF NOT EXISTS Course (" +
+                    "  `id` INT NOT NULL AUTO_INCREMENT," +
+                    "  `name` VARCHAR(45) NULL," +
+                    "  `credits` INT NULL," +
+                    "  `departmentcode` VARCHAR(45) NULL," +
+                    "  `availableSeats` INT NULL," +
+                    "  `professor` VARCHAR(45) NULL," +
+                    "  `prerequisites` VARCHAR(500) NULL," +
+                    "  PRIMARY KEY (`id`))");
+            System.out.println("Course table created, or already exists!");
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Could not create course table");
+        }
     }
 
     public void displayCourseList(){
@@ -23,8 +42,16 @@ public class CourseListViewController {
         try{
             PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM Course");
             ResultSet resultSet = displayCourseList.executeQuery();
-    } catch (SQLException e) {
+
+            if(!resultSet.isBeforeFirst()){
+                System.out.println("User table is empty.");
+            }
+
+            while (resultSet.next()){
+            Course course = new Course(resultSet.getInt("id"), resultSet.getString("name")+ resultSet.getString("credits"), resultSet.getInt("departmentcode"), resultSet.getInt("seats"), resultSet.getString("professor"), resultSet.getString("prequisites"), resultSet.getString("sesmesteroffered"));
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println("Could not display course list.");
         }
+    }
 }
