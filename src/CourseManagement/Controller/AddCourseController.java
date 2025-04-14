@@ -23,7 +23,7 @@ public void addCourse(String courseID, String Name, int credits, String departme
     Connection connection = DBConnection.getConnection();
     try {
         PreparedStatement addCourse = connection.prepareStatement(
-                "INSERT INTO Course (courseID, courseName, credits, departmentCode, availableSeats, professor, prerequisites, semesterOffered) " +
+                "INSERT INTO Course (id, name, credits, departmentCode, seats, professor, prerequisites, semester) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         addCourse.setString(1, courseID);
         addCourse.setString(2, Name);
