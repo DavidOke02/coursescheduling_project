@@ -15,33 +15,10 @@ public class AddCourseController {
     public AddCourseController() {
         System.out.println("AddCourseController started!");
         this.view = new AddCourseUI();
-        createCourseTable();
     }
-// making a table in the db
-    public void createCourseTable() {
-        Connection connection = DBConnection.getConnection();
-        try {
-            Statement createCourseTable = connection.createStatement();
-            createCourseTable.executeUpdate("CREATE TABLE IF NOT EXISTS Course (" +
-                    "  `id` INT NOT NULL AUTO_INCREMENT," +
-                    "  `courseID` VARCHAR(45) NULL," +
-                    "  `courseName` VARCHAR(100) NULL," +
-                    "  `credits` INT NULL," +
-                    "  `departmentCode` VARCHAR(45) NULL," +
-                    "  `availableSeats` INT NULL," +
-                    "  `professor` VARCHAR(100) NULL," +
-                    "  `prerequisites` VARCHAR(255) NULL," +
-                    "  `semesterOffered` VARCHAR(45) NULL," +
-                    "  PRIMARY KEY (`id`))");
-            System.out.println("Course table created, or already exists!");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not create table: ");
-        }
-        }
 
 // add course
-public void addCourse(String courseID, String courseName, int credits, String departmentCode, int availableSeats, String professor, String prerequisites, String semesterOffered) {
+public void addCourse(String courseID, String Name, int credits, String departmentCode, int Seats, String professor, String prerequisites, String semester) {
     System.out.println("Attempting to add course");
     Connection connection = DBConnection.getConnection();
     try {
@@ -49,13 +26,13 @@ public void addCourse(String courseID, String courseName, int credits, String de
                 "INSERT INTO Course (courseID, courseName, credits, departmentCode, availableSeats, professor, prerequisites, semesterOffered) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         addCourse.setString(1, courseID);
-        addCourse.setString(2, courseName);
+        addCourse.setString(2, Name);
         addCourse.setInt(3, credits);
         addCourse.setString(4, departmentCode);
-        addCourse.setInt(5, availableSeats);
+        addCourse.setInt(5, Seats);
         addCourse.setString(6, professor);
         addCourse.setString(7, prerequisites);
-        addCourse.setString(8, semesterOffered);
+        addCourse.setString(8, semester);
         addCourse.executeUpdate();
         System.out.println("Course added");
     } catch (SQLException e) {
