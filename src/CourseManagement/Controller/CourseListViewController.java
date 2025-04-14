@@ -2,17 +2,33 @@ package CourseManagement.Controller;
 
 import CourseManagement.Model.Course;
 import CourseManagement.View.CourseListView;
+import CourseManagement.View.AddCourseUI;
+import CourseManagement.View.CourseListView;
 import db.DBConnection;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class CourseListViewController {
-    CourseListView courseListView;
+    CourseListView view;
 
     public CourseListViewController() {
         System.out.println("Displaying Course List View...");
         //courseListView = new CourseListView(this);
         createCourseTable();
+    }
+
+    public void setView(CourseListView view) {
+        this.view = view;
+    }
+
+    // Example methods
+    public void handleAddCourseButton() {
+        SwingUtilities.invokeLater(() -> new AddCourseUI());
+    }
+
+    public void filterCoursesByDepartment(String deptCode) {
+        System.out.println("Filtering for department: " + deptCode);
     }
 
     public void createCourseTable(){
