@@ -1,4 +1,6 @@
 import Authentication.Controller.LoginController;
+import CourseManagement.Controller.CourseListViewController;
+import CourseManagement.Model.Course;
 import db.DBConnection;
 
 import java.sql.Connection;
@@ -6,7 +8,8 @@ import java.sql.Connection;
 public class Main {
     public static void main(String[] args) {
         //App start (From login screen)
-        LoginController loginController = new LoginController();
+        //LoginController loginController = new LoginController();
+        CourseListViewController controller2= new CourseListViewController();
 
         //Db Connect
         Connection connection = DBConnection.getConnection();

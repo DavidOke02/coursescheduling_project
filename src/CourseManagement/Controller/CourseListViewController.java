@@ -11,7 +11,7 @@ public class CourseListViewController {
 
     public CourseListViewController() {
         System.out.println("Displaying Course List View...");
-        courseListView = new CourseListView(this);
+        //courseListView = new CourseListView(this);
         createCourseTable();
     }
 
@@ -25,9 +25,10 @@ public class CourseListViewController {
                     "  `name` VARCHAR(45) NULL," +
                     "  `credits` INT NULL," +
                     "  `departmentcode` VARCHAR(45) NULL," +
-                    "  `availableSeats` INT NULL," +
+                    "  `seats` INT NULL," +
                     "  `professor` VARCHAR(45) NULL," +
                     "  `prerequisites` VARCHAR(500) NULL," +
+                    "  `semester` VARCHAR(45) NULL," +
                     "  PRIMARY KEY (`id`))");
             System.out.println("Course table created, or already exists!");
         }catch (SQLException e){
@@ -47,8 +48,15 @@ public class CourseListViewController {
                 System.out.println("User table is empty.");
             }
 
-            while (resultSet.next()){
-            Course course = new Course(resultSet.getInt("id"), resultSet.getString("name")+ resultSet.getString("credits"), resultSet.getInt("departmentcode"), resultSet.getInt("seats"), resultSet.getString("professor"), resultSet.getString("prequisites"), resultSet.getString("sesmesteroffered"));
+            while (resultSet.next()) {
+                try {
+                    Course course = new Course(resultSet.getString("id"), resultSet.getString("name"), resultSet.getInt("credits"), resultSet.getString("departmentcode"), resultSet.getInt("seats"), resultSet.getString("professor"), resultSet.getString("prerequisites"), resultSet.getString("semester"));
+                    //Add course to table
+                }catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println("Could not display course list.");
