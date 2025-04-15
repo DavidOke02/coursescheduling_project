@@ -25,6 +25,8 @@ public class CourseListView {
         DepartmentCombo.addItem("PHYS");
         DepartmentCombo.addItem("ENGL");
         DepartmentCombo.addItem("CHEM");
+        controller.setView(this);
+        controller.displayCourseList();
 
         addCourseButton.addActionListener(new ActionListener() {
             @Override

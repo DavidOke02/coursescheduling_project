@@ -1,30 +1,44 @@
+Use Cases Covered:
+-Authentication (Student) {LoginController, Login, LoginUI}
+-Admin adding course to db  {Course, AddCourseUI, AdminDashboard, AdminDashboardController, AddCourseController, CourseListView, CourseListViewController}
+*Main is where to start the cases and DB setup is in db folder*
+
+
 Input Login:
-  Student ID: 012345678;
-  Name: Default Student;
+  Student ID: user1;
   Password: password
 
-Input Professor:
-  ProfessorID: P001;
-  Name: John Smith;
-  Department: Computer Science;
 
-Input Courses:
-CourseID: IST101
-  Course Name: Introduction to Technology;
-  Credits: 3;
-  Department Code: "IST";
-  AvailableSeats: 30;
+Team-Member ID
+Team-Member Name
+Percentage Efforts in Particular Assignment
+Brief of Efforts in the Tasks Contribution
 
-Team Member ID + Name
-Contribution in The Particular Assignment:
-
+rcw5372
 Rachel Whitty
+25%
+LoginUI
+AddCourseUI
+CourseListViewUI
 
-
-Chirasvi Gowda
-
-
+Fma5377
 Feda Almodhi
+25%
+Admin Dashboard UI
 
+czg5634
+Chirasvi Gowda
+25%
+Authentication LoginController
+CourseManagement AddCourseController
 
+doo5136
 David Oke
+25%
+-Login Model
+-AdminController
+-CourseViewController
+
+
+
+

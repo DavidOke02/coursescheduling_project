@@ -33,12 +33,14 @@ public class Course {
     }
 
     public Course(String id, String courseName, int credits, String departmentCode, int availableSeats, String professor, String prerequisites, String semesterOffered) {
-        this.courseID = "IST101";
-        this.courseName = "Introduction to Technology";
-        this.credits = 3;
-        this.professor = "TBD";
-        this.prerequisites = "None";
-        this.semesterOffered = "Fall";
+        this.courseID = id;
+        this.courseName = courseName;
+        this.credits = credits;
+        this.departmentCode = departmentCode;
+        this.availableSeats = availableSeats;
+        this.professor = professor;
+        this.prerequisites = prerequisites;
+        this.semesterOffered = semesterOffered;
     }
 
     // Getters and setters

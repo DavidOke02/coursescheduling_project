@@ -21,7 +21,7 @@ public class LoginUI extends JFrame {
         setSize(400, 200);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        LoginController controller = new LoginController();
+        controller = new LoginController();
 
         initializeComponents();
     }
@@ -55,10 +55,10 @@ public class LoginUI extends JFrame {
             String enteredEmail = emailField.getText().trim();
             String enteredPassword = new String(passwordField.getPassword()).trim();
 
-            if (!enteredEmail.endsWith("@psu.edu")) {
-                JOptionPane.showMessageDialog(LoginUI.this, "Email must end with @psu.edu", "Invalid Email", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            //if (!enteredEmail.endsWith("@psu.edu")) {
+                //JOptionPane.showMessageDialog(LoginUI.this, "Email must end with @psu.edu", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                //return;
+            //}
 
             boolean isAuthenticated = controller.authenticate(enteredEmail, enteredPassword);
             if (isAuthenticated) {

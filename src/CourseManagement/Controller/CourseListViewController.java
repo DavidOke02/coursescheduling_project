@@ -7,6 +7,7 @@ import CourseManagement.View.CourseListView;
 import db.DBConnection;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 
 public class CourseListViewController {
@@ -14,7 +15,7 @@ public class CourseListViewController {
 
     public CourseListViewController() {
         System.out.println("Displaying Course List View...");
-        //courseListView = new CourseListView(this);
+        //CourseListView view = new CourseListView(this);
         createCourseTable();
     }
 
@@ -37,7 +38,7 @@ public class CourseListViewController {
         try {
             Statement createUserTable = connection.createStatement();
             createUserTable.executeUpdate("CREATE TABLE IF NOT EXISTS Course (" +
-                    "  `id` INT NOT NULL AUTO_INCREMENT," +
+                    "  `id` VARCHAR(10) NOT NULL," +
                     "  `name` VARCHAR(45) NULL," +
                     "  `credits` INT NULL," +
                     "  `departmentcode` VARCHAR(45) NULL," +
@@ -60,6 +61,15 @@ public class CourseListViewController {
             PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM Course");
             ResultSet resultSet = displayCourseList.executeQuery();
 
+            DefaultTableModel tableModel = (DefaultTableModel) view.getTable().getModel();
+            tableModel.setRowCount(0);
+            tableModel.addColumn("Course Code");
+            tableModel.addColumn("Course Name");
+            tableModel.addColumn("Instructor");
+            tableModel.addColumn("Department");
+            tableModel.addColumn("Credits");
+            Object [] rowdata = new Object[5];
+
             if(!resultSet.isBeforeFirst()){
                 System.out.println("User table is empty.");
             }
@@ -68,6 +78,12 @@ public class CourseListViewController {
                 try {
                     Course course = new Course(resultSet.getString("id"), resultSet.getString("name"), resultSet.getInt("credits"), resultSet.getString("departmentcode"), resultSet.getInt("seats"), resultSet.getString("professor"), resultSet.getString("prerequisites"), resultSet.getString("semester"));
                     //Add course to table
+                    rowdata[0] = course.getCourseID();
+                    rowdata[1] = course.getCourseName();
+                    rowdata[2] = course.getProfessor();
+                    rowdata[3] = course.getDepartmentCode();
+                    rowdata[4] = course.getCredits();
+                    tableModel.addRow(rowdata);
                 }catch (SQLException e){
                     System.out.println(e.getMessage());
                 }

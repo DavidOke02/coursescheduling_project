@@ -1,6 +1,7 @@
 package CourseManagement.View;
 
 import CourseManagement.Controller.AdminDashboardController;
+import CourseManagement.Controller.CourseListViewController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,19 +11,28 @@ public class AdminDashboard extends JFrame{
     private JButton addCoursesButton;
     private JButton viewCoursesButton;
     private JLabel adminDashboardLabel;
-private AdminDashboardController controller;
-    //Add course button
-    //View Course button
+    private AdminDashboardController controller;
 
     public AdminDashboard(AdminDashboardController controller) {
         this.controller = controller;
 
         this.add(dashboardPanel);
-        this.setTitle("Login");
+        this.setTitle("Admin Dashboard");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
+        initializeButtons();
+    }
+
+    public void initializeButtons(){
+        this.addCoursesButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> new AddCourseUI());
+        });
+
+        this.viewCoursesButton.addActionListener(e -> {
+            CourseListView.main(new String[0]);
+        });
     }
 
     public JPanel getDashboardPanel() {
@@ -37,25 +47,10 @@ private AdminDashboardController controller;
         return viewCoursesButton;
     }
 
-    public void setDashboardPanel(JPanel dashboardPanel) {
-        this.dashboardPanel = dashboardPanel;
-    }
-
-    public void setAddCoursesButton(JButton addCoursesButton) {
-        this.addCoursesButton = addCoursesButton;
-    }
-
-    public void setViewCoursesButton(JButton viewCoursesButton) {
-        this.viewCoursesButton = viewCoursesButton;
-    }
 
     public JLabel getAdminDashboardLabel() {
         return adminDashboardLabel;
     }
 
-    public void setAdminDashboardLabel(JLabel adminDashboardLabel) {
-        this.adminDashboardLabel = adminDashboardLabel;
-
-    }
 
 }
