@@ -1,7 +1,6 @@
 package Authentication;
 
 import Authentication.Controller.LoginController;
-import Scheduling.View.StudentLogin;
 
 import javax.swing.*;
 import java.awt.*;

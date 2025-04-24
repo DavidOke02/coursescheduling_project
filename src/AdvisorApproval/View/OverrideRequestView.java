@@ -1,7 +1,7 @@
 package AdvisorApproval.View;
 
 // View: Form to submit a course override request
-public class OverrideRequestForm {
+public class OverrideRequestView {
     /**
      * Displays the override request form.
      */
