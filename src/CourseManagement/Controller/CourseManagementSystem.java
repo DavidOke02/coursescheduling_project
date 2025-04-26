@@ -1,8 +1,6 @@
 package CourseManagement.Controller;
 
 import CourseManagement.Model.*;
-import CourseManagement.View.CourseDetailView;
-import CourseManagement.View.AdminDashboard2;
 
 /**
  * Main class demonstrating the Course Management System
@@ -16,21 +14,21 @@ public class CourseManagementSystem {
         Semester semester = new Semester();
 
         // Use controllers
-        AddCourseToCourseList addCourseController = new AddCourseToCourseList();
-        addCourseController.addCourse(course);
+        //AddCourseToCourseList addCourseController = new AddCourseToCourseList();
+        //addCourseController.addCourse(course);
 
-        AssignProfessorToCourse assignController = new AssignProfessorToCourse();
-        assignController.assignProfessor(professor.getProfessorID(), course.getCourseID());
+        //ProfessorManager assignController = new ProfessorManager();
+        //assignController.assignProfessor(professor.getProfessorID(), course.getCourseID());
 
-        ManagePrerequisites prereqController = new ManagePrerequisites();
-        prereqController.addPrerequisite("IST201", "IST101");
+        //PrerequisiteManager prereqController = new PrerequisiteManager();
+        //prereqController.addPrerequisite("IST201", "IST101");
 
         // Use views
-        CourseDetailView detailPage = new CourseDetailView();
-        detailPage.displayCourseDetails(course);
+        //CourseDetailView detailPage = new CourseDetailView();
+        //detailPage.displayCourseDetails(course);
 
-        AdminDashboard2 dashboard = new AdminDashboard2();
-        dashboard.displayDashboard(professor);
+        //AdminDashboard2 dashboard = new AdminDashboard2();
+        //dashboard.displayDashboard(professor);
 
         // Demonstrate waitlist functionality
         Waitlist waitlist = new Waitlist();
@@ -42,7 +40,7 @@ public class CourseManagementSystem {
         modifyController.updateCourse(course, "Advanced Programming", 4);
 
         // Show updated course details
-        detailPage.displayCourseDetails(course);
+        //detailPage.displayCourseDetails(course);
     }
 }
 

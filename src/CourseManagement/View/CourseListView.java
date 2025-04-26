@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class CourseListView {
     public  CourseListViewController controller;
@@ -34,9 +35,22 @@ public class CourseListView {
                 SwingUtilities.invokeLater(() -> new AddCourseUI());
             }
         });
+
+        DepartmentCombo.addActionListener(e -> {
+            Object selectedItem = DepartmentCombo.getSelectedItem();
+            if (selectedItem == null) {
+                JOptionPane.showMessageDialog(null, "Please add a department");
+
+            }
+            else if (selectedItem.equals("All")) {
+                controller.displayCourseList();
+            }
+            else {
+                controller.displayCourseList(((String) selectedItem));
+            }
+
+        });
     }
-
-
 
     public JPanel getMainPanel() {
         return courseListPanel;

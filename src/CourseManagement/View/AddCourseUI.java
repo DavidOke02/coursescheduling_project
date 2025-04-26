@@ -2,11 +2,13 @@ package CourseManagement.View;
 
 import CourseManagement.Model.Course;
 import CourseManagement.Controller.*;
+import CourseManagement.Model.Prerequisite;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class AddCourseUI extends JFrame {
 
@@ -76,27 +78,18 @@ public class AddCourseUI extends JFrame {
                     String prereq = prereqField.getText();
                     String semester = semesterField.getText();
 
-                    Course course = new Course();
-                    course.setCourseID(courseID);
-                    course.setCourseName(courseName);
-                    course.setCredits(credits);
-                    course.setDepartmentCode(dept);
-                    course.setAvailableSeats(seats);
-                    course.setSemesterOffered(semester); // Make sure this setter exists
+                    Course courseToAdd = new Course(courseID, courseName, credits, dept, seats, professorID, prereq, semester);
 
-                    AddCourseToCourseList addCourseCtrl = new AddCourseToCourseList();
-                    AssignProfessorToCourse assignProfCtrl = new AssignProfessorToCourse();
-                    ManagePrerequisites prereqCtrl = new ManagePrerequisites();
-
-                    boolean added = addCourseCtrl.addCourse(course);
-                    boolean profAssigned = assignProfCtrl.assignProfessor(professorID, courseID);
-                    boolean prereqAdded = prereq.isEmpty() || prereqCtrl.addPrerequisite(courseID, prereq);
-
-                    if (added && profAssigned && prereqAdded) {
+                    try {
                         AddCourseController controller = new AddCourseController();
-                        controller.addCourse(courseID, courseName, credits, dept, seats, professorID, prereq, semester);
+                        controller.addCourse(courseToAdd);
+                        if (!prereq.isEmpty()) { //Checking prereqs if any is input
+                            Prerequisite prereqToAdd = new Prerequisite(courseID, prereq);
+                            PrerequisiteManager prereqManager = new PrerequisiteManager();
+                            prereqManager.addPrerequisites(prereqToAdd);
+                        }
                         statusLabel.setText("Course added successfully.");
-                    } else {
+                    } catch (Exception error) {
                         statusLabel.setText("Failed to add course.");
                     }
 

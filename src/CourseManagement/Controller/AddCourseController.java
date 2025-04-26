@@ -1,5 +1,7 @@
 package CourseManagement.Controller;
 
+import CourseManagement.Model.Course;
+import CourseManagement.Model.Prerequisite;
 import CourseManagement.View.AddCourseUI;
 import db.DBConnection;
 
@@ -14,31 +16,35 @@ public class AddCourseController {
 
     public AddCourseController() {
         System.out.println("AddCourseController started!");
-        this.view = new AddCourseUI();
+    }
+
+    public AddCourseController(AddCourseUI view){
+        System.out.println("AddCourseController started!");
+        this.view = view;
     }
 
 // add course
-public void addCourse(String courseID, String Name, int credits, String departmentCode, int Seats, String professor, String prerequisites, String semester) {
-    System.out.println("Attempting to add course");
-    Connection connection = DBConnection.getConnection();
-    try {
-        PreparedStatement addCourse = connection.prepareStatement(
-                "INSERT INTO Course (id, name, credits, departmentCode, seats, professor, prerequisites, semester) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        addCourse.setString(1, courseID);
-        addCourse.setString(2, Name);
-        addCourse.setInt(3, credits);
-        addCourse.setString(4, departmentCode);
-        addCourse.setInt(5, Seats);
-        addCourse.setString(6, professor);
-        addCourse.setString(7, prerequisites);
-        addCourse.setString(8, semester);
-        addCourse.executeUpdate();
-        System.out.println("Course added");
-    } catch (SQLException e) {
-        e.printStackTrace();
-        System.out.println("Could not add course.");
-    }
+    public void addCourse(Course course) {
+        System.out.println("Attempting to add course");
+        Connection connection = DBConnection.getConnection();
+        try {
+            PreparedStatement addCourse = connection.prepareStatement(
+                    "INSERT INTO Course (id, name, credits, departmentCode, seats, professor_id, prerequisites, semester) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            addCourse.setString(1, course.getCourseID());
+            addCourse.setString(2, course.getCourseName());
+            addCourse.setInt(3, course.getCredits());
+            addCourse.setString(4, course.getDepartmentCode());
+            addCourse.setInt(5, course.getAvailableSeats());
+            addCourse.setString(6, course.getProfessor());
+            addCourse.setString(7, course.getPrerequisites());
+            addCourse.setString(8, course.getSemesterOffered());
+            addCourse.executeUpdate();
+            System.out.println("Course added");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not add course.");
+        }
     }
 }
 

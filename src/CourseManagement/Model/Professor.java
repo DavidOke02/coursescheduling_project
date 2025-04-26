@@ -12,9 +12,13 @@ public class Professor {
      * Default constructor
      */
     public Professor() {
-        this.professorID = "P001";
-        this.name = "John Smith";
-        this.department = "Computer Science";
+
+    }
+
+    public Professor(String professorID, String name, String department) {
+        this.professorID = professorID;
+        this.name = name;
+        this.department = department;
     }
 
     // Getters and setters

@@ -17,6 +17,11 @@ public class Prerequisite {
         this.minimumGrade = "C";
     }
 
+    public Prerequisite(String courseID, String prerequisiteCourseID) {
+        this.courseID = courseID;
+        this.prerequisiteCourseID = prerequisiteCourseID;
+    }
+
     // Getters and setters
     public String getCourseID() {
         return courseID;
