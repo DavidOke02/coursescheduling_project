@@ -1,37 +1,130 @@
 package CourseManagement.Controller;
 
 import CourseManagement.Model.Course;
+import db.DBConnection;
 
-/**
- * Controller for modifying course details
- */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class ModifyCourseDetails {
-    /**
-     * Update course details
-     */
-    public boolean updateCourse(Course course, String newName, int newCredits) {
-        if (course.getCourseID() != null) {
-            course.setCourseName(newName);
-            course.setCredits(newCredits);
-            System.out.println("Updated course: " + course.getCourseName() + " (" + course.getCredits() + " credits)");
-            return true;
-        } else {
-            System.out.println("Failed to update course");
-            return false;
-        }
+
+    public ModifyCourseDetails() {
+        System.out.println("ModifyCourseDetails started!");
     }
 
-    public boolean archiveCourse(String courseID) {
-        Course course = new Course(); // Get course data
+    // View a course
+    public Course viewCourse(String courseId) {
+        System.out.println("Attempting to view course with ID: " + courseId);
+        Connection connection = DBConnection.getConnection();
+        Course course = null;
 
-        if (course.getCourseID().equals(courseID)) {
-            System.out.println("Archived course: " + course.getCourseName());
-            return true;
-        } else {
-            System.out.println("Failed to archive course");
-            return false;
+        try {
+            PreparedStatement viewCourse = connection.prepareStatement(
+                    "SELECT * FROM Course WHERE id = ?");
+            viewCourse.setString(1, courseId);
+            ResultSet resultSet = viewCourse.executeQuery();
+
+            if (resultSet.next()) {
+                course = new Course(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("credits"),
+                        resultSet.getString("department_code"),
+                        resultSet.getInt("seats"),
+                        resultSet.getString("professor_id"),
+                        resultSet.getString("prerequisites"),
+                        resultSet.getString("semester")
+                );
+                System.out.println("Course found: " + course.getCourseName());
+                System.out.println("ID: " + course.getCourseID());
+                System.out.println("Name: " + course.getCourseName());
+                System.out.println("Credits: " + course.getCredits());
+                System.out.println("Department: " + course.getDepartmentCode());
+                System.out.println("Available Seats: " + course.getAvailableSeats());
+                System.out.println("Professor: " + course.getProfessor());
+                System.out.println("Prerequisites: " + course.getPrerequisites());
+                System.out.println("Semester: " + course.getSemesterOffered());
+            } else {
+                System.out.println("No course found with ID: " + courseId);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not view course.");
         }
+
+        return course;
     }
 
+    // Update course
+    public boolean updateCourse(Course course) {
+        System.out.println("Attempting to update course...");
+        Connection connection = DBConnection.getConnection();
+        boolean success = false;
+
+        try {
+            PreparedStatement updateCourse = connection.prepareStatement(
+                    "UPDATE Course SET name = ?, credits = ?, departmentCode = ?, " +
+                            "seats = ?, professor_id = ?, prerequisites = ?, semester = ? " +
+                            "WHERE id = ?");
+
+            updateCourse.setString(1, course.getCourseName());
+            updateCourse.setInt(2, course.getCredits());
+            updateCourse.setString(3, course.getDepartmentCode());
+            updateCourse.setInt(4, course.getAvailableSeats());
+            updateCourse.setString(5, course.getProfessor());
+            updateCourse.setString(6, course.getPrerequisites());
+            updateCourse.setString(7, course.getSemesterOffered());
+            updateCourse.setString(8, course.getCourseID());
+
+            int rowsAffected = updateCourse.executeUpdate();
+            success = (rowsAffected > 0);
+
+            if (success) {
+                System.out.println("Course updated successfully");
+            } else {
+                System.out.println("No course was updated - course ID might not exist");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not update course.");
+        }
+
+        return success;
+    }
+
+    // Delete course
+    public boolean deleteCourse(String courseId) {
+        System.out.println("Attempting to delete course...");
+        Connection connection = DBConnection.getConnection();
+        boolean success = false;
+
+        try {
+            PreparedStatement deletePrereqs = connection.prepareStatement(
+                    "DELETE FROM Prerequisites WHERE course_id = ? OR prerequisite_id = ?");
+            deletePrereqs.setString(1, courseId);
+            deletePrereqs.setString(2, courseId);
+            deletePrereqs.executeUpdate();
+
+            PreparedStatement deleteCourse = connection.prepareStatement(
+                    "DELETE FROM Course WHERE id = ?");
+            deleteCourse.setString(1, courseId);
+
+            int rowsAffected = deleteCourse.executeUpdate();
+            success = (rowsAffected > 0);
+
+            if (success) {
+                System.out.println("Course deleted successfully");
+            } else {
+                System.out.println("No course was deleted - course ID might not exist");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not delete course.");
+        }
+
+        return success;
+    }
 }
 
