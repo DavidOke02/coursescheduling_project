@@ -43,7 +43,7 @@ public class CourseListViewController {
                     "  `id` VARCHAR(10) NOT NULL," +
                     "  `name` VARCHAR(45) NULL," +
                     "  `credits` INT NULL," +
-                    "  `departmentcode` VARCHAR(45) NULL," +
+                    "  `department_code` VARCHAR(45) NULL," +
                     "  `seats` INT NULL," +
                     "  `professor_id` VARCHAR(10) NULL," +
                     "  `prerequisites` VARCHAR(500) NULL," +
@@ -68,7 +68,7 @@ public class CourseListViewController {
         try{
             ResultSet resultSet;
             if (deptCode.length >= 1){
-                PreparedStatement displayFilteredCourseList = connection.prepareStatement("SELECT * FROM Course where departmentcode = (?)");
+                PreparedStatement displayFilteredCourseList = connection.prepareStatement("SELECT * FROM Course where department_code = (?)");
                 displayFilteredCourseList.setString(1, deptCode[0]);
                 resultSet = displayFilteredCourseList.executeQuery();
                 System.out.println("Displaying Course Filtered List: " + deptCode[0]);
@@ -98,7 +98,7 @@ public class CourseListViewController {
 
             while (resultSet.next()) {
                 try {
-                    Course course = new Course(resultSet.getString("id"), resultSet.getString("name"), resultSet.getInt("credits"), resultSet.getString("departmentcode"), resultSet.getInt("seats"), resultSet.getString("professor_id"), resultSet.getString("prerequisites"), resultSet.getString("semester"));
+                    Course course = new Course(resultSet.getString("id"), resultSet.getString("name"), resultSet.getInt("credits"), resultSet.getString("department_code"), resultSet.getInt("seats"), resultSet.getString("professor_id"), resultSet.getString("prerequisites"), resultSet.getString("semester"));
                     //Add course to table
                     rowdata[0] = course.getCourseID();
                     rowdata[1] = course.getCourseName();
