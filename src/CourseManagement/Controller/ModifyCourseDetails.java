@@ -58,7 +58,7 @@ public class ModifyCourseDetails {
     }
 
     // Update course
-    public boolean updateCourse(Course course) {
+    public void updateCourse(Course course) {
         System.out.println("Attempting to update course...");
         Connection connection = DBConnection.getConnection();
         boolean success = false;
@@ -91,11 +91,10 @@ public class ModifyCourseDetails {
             System.out.println("Could not update course.");
         }
 
-        return success;
     }
 
     // Delete course
-    public boolean deleteCourse(String courseId) {
+    public void deleteCourse(String courseId) {
         System.out.println("Attempting to delete course...");
         Connection connection = DBConnection.getConnection();
         boolean success = false;
@@ -123,8 +122,6 @@ public class ModifyCourseDetails {
             System.out.println(e.getMessage());
             System.out.println("Could not delete course.");
         }
-
-        return success;
     }
 }
 
