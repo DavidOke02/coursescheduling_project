@@ -6,6 +6,6 @@ public class AdminDashboardController {
     private AdminDashboard view;
 
     public AdminDashboardController() {
-        this.view = new AdminDashboard(this);
+        //this.view = new AdminDashboard(this);
     }
 }

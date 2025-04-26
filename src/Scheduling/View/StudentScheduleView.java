@@ -28,8 +28,8 @@ public class StudentScheduleView extends JFrame{
     private ScheduleViewer controller;
 
     //Setup
-    public StudentScheduleView(ScheduleViewer controller) {
-        this.controller = controller;
+    public StudentScheduleView() {
+        this.controller = new ScheduleViewer(); //Controller
 
         this.add(scheduleViewPanel);
         this.setTitle("Student Schedule");
@@ -65,7 +65,7 @@ public class StudentScheduleView extends JFrame{
 
         getChangeViewButton().addActionListener(e -> {
             dispose();
-            StudentScheduleHomeView studentScheduleHomeView = new StudentScheduleHomeView();
+            new StudentScheduleHomeView();
         });
 
         getChangeViewButton().addActionListener(e -> {

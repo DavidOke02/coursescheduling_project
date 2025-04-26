@@ -1,9 +1,3 @@
-import Authentication.Controller.LoginController;
-import Authentication.LoginUI;
-import CourseManagement.Controller.AdminDashboardController;
-import CourseManagement.Controller.CourseListViewController;
-import CourseManagement.Model.Course;
-import CourseManagement.View.AddCourseUI;
 import CourseManagement.View.AdminDashboard;
 import db.DBConnection;
 
@@ -16,7 +10,7 @@ public class Main {
 
         //For assignment -uncomment one of the 2 at a time to test each use case
         //new LoginUI();
-        AdminDashboardController controller = new AdminDashboardController();
+        AdminDashboard controller = new AdminDashboard();
 
         //Db Connect
         Connection connection = DBConnection.getConnection();
