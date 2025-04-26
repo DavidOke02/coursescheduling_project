@@ -12,14 +12,16 @@ import java.sql.Statement;
 public class LoginController {
     private LoginView view;
 
+    private String loggedInUserId;
+    private String loggedInUserRole;
+
     public LoginController() {
         System.out.println("Starting LoginView...");
         this.view = new LoginView(this);
         createUserTable();
     }
 
-    public void createUserTable(){
-        //Making a table in the db
+    public void createUserTable() {
         Connection connection = DBConnection.getConnection();
         try {
             Statement createUserTable = connection.createStatement();
@@ -29,14 +31,13 @@ public class LoginController {
                     "  `password` VARCHAR(45) NULL," +
                     "  `role` VARCHAR(45) NULL," +
                     "  PRIMARY KEY (`id`))");
-            System.out.println("User table created, or already exists!"); //Check if it's actually made in both workbench and the Database window in IntelliJ
-        }catch (SQLException e){
+            System.out.println("User table created, or already exists!");
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println("Could not create table");
         }
     }
 
-    //Show Table
     public void showTable() {
         System.out.println("Attempting to show table...");
         Connection connection = DBConnection.getConnection();
@@ -44,11 +45,11 @@ public class LoginController {
             PreparedStatement showUserTable = connection.prepareStatement("SELECT * FROM user");
             ResultSet resultSet = showUserTable.executeQuery();
 
-            if(!resultSet.isBeforeFirst()){
+            if (!resultSet.isBeforeFirst()) {
                 System.out.println("User table is empty.");
             }
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 System.out.print("ID: " + resultSet.getString("ID"));
                 System.out.print(", Username: " + resultSet.getString("USERNAME"));
                 System.out.print(", Password: " + resultSet.getString("PASSWORD"));
@@ -61,12 +62,12 @@ public class LoginController {
         }
     }
 
-    //Add User
     public void addUser(String username, String password, String role) {
         System.out.println("Attempting to add user...");
         Connection connection = DBConnection.getConnection();
         try {
-            PreparedStatement addUser = connection.prepareStatement("INSERT INTO User (username, password, role) VALUES (?, ?, ?)");
+            PreparedStatement addUser = connection.prepareStatement(
+                    "INSERT INTO User (username, password, role) VALUES (?, ?, ?)");
             addUser.setString(1, username);
             addUser.setString(2, password);
             addUser.setString(3, role);
@@ -76,9 +77,8 @@ public class LoginController {
             e.printStackTrace();
             System.out.println("Could not add user.");
         }
-        }
+    }
 
-    //Delete User
     public void deleteUser(int userId) {
         System.out.println("Attempting to delete user...");
         Connection connection = DBConnection.getConnection();
@@ -93,7 +93,6 @@ public class LoginController {
         }
     }
 
-    //View User
     public void viewUser(int userId) {
         System.out.println("Attempting to view user...");
         Connection connection = DBConnection.getConnection();
@@ -102,11 +101,11 @@ public class LoginController {
             viewUser.setInt(1, userId);
             ResultSet resultSet = viewUser.executeQuery();
 
-            if(!resultSet.isBeforeFirst()){
+            if (!resultSet.isBeforeFirst()) {
                 System.out.println("User with ID of " + userId + " not found.");
             }
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 System.out.print("ID: " + resultSet.getString("ID"));
                 System.out.print(", Username: " + resultSet.getString("USERNAME"));
                 System.out.print(", Password: " + resultSet.getString("PASSWORD"));
@@ -119,7 +118,6 @@ public class LoginController {
         }
     }
 
-    // Authenticates student login using email and password
     public boolean authenticate(String enteredUsername, String enteredPassword) {
         Connection connection = DBConnection.getConnection();
         try {
@@ -129,19 +127,29 @@ public class LoginController {
             preparedStatement.setString(2, enteredPassword);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(!resultSet.isBeforeFirst()){
+            if (!resultSet.isBeforeFirst()) {
                 System.out.println("User not found.");
                 return false;
             }
 
-            resultSet.close();
-            preparedStatement.close();
+            if (resultSet.next()) {
+                loggedInUserId = resultSet.getString("id");
+                loggedInUserRole = resultSet.getString("role");
+            }
 
             System.out.println("User authenticated.");
             return true;
         } catch (SQLException e) {
-            System.out.println("Error during authentication: ");
+            System.out.println("Error during authentication: " + e.getMessage());
             return false;
         }
     }
+
+    public String getLoggedInUserId() {
+        return loggedInUserId;
     }
+
+    public String getLoggedInUserRole() {
+        return loggedInUserRole;
+    }
+}
