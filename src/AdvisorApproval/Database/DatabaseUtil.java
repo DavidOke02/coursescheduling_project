@@ -8,6 +8,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseUtil {
+
+    static {
+        // Automatically create tables when DatabaseUtil is loaded
+        DatabaseUtil util = new DatabaseUtil();
+        util.createApprovalTables();
+    }
+
     public static ArrayList<CourseOverride> getCourseOverridesForStudent(String studentId) {
         ArrayList<CourseOverride> overrides = new ArrayList<>();
         String sql = "SELECT override_id, student_id, course_id, reason, status FROM course_overrides WHERE student_id = ?";
@@ -40,7 +47,7 @@ public class DatabaseUtil {
         String sql = "INSERT INTO approval_requests (request_id, student_id, course_id, comment, advisor_comment, status, term) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, request.getRequestId());  // Make sure this is not null
+            stmt.setString(1, request.getRequestId());
             stmt.setString(2, request.getStudentId());
             stmt.setString(3, request.getCourseId());
             stmt.setString(4, request.getComment());
@@ -139,19 +146,49 @@ public class DatabaseUtil {
         }
     }
 
-    // Fixed method to match the call signature
     public static void updateCourseOverrideStatus(String overrideId, String status, String reason, String comment) {
         String sql = "UPDATE course_overrides SET status = ?, reason = ?, comment = ? WHERE override_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, status);
             stmt.setString(2, reason);
-            stmt.setString(3, comment);  // Added comment field here
+            stmt.setString(3, comment);
             stmt.setString(4, overrideId);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error updating course override status:");
             e.printStackTrace();
+        }
+    }
+
+    public void createApprovalTables() {
+        Connection connection = DBConnection.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+
+            // Create approval_requests table
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS approval_requests (" +
+                    "request_id VARCHAR(50) PRIMARY KEY," +
+                    "student_id VARCHAR(50) NOT NULL," +
+                    "course_id VARCHAR(50) NOT NULL," +
+                    "comment TEXT," +
+                    "advisor_comment TEXT," +
+                    "status VARCHAR(20)," +
+                    "term VARCHAR(20))");
+
+            // Create course_overrides table
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS course_overrides (" +
+                    "override_id VARCHAR(50) PRIMARY KEY," +
+                    "student_id VARCHAR(50) NOT NULL," +
+                    "course_id VARCHAR(50) NOT NULL," +
+                    "reason TEXT," +
+                    "status VARCHAR(20)," +
+                    "comment TEXT)");
+
+            System.out.println("Approval tables created, or already exist!");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not create approval tables");
         }
     }
 }
