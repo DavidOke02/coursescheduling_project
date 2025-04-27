@@ -77,10 +77,13 @@ public class LoginController {
         Connection connection = DBConnection.getConnection();
         try {
             // Insert Advisor user
-            insertUser("John", "Doe", "A", "password", "Advisor", "DEF123");
+            insertUser("John", "Doe", "A", "password", "Advisor", "ADV123");
 
             // Insert Student user
-            insertUser("Jane", "Smith", "B", "password", "Student", "ABC123");
+            insertUser("Jane", "Smith", "B", "password", "Student", "STU123");
+
+            // Insert Admin user
+            insertUser("Sarah", "Peters", "F", "password", "Admin", "ADM123");
 
         } catch (SQLException e) {
            // System.out.println("Error during user insertion: " + e.getMessage());

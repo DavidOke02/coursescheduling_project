@@ -1,6 +1,7 @@
 package Authentication;
 
 import Authentication.Controller.LoginController;
+import CourseManagement.View.AdminDashboard;
 import Scheduling.View.StudentLogin;
 
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class LoginUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel idLabel = new JLabel("User ID:");  // Updated label
+        JLabel idLabel = new JLabel("User ID:");
         idField = new JTextField();
 
         JLabel passwordLabel = new JLabel("Password:");
@@ -58,11 +59,13 @@ public class LoginUI extends JFrame {
             boolean isAuthenticated = controller.authenticate(enteredId, enteredPassword);
             if (isAuthenticated) {
                 String userRole = controller.getLoggedInUserRole();
-                if ("Advisor".equals(userRole)) {
-
+                if ("Admin".equals(userRole)) {
+                    // If user is an Admin, show the Admin Dashboard
+                    AdminDashboard adminDashboard = new AdminDashboard(new CourseManagement.Controller.AdminDashboardController());
+                    adminDashboard.setVisible(true);
+                } else if ("Advisor".equals(userRole)) {
                     new AdvisorDashboard(enteredId);
                 } else if ("Student".equals(userRole)) {
-
                     new StudentDashboard(enteredId);
                 } else {
                     JOptionPane.showMessageDialog(LoginUI.this, "Unknown role!", "Error", JOptionPane.ERROR_MESSAGE);
