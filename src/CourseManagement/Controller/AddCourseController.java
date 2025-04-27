@@ -29,7 +29,7 @@ public class AddCourseController {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement addCourse = connection.prepareStatement(
-                    "INSERT INTO Course (id, name, credits, departmentCode, seats, professor_id, prerequisites, semester) " +
+                    "INSERT INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             addCourse.setString(1, course.getCourseID());
             addCourse.setString(2, course.getCourseName());

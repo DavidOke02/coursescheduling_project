@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class CourseListView {
     public  CourseListViewController controller;
@@ -15,6 +14,7 @@ public class CourseListView {
     private JComboBox<String> DepartmentCombo;
     private JButton addCourseButton;
     private JPanel Labels;
+    private JButton viewCourseButton;
 
     private DefaultTableModel tableModel;
 
