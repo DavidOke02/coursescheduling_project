@@ -1,24 +1,13 @@
 package AdvisorApproval.Model;
 
 public class CourseOverride {
-    private String overrideID;
-    private String studentID;
-    private String courseID;
-    private String reason;
-    private String status;
+    private int overrideID;
 
-    public CourseOverride(String overrideID, String studentID, String courseID, String reason, String status) {
-        this.overrideID = overrideID;
-        this.studentID = studentID;
-        this.courseID = courseID;
-        this.reason = reason;
-        this.status = status;
-    }
-    public String getOverrideID() {
+    public int getOverrideID() {
         return overrideID;
     }
 
-    public void setOverrideID(String overrideID) {
+    public void setOverrideID(int overrideID) {
         this.overrideID = overrideID;
     }
 
@@ -53,4 +42,29 @@ public class CourseOverride {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    private String studentID;
+    private String courseID;
+    private String reason;
+    private String status;
+    private String comment;
+
+
+    public CourseOverride(Integer overrideID, String studentID, String courseID, String reason, String status, String comment) {
+        this.overrideID = overrideID;
+        this.studentID = studentID;
+        this.courseID = courseID;
+        this.reason = reason;
+        this.status = status;
+        this.comment = comment;
+    }
+
 }

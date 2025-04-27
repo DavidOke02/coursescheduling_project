@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.UUID;
 
 public class ScheduleApprovalUI extends JFrame {
     private String studentId;
@@ -28,7 +27,6 @@ public class ScheduleApprovalUI extends JFrame {
     private JPanel wizardPanel;
 
     private int currentStep = 0;
-
 
     public ScheduleApprovalUI(String studentId) {
         this.studentId = studentId;
@@ -141,10 +139,6 @@ public class ScheduleApprovalUI extends JFrame {
         return panel;
     }
 
-    private String generateApprovalRequestID() {
-        return "AR" + System.currentTimeMillis();
-    }
-
     private void handleAddCourse(ActionEvent e) {
         String dept = deptInputField.getText().trim().toUpperCase();
         String number = numberInputField.getText().trim();
@@ -158,8 +152,9 @@ public class ScheduleApprovalUI extends JFrame {
 
         String course = dept + " " + number;
 
+
         ApprovalRequest request = new ApprovalRequest(
-                generateApprovalRequestID(),
+                null,
                 studentId,
                 course,
                 comment,
@@ -167,6 +162,7 @@ public class ScheduleApprovalUI extends JFrame {
                 "Pending",
                 term
         );
+
 
         DatabaseUtil.insertApprovalRequest(request);
 
@@ -207,7 +203,6 @@ public class ScheduleApprovalUI extends JFrame {
         submitButton.setVisible(currentStep == 1);
         nextButton.setEnabled(currentStep == 0);
     }
-
 
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(() -> {

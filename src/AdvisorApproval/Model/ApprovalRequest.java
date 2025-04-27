@@ -1,7 +1,7 @@
 package AdvisorApproval.Model;
 
 public class ApprovalRequest {
-    private String requestId;
+    private int requestId;
     private String studentId;
     private String courseId;
     private String comment;
@@ -9,8 +9,13 @@ public class ApprovalRequest {
     private String status;
     private String term;
 
-    public ApprovalRequest(String requestId, String studentId, String courseId, String comment, String advisorComment, String status, String term) {
-        this.requestId = requestId;
+
+    public ApprovalRequest(Integer requestId, String studentId, String courseId, String comment, String advisorComment, String status, String term) {
+        if (requestId == null) {
+            this.requestId = (int) (System.currentTimeMillis() % Integer.MAX_VALUE); // generate unique ID
+        } else {
+            this.requestId = requestId;
+        }
         this.studentId = studentId;
         this.courseId = courseId;
         this.comment = comment;
@@ -19,12 +24,14 @@ public class ApprovalRequest {
         this.term = term;
     }
 
+
+
     // Getters and Setters
-    public String getRequestId() {
+    public int getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public void setRequestId(int requestId) {
         this.requestId = requestId;
     }
 
