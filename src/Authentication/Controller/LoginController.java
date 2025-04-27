@@ -12,10 +12,9 @@ public class LoginController {
     private String loggedInUserRole;
 
     public LoginController() {
-        System.out.println("Starting LoginView...");
-        this.view = new LoginView(this);
+
         createUserTable();
-        insertTestUsers();  // Insert test users after table creation
+        insertTestUsers();
     }
 
     public void createUserTable() {
