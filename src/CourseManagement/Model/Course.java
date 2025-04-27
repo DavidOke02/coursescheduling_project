@@ -17,14 +17,7 @@ public class Course {
      * Default constructor initializing course with default values
      */
     public Course() {
-        this.courseID = "IST101";
-        this.courseName = "Introduction to Technology";
-        this.credits = 3;
-        this.departmentCode = "IST";
-        this.availableSeats = 30;
-        this.professor = "TBD";
-        this.prerequisites = "None";
-        this.semesterOffered = "Fall";
+
     }
 
     public Course(String courseName, int credits) {

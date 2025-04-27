@@ -14,6 +14,7 @@ public class CourseListView {
     private JComboBox<String> DepartmentCombo;
     private JButton addCourseButton;
     private JPanel Labels;
+    private JButton viewCourseButton;
 
     private DefaultTableModel tableModel;
 
@@ -34,9 +35,22 @@ public class CourseListView {
                 SwingUtilities.invokeLater(() -> new AddCourseUI());
             }
         });
+
+        DepartmentCombo.addActionListener(e -> {
+            Object selectedItem = DepartmentCombo.getSelectedItem();
+            if (selectedItem == null) {
+                JOptionPane.showMessageDialog(null, "Please add a department");
+
+            }
+            else if (selectedItem.equals("All")) {
+                controller.displayCourseList();
+            }
+            else {
+                controller.displayCourseList(((String) selectedItem));
+            }
+
+        });
     }
-
-
 
     public JPanel getMainPanel() {
         return courseListPanel;

@@ -1,5 +1,13 @@
 package Scheduling.Controller;
 
+import Scheduling.View.StudentScheduleHomeView;
+import Scheduling.View.StudentScheduleView;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 /*
  * Handles viewing the student's schedule.
  */
@@ -7,9 +15,19 @@ public class ScheduleViewer {
     /**
      * Displays the schedule for the student.
      */
-    public void displaySchedule() {
-        System.out.println("Displaying Schedule...");
+
+    private StudentScheduleView view;
+
+    public ScheduleViewer() {
+        //display schedule?
     }
+
+
+    public void displaySchedule() {
+
+    }
+
+    //ScheduleUpdate and WithdrawFromCourse will now just be methods in here
 }
 
 /*

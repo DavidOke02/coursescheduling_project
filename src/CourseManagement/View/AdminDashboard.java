@@ -13,8 +13,8 @@ public class AdminDashboard extends JFrame{
     private JLabel adminDashboardLabel;
     private AdminDashboardController controller;
 
-    public AdminDashboard(AdminDashboardController controller) {
-        this.controller = controller;
+    public AdminDashboard() {
+        this.controller = new AdminDashboardController();
 
         this.add(dashboardPanel);
         this.setTitle("Admin Dashboard");
