@@ -12,8 +12,12 @@ public class OverrideRequestForm extends JFrame {
     private JTextField courseIDField;
     private JTextField reasonField;
     private JButton submitButton;
+    private String studentId;
 
-    public OverrideRequestForm() {
+
+
+    public OverrideRequestForm(String studentId) {
+        this.studentId = studentId;
         setTitle("Course Override Request");
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

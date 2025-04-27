@@ -9,7 +9,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class StudentDecisionViewer {
+    private String studentId;
 
+    public StudentDecisionViewer(String studentId) {
+        this.studentId = studentId;
+        createAndShowGUI(); // call the GUI creation with the student ID you already have
+    }
     public void createAndShowGUI() {
         String studentId = JOptionPane.showInputDialog(null, "Enter your Student ID:", "Student Login", JOptionPane.PLAIN_MESSAGE);
 
@@ -136,6 +141,7 @@ public class StudentDecisionViewer {
 
         frame.setVisible(true);
     }
+
 
 
 //    public static void main(String[] args) {
