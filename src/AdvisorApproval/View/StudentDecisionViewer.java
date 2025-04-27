@@ -12,11 +12,13 @@ public class StudentDecisionViewer {
     private String studentId;
 
     public StudentDecisionViewer(String studentId) {
-        this.studentId = studentId;
-        createAndShowGUI(); // call the GUI creation with the student ID you already have
+        this.studentId = studentId;  // Use the student ID passed to the constructor
+        createAndShowGUI();
     }
+
     public void createAndShowGUI() {
-        String studentId = JOptionPane.showInputDialog(null, "Enter your Student ID:", "Student Login", JOptionPane.PLAIN_MESSAGE);
+        // Remove the redundant prompt for Student ID
+        // String studentId = JOptionPane.showInputDialog(null, "Enter your Student ID:", "Student Login", JOptionPane.PLAIN_MESSAGE);
 
         if (studentId == null || studentId.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Student ID is required.");
@@ -142,9 +144,8 @@ public class StudentDecisionViewer {
         frame.setVisible(true);
     }
 
-
-
 //    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> new StudentDecisionViewer().createAndShowGUI());
+//        String studentId = "ABC123";
+//        SwingUtilities.invokeLater(() -> new StudentDecisionViewer(studentId).createAndShowGUI());
 //    }
 }

@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
 
 public class LoginUI extends JFrame {
 
-    private JTextField emailField;
+    private JTextField idField;
     private JPasswordField passwordField;
     private JButton loginButton;
 
     private LoginController controller;
 
     public LoginUI() {
-        setTitle("PSU Student Login");
+        setTitle("PSU Login");
         setSize(400, 200);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -30,8 +30,8 @@ public class LoginUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel emailLabel = new JLabel("PSU Email:");
-        emailField = new JTextField();
+        JLabel idLabel = new JLabel("User ID:");  // Updated label
+        idField = new JTextField();
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordField = new JPasswordField();
@@ -39,8 +39,8 @@ public class LoginUI extends JFrame {
         loginButton = new JButton("Login");
         loginButton.addActionListener(new LoginAction());
 
-        panel.add(emailLabel);
-        panel.add(emailField);
+        panel.add(idLabel);
+        panel.add(idField);
         panel.add(passwordLabel);
         panel.add(passwordField);
         panel.add(new JLabel()); // spacer
@@ -52,21 +52,24 @@ public class LoginUI extends JFrame {
     private class LoginAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String enteredEmail = emailField.getText().trim();
+            String enteredId = idField.getText().trim();
             String enteredPassword = new String(passwordField.getPassword()).trim();
 
-            //if (!enteredEmail.endsWith("@psu.edu")) {
-                //JOptionPane.showMessageDialog(LoginUI.this, "Email must end with @psu.edu", "Invalid Email", JOptionPane.ERROR_MESSAGE);
-                //return;
-            //}
-
-            boolean isAuthenticated = controller.authenticate(enteredEmail, enteredPassword);
+            boolean isAuthenticated = controller.authenticate(enteredId, enteredPassword);
             if (isAuthenticated) {
-                JOptionPane.showMessageDialog(LoginUI.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                // Proceed to next screen (for example, a student dashboard)
-                // new StudentDashboardUI(); // Uncomment this to open a new UI
+                String userRole = controller.getLoggedInUserRole();
+                if ("Advisor".equals(userRole)) {
+
+                    new AdvisorDashboard(enteredId);
+                } else if ("Student".equals(userRole)) {
+
+                    new StudentDashboard(enteredId);
+                } else {
+                    JOptionPane.showMessageDialog(LoginUI.this, "Unknown role!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                dispose();
             } else {
-                JOptionPane.showMessageDialog(LoginUI.this, "Invalid email or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(LoginUI.this, "Invalid ID or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
