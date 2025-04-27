@@ -37,7 +37,7 @@ public class CourseManagementSystem {
 
         // Update course details
         ModifyCourseDetails modifyController = new ModifyCourseDetails();
-        modifyController.updateCourse(course, "Advanced Programming", 4);
+        //modifyController.updateCourse(course, "Advanced Programming", 4);
 
         // Show updated course details
         //detailPage.displayCourseDetails(course);
