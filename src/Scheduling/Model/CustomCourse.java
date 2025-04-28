@@ -38,4 +38,24 @@ public class CustomCourse {
     public String getCourseName() {
         return courseName;
     }
+
+    public String getCourseID() {
+        return courseID;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
 }
