@@ -3,6 +3,7 @@ package Authentication;
 import AdvisorApproval.View.ScheduleApprovalUI;
 import AdvisorApproval.View.StudentDecisionViewer;
 import AdvisorApproval.View.OverrideRequestForm;
+import Scheduling.View.StudentScheduleView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class StudentDashboard extends JFrame {
     private JButton viewDecisionsButton;
     private JButton logoutButton;
     private JButton overrideRequestButton;
+    private JButton goToScheduleButton;
 
     public StudentDashboard(String studentId) {
         this.studentId = studentId;
@@ -61,6 +63,9 @@ public class StudentDashboard extends JFrame {
         viewDecisionsButton.addActionListener(e -> openStudentDecisionsViewer());
         overrideRequestButton.addActionListener(e -> openOverrideRequestForm());
         logoutButton.addActionListener(e -> logout());
+        goToScheduleButton.addActionListener(e -> {new StudentScheduleView();
+        });
+
     }
 
     private void openScheduleApprovalUI() {
