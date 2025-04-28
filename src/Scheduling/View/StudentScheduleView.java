@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StudentScheduleView extends JFrame{
+public class StudentScheduleView extends JFrame {
     private JPanel scheduleViewPanel;
     private JPanel enrollmentCartPanel;
     private JPanel enrollmentListPanel;
@@ -27,58 +27,66 @@ public class StudentScheduleView extends JFrame{
 
     private ScheduleViewer controller;
 
-    //Setup
-    public StudentScheduleView() {
-        this.controller = new ScheduleViewer(); //Controller
+    // Constructor
+    public StudentScheduleView(String studentId) {
+        this.controller = new ScheduleViewer(); // Controller
 
         this.add(scheduleViewPanel);
         this.setTitle("Student Schedule");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
         this.setSize(800, 600);
-        this.setMinimumSize(new Dimension(200,150));
-        initializeButtons();
+        this.setMinimumSize(new Dimension(200, 150));
+        this.setVisible(true);
 
+        initializeButtons();
     }
 
-    //Button Logic
-    public void initializeButtons() {
-        makeClickable(getHomeNavLabel());
-        makeClickable(getSchedulingNavLabel());
-        makeClickable(getViewCurrentScheduleNavLabel());
+    // Button Logic
+    private void initializeButtons() {
+        makeClickable(homeNavLabel);
+        makeClickable(schedulingNavLabel);
+        makeClickable(viewCurrentScheduleNavLabel);
 
-        getHomeNavLabel().addMouseListener(new MouseAdapter() {
+        homeNavLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
-                StudentDashboardController homeTestController= new StudentDashboardController();
+                new StudentDashboardController();
             }
         });
 
-        getSchedulingNavLabel().addMouseListener(new MouseAdapter() {
+        schedulingNavLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
-                StudentScheduleHomeView studentScheduleHomeView = new StudentScheduleHomeView();
+                new StudentScheduleHomeView();
             }
         });
 
-        getChangeViewButton().addActionListener(e -> {
+        changeViewButton.addActionListener(e -> {
+            System.out.println("Change View Clicked");
             dispose();
             new StudentScheduleHomeView();
         });
 
-        getChangeViewButton().addActionListener(e -> {
+        // Optional: if you want to toggle the button text every time it's clicked
+        /*
+        changeViewButton.addActionListener(e -> {
             System.out.println("Change View Clicked");
-            getChangeViewButton().setText("Change View2");
+            if (changeViewButton.getText().equals("Change View")) {
+                changeViewButton.setText("Change View 2");
+            } else {
+                changeViewButton.setText("Change View");
+            }
         });
+        */
     }
 
-    public void makeClickable(JLabel label) {
+    private void makeClickable(JLabel label) {
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    //Getters
+    // Getters
     public JPanel getScheduleViewPanel() {
         return scheduleViewPanel;
     }
@@ -133,5 +141,14 @@ public class StudentScheduleView extends JFrame{
 
     public JLabel getViewCurrentScheduleNavLabel() {
         return viewCurrentScheduleNavLabel;
+    }
+
+    public JButton getCancelButton() {
+        return cancelButton;
+    }
+
+    // New: Get Main Panel
+    public JPanel getMainPanel() {
+        return scheduleViewPanel;
     }
 }

@@ -4,6 +4,7 @@ import AdvisorApproval.Database.DatabaseUtil;
 import AdvisorApproval.Model.CourseOverride;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,49 +13,54 @@ public class OverrideRequestForm extends JFrame {
     private JTextField reasonField;
     private JButton submitButton;
     private String studentId;
+    private JPanel mainPanel;
 
     public OverrideRequestForm(String studentId) {
         this.studentId = studentId;
         setTitle("Course Override Request");
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
+
+        mainPanel = new JPanel(new BorderLayout(10, 10));
 
         // Label showing Student ID (not editable)
         JLabel studentLabel = new JLabel("Student ID: " + studentId);
-        studentLabel.setBounds(20, 20, 300, 25);
-        add(studentLabel);
+        studentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        studentLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        mainPanel.add(studentLabel, BorderLayout.NORTH);
 
-        // Label and input field for Course ID
+        // Main Panel for input fields
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(3, 2, 10, 10));
+
+        // Course ID
         JLabel courseLabel = new JLabel("Course ID:");
-        courseLabel.setBounds(20, 60, 100, 25);
-        add(courseLabel);
-
         courseIDField = new JTextField();
-        courseIDField.setBounds(150, 60, 200, 25);
-        add(courseIDField);
+        inputPanel.add(courseLabel);
+        inputPanel.add(courseIDField);
 
-        // Label and input field for Reason
+        // Reason
         JLabel reasonLabel = new JLabel("Reason:");
-        reasonLabel.setBounds(20, 100, 100, 25);
-        add(reasonLabel);
-
         reasonField = new JTextField();
-        reasonField.setBounds(150, 100, 200, 25);
-        add(reasonField);
+        inputPanel.add(reasonLabel);
+        inputPanel.add(reasonField);
+
+        mainPanel.add(inputPanel, BorderLayout.CENTER);
 
         // Submit button
         submitButton = new JButton("Submit");
-        submitButton.setBounds(150, 150, 100, 30);
-        add(submitButton);
-
-        // Action listener for the submit button
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 submitOverrideRequest();
             }
         });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(submitButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
     }
 
     private void submitOverrideRequest() {
@@ -85,15 +91,7 @@ public class OverrideRequestForm extends JFrame {
         reasonField.setText("");
     }
 
-    // Generate unique override ID
-    private String generateOverrideID() {
-        return "O" + System.currentTimeMillis(); // Simple unique ID based on current time
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            OverrideRequestForm form = new OverrideRequestForm("123456");
-//            form.setVisible(true);
-//        });
-//    }
 }

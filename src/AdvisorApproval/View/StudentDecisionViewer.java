@@ -10,16 +10,20 @@ import java.util.ArrayList;
 
 public class StudentDecisionViewer {
     private String studentId;
+    private JPanel mainPanel;
 
     public StudentDecisionViewer(String studentId) {
-        this.studentId = studentId;  // Use the student ID passed to the constructor
-        createAndShowGUI();
+        this.studentId = studentId;
+        createMainPanel();
     }
 
-    public void createAndShowGUI() {
-        // Remove the redundant prompt for Student ID
-        // String studentId = JOptionPane.showInputDialog(null, "Enter your Student ID:", "Student Login", JOptionPane.PLAIN_MESSAGE);
+    // New: getter for mainPanel
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 
+    // Changed method name to better reflect purpose
+    public void createMainPanel() {
         if (studentId == null || studentId.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Student ID is required.");
             return;
@@ -28,12 +32,7 @@ public class StudentDecisionViewer {
         ArrayList<ApprovalRequest> requests = DatabaseUtil.getApprovalRequestsForStudent(studentId);
         ArrayList<CourseOverride> overrides = DatabaseUtil.getCourseOverridesForStudent(studentId);
 
-        JFrame frame = new JFrame("Advisor Decisions for Student: " + studentId);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 700);
-        frame.setLocationRelativeTo(null);
-
-        JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBackground(Color.WHITE);
 
@@ -63,7 +62,8 @@ public class StudentDecisionViewer {
                 statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
                 statusLabel.setForeground(req.getStatus().equalsIgnoreCase("Approved") ? new Color(0, 128, 0) : Color.RED);
 
-                JLabel advisorCommentLabel = new JLabel("<html><b>Advisor Comments:</b> " + (req.getAdvisorComment() != null ? req.getAdvisorComment() : "No comment") + "</html>");
+                JLabel advisorCommentLabel = new JLabel("<html><b>Advisor Comments:</b> " +
+                        (req.getAdvisorComment() != null ? req.getAdvisorComment() : "No comment") + "</html>");
                 advisorCommentLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
                 advisorCommentLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
@@ -72,8 +72,7 @@ public class StudentDecisionViewer {
                 card.add(advisorCommentLabel);
                 card.add(Box.createRigidArea(new Dimension(0, 10)));
 
-                JPanel cardWrapper = new JPanel();
-                cardWrapper.setLayout(new FlowLayout(FlowLayout.CENTER));
+                JPanel cardWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
                 cardWrapper.add(card);
                 mainPanel.add(cardWrapper);
                 mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -128,24 +127,25 @@ public class StudentDecisionViewer {
                 card.add(reasonLabel);
                 card.add(Box.createRigidArea(new Dimension(0, 10)));
 
-                JPanel cardWrapper = new JPanel();
-                cardWrapper.setLayout(new FlowLayout(FlowLayout.CENTER));
+                JPanel cardWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
                 cardWrapper.add(card);
                 mainPanel.add(cardWrapper);
                 mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             }
         }
-
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        frame.getContentPane().add(scrollPane);
-
-        frame.setVisible(true);
     }
 
+    // Optional: for quick testing
 //    public static void main(String[] args) {
 //        String studentId = "ABC123";
-//        SwingUtilities.invokeLater(() -> new StudentDecisionViewer(studentId).createAndShowGUI());
+//        SwingUtilities.invokeLater(() -> {
+//            StudentDecisionViewer viewer = new StudentDecisionViewer(studentId);
+//            JFrame frame = new JFrame("Student Decisions");
+//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            frame.setSize(600, 700);
+//            frame.setLocationRelativeTo(null);
+//            frame.add(new JScrollPane(viewer.getMainPanel()));
+//            frame.setVisible(true);
+//        });
 //    }
 }

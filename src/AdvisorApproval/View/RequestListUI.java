@@ -3,6 +3,7 @@ package AdvisorApproval.View;
 import AdvisorApproval.Model.ApprovalRequest;
 import AdvisorApproval.Model.CourseOverride;
 import AdvisorApproval.Database.DatabaseUtil;
+import Authentication.AdvisorDashboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class RequestListUI extends JFrame {
     private JPanel requestListPanel;
     private JButton backButton;
     private JButton finishButton;
+    private JButton dashboardButton; // NEW BUTTON
     private String currentStudentID;
 
     public RequestListUI(List<ApprovalRequest> requests) {
@@ -55,14 +57,25 @@ public class RequestListUI extends JFrame {
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
+        // Back to Dashboard button
+        dashboardButton = new JButton("Back to Dashboard");
+        dashboardButton.addActionListener(e -> {
+            dispose(); // Close this window
+            String advisorId = "ADV123";
+            new AdvisorDashboard(advisorId);
+        });
+
+        // Back button for student list navigation
         backButton = new JButton("Back");
         backButton.addActionListener(e -> cardLayout.show(cardPanel, "StudentList"));
         backButton.setVisible(false);
 
+        // Finish button for completing the review
         finishButton = new JButton("Finish");
         finishButton.addActionListener(this::handleFinish);
         finishButton.setVisible(false);
 
+        bottomPanel.add(dashboardButton); // Add Dashboard button first
         bottomPanel.add(backButton);
         bottomPanel.add(finishButton);
 
@@ -173,6 +186,7 @@ public class RequestListUI extends JFrame {
 
             JPanel centerPanel = new JPanel(new BorderLayout());
             panel.setBackground(Color.YELLOW);
+
             JTextArea advisorComment = new JTextArea(3, 50);
             advisorComment.setBorder(BorderFactory.createTitledBorder("Advisor Comment"));
             centerPanel.add(new JScrollPane(advisorComment), BorderLayout.CENTER);
@@ -228,7 +242,8 @@ public class RequestListUI extends JFrame {
         finishButton.setEnabled(false);
         finishButton.setText("Finished");
     }
-//
+
+// Uncomment for manual testing
 //    public static void main(String[] args) {
 //        List<ApprovalRequest> requests = DatabaseUtil.getAllApprovalRequests();
 //        new RequestListUI(requests);

@@ -25,16 +25,18 @@ public class ScheduleApprovalUI extends JFrame {
     private JButton nextButton;
     private JButton submitButton;
     private JPanel wizardPanel;
+    private JPanel mainPanel;
 
     private int currentStep = 0;
 
     public ScheduleApprovalUI(String studentId) {
         this.studentId = studentId;
-
         setTitle("Student Course Submission");
         setSize(700, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        mainPanel = new JPanel(new BorderLayout());
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -44,8 +46,8 @@ public class ScheduleApprovalUI extends JFrame {
         cardPanel.add(createStep3Panel(), "Step 3");
 
         wizardPanel = createWizardBar();
-        add(wizardPanel, BorderLayout.NORTH);
-        add(cardPanel, BorderLayout.CENTER);
+        mainPanel.add(wizardPanel, BorderLayout.NORTH);
+        mainPanel.add(cardPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
         stepLabel = new JLabel("Step 1 of 3");
@@ -65,7 +67,9 @@ public class ScheduleApprovalUI extends JFrame {
         buttonPanel.add(submitButton);
 
         bottomPanel.add(buttonPanel, BorderLayout.EAST);
-        add(bottomPanel, BorderLayout.SOUTH);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
 
         updateUIState();
         setVisible(true);
@@ -152,7 +156,6 @@ public class ScheduleApprovalUI extends JFrame {
 
         String course = dept + " " + number;
 
-
         ApprovalRequest request = new ApprovalRequest(
                 null,
                 studentId,
@@ -162,7 +165,6 @@ public class ScheduleApprovalUI extends JFrame {
                 "Pending",
                 term
         );
-
 
         DatabaseUtil.insertApprovalRequest(request);
 
@@ -204,10 +206,7 @@ public class ScheduleApprovalUI extends JFrame {
         nextButton.setEnabled(currentStep == 0);
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            ScheduleApprovalUI form = new ScheduleApprovalUI("RCW5372"); // just for test
-//            form.setVisible(true);
-//        });
-//    }
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 }
