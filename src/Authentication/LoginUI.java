@@ -2,7 +2,7 @@ package Authentication;
 
 import Authentication.Controller.LoginController;
 import CourseManagement.View.AdminDashboard;
-import Scheduling.View.StudentLogin;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,8 +60,7 @@ public class LoginUI extends JFrame {
             if (isAuthenticated) {
                 String userRole = controller.getLoggedInUserRole();
                 if ("Admin".equals(userRole)) {
-                    // If user is an Admin, show the Admin Dashboard
-                    AdminDashboard adminDashboard = new AdminDashboard(new CourseManagement.Controller.AdminDashboardController());
+                    AdminDashboard adminDashboard = new AdminDashboard();
                     adminDashboard.setVisible(true);
                 } else if ("Advisor".equals(userRole)) {
                     new AdvisorDashboard(enteredId);
