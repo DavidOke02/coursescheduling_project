@@ -1,12 +1,14 @@
 package CourseManagement.Controller;
 
 import CourseManagement.Model.Course;
+import CourseManagement.View.CourseDetailView;
 import db.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class ModifyCourseDetails {
 
@@ -46,6 +48,7 @@ public class ModifyCourseDetails {
                 System.out.println("Professor: " + course.getProfessor());
                 System.out.println("Prerequisites: " + course.getPrerequisites());
                 System.out.println("Semester: " + course.getSemesterOffered());
+
             } else {
                 System.out.println("No course found with ID: " + courseId);
             }

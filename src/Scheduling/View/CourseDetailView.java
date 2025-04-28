@@ -1,8 +1,9 @@
 package Scheduling.View;
 
-import Scheduling.Model.CustomCourse;
+import javax.swing.*;
 
-public interface CourseDetailView {
+public class CourseDetailView {
 
-    void displayCourse(CustomCourse course);
+
+    private JPanel basePanel;
 }

@@ -29,7 +29,7 @@ public class StudentScheduleView extends JFrame{
 
     //Setup
     public StudentScheduleView() {
-        this.controller = new ScheduleViewer(); //Controller
+        this.controller = new ScheduleViewer(this); //Controller
 
         this.add(scheduleViewPanel);
         this.setTitle("Student Schedule");
@@ -38,7 +38,7 @@ public class StudentScheduleView extends JFrame{
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         initializeButtons();
-
+        controller.displayCourseList();
     }
 
     //Button Logic
