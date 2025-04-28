@@ -1,20 +1,8 @@
 package Scheduling.View;
 
-import javax.swing.*;
+import Scheduling.Model.CustomCourse;
 
-public class CourseDetailView extends JFrame {
+public interface CourseDetailView {
 
-    private JPanel basePanel;
-
-    //Setup
-    public CourseDetailView() {
-
-    }
-
-    //Button Logic
-    public void initializeButtons(){
-
-    }
-
-    //Getters
+    void displayCourse(CustomCourse course);
 }

@@ -34,4 +34,8 @@ public class CustomCourse {
     public Date getDateAdded() {
         return dateAdded;
     }
+
+    public String getCourseName() {
+        return courseName;
+    }
 }

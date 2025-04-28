@@ -1,21 +1,9 @@
 package Scheduling.View;
 
-import javax.swing.*;
+import Scheduling.Model.CustomCourse;
+import java.util.List;
 
-public class CourseSearchView extends JFrame {
-    private JPanel basePanel;
+public interface CourseSearchView {
 
-    //System.out.println("Searching for Courses...");
-
-    //Setup
-    public CourseSearchView() {
-        initializeButtons();
-    }
-
-    //Button Logic
-    public void initializeButtons(){
-
-    }
-
-    //Getters
+    void displaySearchResults(List<CustomCourse> courses);
 }
