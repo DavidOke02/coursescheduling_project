@@ -1,5 +1,7 @@
 package Scheduling.View;
 
+import Scheduling.Model.CustomCourse;
+
 import javax.swing.*;
 
 public class RegisterCourseView extends JFrame {
@@ -16,6 +18,12 @@ public class RegisterCourseView extends JFrame {
     //Button Logic
     public void initializeButtons(){
 
+    }
+
+    public void displayRegistrationSuccess(CustomCourse newCourse) {
+    }
+
+    public void displayRegistrationFailure() {
     }
 
     //Getters
