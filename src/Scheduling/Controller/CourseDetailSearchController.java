@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CourseDetailSearchController {
     private CourseDetailView detailView;
     private CourseSearchView searchView;
@@ -82,7 +81,7 @@ public class CourseDetailSearchController {
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
-                        resultSet.getString("departmentCode"),
+                        resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats"),
                         resultSet.getString("dateEnrolled")
                 );
@@ -118,7 +117,7 @@ public class CourseDetailSearchController {
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
-                        resultSet.getString("departmentCode"),
+                        resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats"),
                         resultSet.getString("dateEnrolled")
                 );
@@ -142,7 +141,7 @@ public class CourseDetailSearchController {
 
         try {
             PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Courses WHERE departmentCode = ?");
+                    "SELECT * FROM Courses WHERE department_code = ?");
             searchQuery.setString(1, departmentCode);
             ResultSet resultSet = searchQuery.executeQuery();
 
@@ -152,7 +151,7 @@ public class CourseDetailSearchController {
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
-                        resultSet.getString("departmentCode"),
+                        resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats"),
                         resultSet.getString("dateEnrolled")
                 );
@@ -186,7 +185,7 @@ public class CourseDetailSearchController {
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
-                        resultSet.getString("departmentCode"),
+                        resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats"),
                         resultSet.getString("dateEnrolled")
                 );
@@ -218,7 +217,7 @@ public class CourseDetailSearchController {
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
-                        resultSet.getString("departmentCode"),
+                        resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats"),
                         resultSet.getString("dateEnrolled")
                 );
