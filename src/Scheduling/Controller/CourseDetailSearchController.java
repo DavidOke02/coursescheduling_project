@@ -1,8 +1,6 @@
 package Scheduling.Controller;
 
 import Scheduling.Model.CustomCourse;
-import Scheduling.Model.LionPathCourse;
-import Scheduling.Model.CourseAdapter;
 import Scheduling.View.CourseDetailView;
 import Scheduling.View.CourseSearchView;
 import db.DBConnection;
@@ -76,17 +74,14 @@ public class CourseDetailSearchController {
             ResultSet resultSet = viewCourse.executeQuery();
 
             if (resultSet.next()) {
-                LionPathCourse lionPathCourse = new LionPathCourse(
+                course = new CustomCourse(
                         resultSet.getString("id"),
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats"),
-                        resultSet.getString("dateEnrolled")
+                        resultSet.getInt("availableSeats")
                 );
-
-                course = new CourseAdapter(lionPathCourse);
 
                 System.out.println("Course found: " + course.getCourseName());
             } else {
@@ -112,17 +107,14 @@ public class CourseDetailSearchController {
             ResultSet resultSet = searchQuery.executeQuery();
 
             while (resultSet.next()) {
-                LionPathCourse lionPathCourse = new LionPathCourse(
+                results.add(new CustomCourse(
                         resultSet.getString("id"),
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats"),
-                        resultSet.getString("dateEnrolled")
-                );
-
-                results.add(new CourseAdapter(lionPathCourse));
+                        resultSet.getInt("availableSeats")
+                ));
             }
 
             System.out.println("Found " + results.size() + " courses matching: " + courseName);
@@ -146,17 +138,14 @@ public class CourseDetailSearchController {
             ResultSet resultSet = searchQuery.executeQuery();
 
             while (resultSet.next()) {
-                LionPathCourse lionPathCourse = new LionPathCourse(
+                results.add(new CustomCourse(
                         resultSet.getString("id"),
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats"),
-                        resultSet.getString("dateEnrolled")
-                );
-
-                results.add(new CourseAdapter(lionPathCourse));
+                        resultSet.getInt("availableSeats")
+                ));
             }
 
             System.out.println("Found " + results.size() + " courses in department: " + departmentCode);
@@ -180,17 +169,14 @@ public class CourseDetailSearchController {
             ResultSet resultSet = searchQuery.executeQuery();
 
             while (resultSet.next()) {
-                LionPathCourse lionPathCourse = new LionPathCourse(
+                results.add(new CustomCourse(
                         resultSet.getString("id"),
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats"),
-                        resultSet.getString("dateEnrolled")
-                );
-
-                results.add(new CourseAdapter(lionPathCourse));
+                        resultSet.getInt("availableSeats")
+                ));
             }
 
             System.out.println("Found " + results.size() + " courses taught by: " + instructorName);
@@ -212,17 +198,14 @@ public class CourseDetailSearchController {
             ResultSet resultSet = query.executeQuery();
 
             while (resultSet.next()) {
-                LionPathCourse lionPathCourse = new LionPathCourse(
+                allCourses.add(new CustomCourse(
                         resultSet.getString("id"),
                         resultSet.getString("courseName"),
                         resultSet.getString("professor"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats"),
-                        resultSet.getString("dateEnrolled")
-                );
-
-                allCourses.add(new CourseAdapter(lionPathCourse));
+                        resultSet.getInt("availableSeats")
+                ));
             }
 
             System.out.println("Retrieved " + allCourses.size() + " courses.");
