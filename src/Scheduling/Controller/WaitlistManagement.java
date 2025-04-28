@@ -1,20 +1,42 @@
 package Scheduling.Controller;
 
-/*
- * Handles waitlist management for courses.
+import java.util.*;
+
+/**
+ * Handles waitlist management logic.
  */
 public class WaitlistManagement {
+    private Map<String, Queue<String>> courseWaitlists = new HashMap<>();
+
     /**
-     * Manages the waitlist for a course.
+     * Adds a student to the waitlist for a course.
      */
-
-    public WaitlistManagement() {
-
+    public void addToWaitlist(String courseId, String studentId) {
+        courseWaitlists.putIfAbsent(courseId, new LinkedList<>());
+        courseWaitlists.get(courseId).add(studentId);
     }
 
-    public void manageWaitlist() {
-        System.out.println("Managing Waitlist...");
+    /**
+     * Returns all courses where a student is waitlisted.
+     */
+    public List<String> getStudentWaitlistedCourses(String studentId) {
+        List<String> waitlistedCourses = new ArrayList<>();
+        for (Map.Entry<String, Queue<String>> entry : courseWaitlists.entrySet()) {
+            if (entry.getValue().contains(studentId)) {
+                waitlistedCourses.add(entry.getKey());
+            }
+        }
+        return waitlistedCourses;
     }
 
-    //AutomatedWaitlistEnroller will be merged here
+    /**
+     * (Optional) View the full waitlist for a specific course (Admin feature).
+     */
+    public List<String> viewCourseWaitlist(String courseId) {
+        Queue<String> waitlist = courseWaitlists.get(courseId);
+        if (waitlist == null) {
+            return Collections.emptyList();
+        }
+        return new ArrayList<>(waitlist);
+    }
 }

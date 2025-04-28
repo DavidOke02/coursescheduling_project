@@ -19,5 +19,6 @@ public class Main {
         /**
          * I was gonna put the user table creation code here, but it's in LoginController as it makes more sense there
          */
+
     }
 }
