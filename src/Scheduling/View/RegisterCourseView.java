@@ -4,6 +4,7 @@ import Scheduling.Controller.RegisterCourseController;
 import Scheduling.Model.CustomCourse;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,15 +27,15 @@ public class RegisterCourseView extends JFrame {
 
     //Setup
     public RegisterCourseView() {
-        setTitle("Register Course");
-        setContentPane(basePanel);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-
-        controller = new RegisterCourseController();
+        this.controller = new RegisterCourseController();
         controller.setRegisterView(this);
 
+        this.add(basePanel);
+        this.setTitle("Register Course");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
+        this.setSize(800, 600);
+        this.setMinimumSize(new Dimension(200, 150));
         initializeButtons();
     }
 
@@ -43,6 +44,7 @@ public class RegisterCourseView extends JFrame {
         registerCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String courseID = CourseIDField.getText().trim();
                 String courseName = CourseNameField.getText().trim();
                 String instructor = InstructorField.getText().trim();
@@ -111,6 +113,18 @@ public class RegisterCourseView extends JFrame {
         return basePanel;
     }
 
+    public JLabel getHeading() {
+        return Heading;
+    }
+
+    public JLabel getCourse_Name() {
+        return Course_Name;
+    }
+
+    public JLabel getCourse_ID() {
+        return Course_ID;
+    }
+
     public JTextField getCourseNameField() {
         return CourseNameField;
     }
@@ -123,11 +137,27 @@ public class RegisterCourseView extends JFrame {
         return InstructorField;
     }
 
+    public JLabel getInstructor() {
+        return Instructor;
+    }
+
+    public JLabel getCredits() {
+        return Credits;
+    }
+
     public JTextField getCreditsField() {
         return CreditsField;
     }
 
+    public JLabel getDepartment_Code() {
+        return Department_Code;
+    }
+
     public JTextField getDepartmentCodeField() {
         return DepartmentCodeField;
+    }
+
+    public JButton getRegisterCourseButton() {
+        return registerCourseButton;
     }
 }
