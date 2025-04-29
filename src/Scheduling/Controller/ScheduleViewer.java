@@ -26,7 +26,7 @@ public class ScheduleViewer {
         try {
             Statement createUserTable = connection.createStatement();
             createUserTable.executeUpdate("CREATE TABLE IF NOT EXISTS Schedule (" +
-                    "  `entry_id` VARCHAR(10) NOT NULL," +
+                    "  `entry_id` INT NOT NULL AUTO_INCREMENT," +
                     "  `student_id` VARCHAR(10) NULL," +
                     "  `course_id` VARCHAR(45) NULL," +
                     "  `registration_status` VARCHAR(1) NULL," +
