@@ -16,7 +16,7 @@ public class StudentScheduleView extends JFrame{
     private JLabel enrollmentListLabel;
     private JTable table1;
     private JTable table2;
-    private JButton changeViewButton;
+    private JButton addCourseButton;
     private JButton modifyCourseButton;
     private JPanel addPanel;
     private JPanel breadcrumbPanel;
@@ -29,7 +29,7 @@ public class StudentScheduleView extends JFrame{
 
     //Setup
     public StudentScheduleView() {
-        this.controller = new ScheduleViewer(); //Controller
+        this.controller = new ScheduleViewer(this); //Controller
 
         this.add(scheduleViewPanel);
         this.setTitle("Student Schedule");
@@ -38,7 +38,7 @@ public class StudentScheduleView extends JFrame{
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         initializeButtons();
-
+        controller.displayCourseList();
     }
 
     //Button Logic
@@ -63,14 +63,14 @@ public class StudentScheduleView extends JFrame{
             }
         });
 
+
         getChangeViewButton().addActionListener(e -> {
             dispose();
             new StudentScheduleHomeView();
         });
 
-        getChangeViewButton().addActionListener(e -> {
-            System.out.println("Change View Clicked");
-            getChangeViewButton().setText("Change View2");
+        addCourseButton.addActionListener(e -> {
+            new RegisterCourseView();
         });
     }
 
@@ -108,7 +108,7 @@ public class StudentScheduleView extends JFrame{
     }
 
     public JButton getChangeViewButton() {
-        return changeViewButton;
+        return addCourseButton;
     }
 
     public JButton getModifyCourseButton() {
@@ -133,5 +133,13 @@ public class StudentScheduleView extends JFrame{
 
     public JLabel getViewCurrentScheduleNavLabel() {
         return viewCurrentScheduleNavLabel;
+    }
+
+    public JButton getAddCourseButton() {
+        return addCourseButton;
+    }
+
+    public JButton getCancelButton() {
+        return cancelButton;
     }
 }

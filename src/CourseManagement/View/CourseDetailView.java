@@ -30,7 +30,7 @@ public class CourseDetailView extends JFrame {
     private ModifyCourseDetails controller;
 
     //Setup
-    public CourseDetailView(int courseID) {
+    public CourseDetailView(String courseID) {
         this.add(courseDetailView);
         this.setTitle("Course Details");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +38,8 @@ public class CourseDetailView extends JFrame {
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         controller = new ModifyCourseDetails();
-        //Course courseToDisplay = controller.viewCourse(courseID)
+        Course courseToDisplay = controller.viewCourse(courseID);
+        setFields(courseToDisplay);
         initializeButtons();
     }
 
@@ -55,7 +56,7 @@ public class CourseDetailView extends JFrame {
                 String prerequisite = prerequisiteField.getText();
                 String semester = semesterField.getText();
                 Course updatedCourse = new Course(id, name, credits, department, seats, professor, prerequisite, semester);
-                //controller.updateCourse(updatedCourse)
+                controller.updateCourse(updatedCourse);
                 System.out.println("Updated Course Details for " + id);
             }catch (Exception ex){
                 ex.printStackTrace();
@@ -64,9 +65,26 @@ public class CourseDetailView extends JFrame {
         });
 
         getDeleteCourseButton().addActionListener(e -> {
-            //controller.deleteCourse(courseID)
-            System.out.println("Deleted Course " + idLabel.getText());
+            try{
+                String id = idLabel.getText();
+                controller.deleteCourse(id);
+                System.out.println("Deleted Course " + idLabel.getText());
+            }catch (Exception ex){
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         });
+    }
+
+    public void setFields(Course course) {
+        idLabel.setText(course.getCourseID());
+        courseNameField.setText(course.getCourseName());
+        creditsField.setText(String.valueOf(course.getCredits()));
+        departmentCodeField.setText(course.getDepartmentCode());
+        seatsField.setText(String.valueOf(course.getAvailableSeats()));
+        professorField.setText(course.getProfessor());
+        prerequisiteField.setText(course.getPrerequisites());
+        semesterField.setText(course.getSemesterOffered());
     }
 
     //Getters

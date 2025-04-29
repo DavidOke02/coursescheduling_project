@@ -31,13 +31,13 @@ public class CourseDetailSearchController {
     public void displayCourseDetails(String courseID) {
         CustomCourse course = getCourseDetails(courseID);
         if (course != null && detailView != null) {
-            detailView.displayCourse(course);
+            //detailView.displayCourse(course);
         }
     }
 
     public void updateSearchResults(List<CustomCourse> courses) {
         if (searchView != null) {
-            searchView.displaySearchResults(courses);
+            //searchView.displaySearchResults(courses);
         }
     }
 

@@ -1,9 +1,12 @@
 package Scheduling.View;
 
 import Scheduling.Model.CustomCourse;
+
+import javax.swing.*;
 import java.util.List;
 
-public interface CourseSearchView {
+public class CourseSearchView {
 
-    void displaySearchResults(List<CustomCourse> courses);
+
+    private JPanel basePanel;
 }
