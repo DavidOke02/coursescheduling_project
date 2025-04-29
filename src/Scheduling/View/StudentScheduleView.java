@@ -63,14 +63,14 @@ public class StudentScheduleView extends JFrame{
             }
         });
 
+
         getChangeViewButton().addActionListener(e -> {
             dispose();
             new StudentScheduleHomeView();
         });
 
-        getChangeViewButton().addActionListener(e -> {
-            System.out.println("Change View Clicked");
-            getChangeViewButton().setText("Change View2");
+        addCourseButton.addActionListener(e -> {
+            new RegisterCourseView();
         });
     }
 
@@ -133,5 +133,13 @@ public class StudentScheduleView extends JFrame{
 
     public JLabel getViewCurrentScheduleNavLabel() {
         return viewCurrentScheduleNavLabel;
+    }
+
+    public JButton getAddCourseButton() {
+        return addCourseButton;
+    }
+
+    public JButton getCancelButton() {
+        return cancelButton;
     }
 }
