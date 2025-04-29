@@ -17,7 +17,6 @@ public class Course {
      * Default constructor initializing course with default values
      */
     public Course() {
-
     }
 
     public Course(String courseName, int credits) {
@@ -108,5 +107,10 @@ public class Course {
 
     public void setSemesterOffered(String semesterOffered) {
         this.semesterOffered = semesterOffered;
+    }
+
+    @Override
+    public String toString() {
+        return courseID + ": " + courseName; // Format this as you like
     }
 }

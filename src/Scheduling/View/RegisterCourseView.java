@@ -21,11 +21,15 @@ public class RegisterCourseView extends JFrame {
     private JTextField CreditsField;
     private JLabel Department_Code;
     private JTextField DepartmentCodeField;
+    private JLabel PrerequisitesLabel;
+    private JTextField PrerequisitesField;
+    private JLabel SemesterLabel;
+    private JTextField SemesterField;
     private JButton registerCourseButton;
 
     private RegisterCourseController controller;
 
-    //Setup
+    // Setup
     public RegisterCourseView() {
         this.controller = new RegisterCourseController();
         controller.setRegisterView(this);
@@ -39,16 +43,16 @@ public class RegisterCourseView extends JFrame {
         initializeButtons();
     }
 
-    //Button Logic
     public void initializeButtons() {
         registerCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String courseID = CourseIDField.getText().trim();
                 String courseName = CourseNameField.getText().trim();
                 String instructor = InstructorField.getText().trim();
                 String departmentCode = DepartmentCodeField.getText().trim();
+                String prerequisites = "";  // You'll likely need to capture this from another field or set as needed
+                String semester = "";  // Similarly, capture semester as needed
 
                 if (courseID.isEmpty() || courseName.isEmpty() || instructor.isEmpty() ||
                         CreditsField.getText().trim().isEmpty() || departmentCode.isEmpty()) {
@@ -81,12 +85,14 @@ public class RegisterCourseView extends JFrame {
                     return;
                 }
 
-                int availableSeats = 30;
+                int availableSeats = 30;  // Set default value or get from input if necessary
 
-                controller.registerCourse(courseID, courseName, instructor, credits, departmentCode, availableSeats);
+                // Call registerCourse with prerequisites and semester
+                controller.registerCourse(courseID, courseName, instructor, credits, departmentCode, availableSeats, prerequisites, semester);
             }
         });
     }
+
 
     public void displayRegistrationSuccess(CustomCourse newCourse) {
         JOptionPane.showMessageDialog(this,
@@ -99,6 +105,8 @@ public class RegisterCourseView extends JFrame {
         InstructorField.setText("");
         CreditsField.setText("");
         DepartmentCodeField.setText("");
+        PrerequisitesField.setText("");
+        SemesterField.setText("");
     }
 
     public void displayRegistrationFailure() {
@@ -108,7 +116,7 @@ public class RegisterCourseView extends JFrame {
                 JOptionPane.ERROR_MESSAGE);
     }
 
-    //Getters
+    // Getters
     public JPanel getBasePanel() {
         return basePanel;
     }
@@ -155,6 +163,22 @@ public class RegisterCourseView extends JFrame {
 
     public JTextField getDepartmentCodeField() {
         return DepartmentCodeField;
+    }
+
+    public JLabel getPrerequisitesLabel() {
+        return PrerequisitesLabel;
+    }
+
+    public JTextField getPrerequisitesField() {
+        return PrerequisitesField;
+    }
+
+    public JLabel getSemesterLabel() {
+        return SemesterLabel;
+    }
+
+    public JTextField getSemesterField() {
+        return SemesterField;
     }
 
     public JButton getRegisterCourseButton() {

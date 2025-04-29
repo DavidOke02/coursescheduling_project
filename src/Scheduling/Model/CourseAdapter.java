@@ -8,7 +8,10 @@ public class CourseAdapter extends CustomCourse {
     private LionPathCourse lionPathCourse;
 
     public CourseAdapter(LionPathCourse lionPathCourse) {
-        super(lionPathCourse.getCourseID(), lionPathCourse.getCourseTitle(), lionPathCourse.getInstructorName(), lionPathCourse.getCredits(), lionPathCourse.getDepartmentName(), lionPathCourse.getAvailableSeats());
+        super(lionPathCourse.getCourseID(), lionPathCourse.getCourseTitle(), lionPathCourse.getInstructorName(),
+                lionPathCourse.getCredits(), lionPathCourse.getDepartmentName(), lionPathCourse.getAvailableSeats(),
+                lionPathCourse.getPrerequisites(), lionPathCourse.getSemester());
+
         this.lionPathCourse = lionPathCourse;
     }
 
