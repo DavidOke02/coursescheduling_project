@@ -1,9 +1,11 @@
 package Scheduling.View;
 
+import CourseManagement.Model.Course;
 import Scheduling.Controller.ScheduleViewer;
 import Scheduling.Controller.StudentDashboardController;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,7 +19,7 @@ public class StudentScheduleView extends JFrame{
     private JTable table1;
     private JTable table2;
     private JButton addCourseButton;
-    private JButton modifyCourseButton;
+    private JButton viewCourseButton;
     private JPanel addPanel;
     private JPanel breadcrumbPanel;
     private JLabel homeNavLabel;
@@ -63,14 +65,28 @@ public class StudentScheduleView extends JFrame{
             }
         });
 
-
-        getChangeViewButton().addActionListener(e -> {
+        addCourseButton.addActionListener(e -> {
             dispose();
-            new StudentScheduleHomeView();
+            new RegisterCourseView();
         });
 
-        addCourseButton.addActionListener(e -> {
-            new RegisterCourseView();
+        viewCourseButton.addActionListener(e -> {
+            int selectedRowCart = table1.getSelectedRow();
+            int selectedRowEnrollment = table2.getSelectedRow();
+            Object selectedCourseID;
+            if (selectedRowCart == -1 && selectedRowEnrollment == -1) {
+                return;
+            } else if (selectedRowCart != -1) {
+                TableModel table1Model = (TableModel) table1.getModel();
+                selectedCourseID = table1Model.getValueAt(selectedRowCart, 0);
+            } else if (selectedRowEnrollment !=1 ) {
+                TableModel table2Model = (TableModel) table2.getModel();
+                selectedCourseID = table2Model.getValueAt(selectedRowEnrollment, 0);
+            } else {
+                return;
+            }
+            dispose();
+            new CourseDetailView(selectedCourseID.toString());
         });
     }
 
@@ -107,12 +123,12 @@ public class StudentScheduleView extends JFrame{
         return table2;
     }
 
-    public JButton getChangeViewButton() {
+    public JButton getAddCourseButton() {
         return addCourseButton;
     }
 
     public JButton getModifyCourseButton() {
-        return modifyCourseButton;
+        return viewCourseButton;
     }
 
     public JPanel getAddPanel() {
@@ -133,10 +149,6 @@ public class StudentScheduleView extends JFrame{
 
     public JLabel getViewCurrentScheduleNavLabel() {
         return viewCurrentScheduleNavLabel;
-    }
-
-    public JButton getAddCourseButton() {
-        return addCourseButton;
     }
 
     public JButton getCancelButton() {

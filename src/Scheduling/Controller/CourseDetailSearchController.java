@@ -1,5 +1,6 @@
 package Scheduling.Controller;
 
+import CourseManagement.Model.Course;
 import Scheduling.Model.CustomCourse;
 import Scheduling.View.CourseDetailView;
 import Scheduling.View.CourseSearchView;
@@ -28,11 +29,8 @@ public class CourseDetailSearchController {
         this.searchView = searchView;
     }
 
-    public void displayCourseDetails(String courseID) {
-        CustomCourse course = getCourseDetails(courseID);
-        if (course != null && detailView != null) {
-            //detailView.displayCourse(course);
-        }
+    public Course displayCourseDetails(String courseID) {
+        return getCourseDetails(courseID);
     }
 
     public void updateSearchResults(List<CustomCourse> courses) {
@@ -62,25 +60,27 @@ public class CourseDetailSearchController {
         updateSearchResults(results);
     }
 
-    public CustomCourse getCourseDetails(String courseID) {
+    public Course getCourseDetails(String courseID) {
         System.out.println("Attempting to view course with ID: " + courseID);
         Connection connection = DBConnection.getConnection();
-        CustomCourse course = null;
+        Course course = null;
 
         try {
             PreparedStatement viewCourse = connection.prepareStatement(
-                    "SELECT * FROM Courses WHERE id = ?");
+                    "SELECT * FROM Course WHERE id = ?");
             viewCourse.setString(1, courseID);
             ResultSet resultSet = viewCourse.executeQuery();
 
             if (resultSet.next()) {
-                course = new CustomCourse(
+                course = new Course(
                         resultSet.getString("id"),
-                        resultSet.getString("courseName"),
-                        resultSet.getString("professor"),
+                        resultSet.getString("name"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats")
+                        resultSet.getInt("seats"),
+                        resultSet.getString("professor_id"),
+                        resultSet.getString("prerequisites"),
+                        resultSet.getString("semester")
                 );
 
                 System.out.println("Course found: " + course.getCourseName());
@@ -102,15 +102,15 @@ public class CourseDetailSearchController {
 
         try {
             PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Courses WHERE courseName LIKE ?");
+                    "SELECT * FROM Course WHERE name LIKE ?");
             searchQuery.setString(1, "%" + courseName + "%");
             ResultSet resultSet = searchQuery.executeQuery();
 
             while (resultSet.next()) {
                 results.add(new CustomCourse(
                         resultSet.getString("id"),
-                        resultSet.getString("courseName"),
-                        resultSet.getString("professor"),
+                        resultSet.getString("name"),
+                        resultSet.getString("professor_id"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats")
@@ -133,18 +133,18 @@ public class CourseDetailSearchController {
 
         try {
             PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Courses WHERE department_code = ?");
+                    "SELECT * FROM Course WHERE department_code = ?");
             searchQuery.setString(1, departmentCode);
             ResultSet resultSet = searchQuery.executeQuery();
 
             while (resultSet.next()) {
                 results.add(new CustomCourse(
                         resultSet.getString("id"),
-                        resultSet.getString("courseName"),
-                        resultSet.getString("professor"),
+                        resultSet.getString("name"),
+                        resultSet.getString("professor_id"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats")
+                        resultSet.getInt("seats")
                 ));
             }
 
@@ -164,18 +164,18 @@ public class CourseDetailSearchController {
 
         try {
             PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Courses WHERE professor LIKE ?");
+                    "SELECT * FROM Course WHERE professor LIKE ?");
             searchQuery.setString(1, "%" + instructorName + "%");
             ResultSet resultSet = searchQuery.executeQuery();
 
             while (resultSet.next()) {
                 results.add(new CustomCourse(
                         resultSet.getString("id"),
-                        resultSet.getString("courseName"),
-                        resultSet.getString("professor"),
+                        resultSet.getString("name"),
+                        resultSet.getString("professor_id"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats")
+                        resultSet.getInt("seats")
                 ));
             }
 
@@ -194,14 +194,14 @@ public class CourseDetailSearchController {
         List<CustomCourse> allCourses = new ArrayList<>();
 
         try {
-            PreparedStatement query = connection.prepareStatement("SELECT * FROM Courses");
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM Course");
             ResultSet resultSet = query.executeQuery();
 
             while (resultSet.next()) {
                 allCourses.add(new CustomCourse(
                         resultSet.getString("id"),
-                        resultSet.getString("courseName"),
-                        resultSet.getString("professor"),
+                        resultSet.getString("name"),
+                        resultSet.getString("professor_id"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
                         resultSet.getInt("availableSeats")
