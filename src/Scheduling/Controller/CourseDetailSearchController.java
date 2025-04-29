@@ -100,18 +100,22 @@ public class CourseDetailSearchController {
         return courses;
     }
 
-    public void addCourseToSchedule(String studentID, Course course) {
-        try (Connection connection = DBConnection.getConnection()) {
-            String sql = "INSERT INTO coursescheduling_db.Schedule (student_id, course_id) VALUES (?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, studentID);
-                preparedStatement.setString(2, course.getCourseID());
-                preparedStatement.executeUpdate();
-                System.out.println("Course added to schedule for student: " + studentID);
-            }
+    public void addCourseToSchedule (String studentID, Course course) {
+        System.out.println("Attempting to add to schedule");
+        Connection connection = DBConnection.getConnection();
+        try {
+            PreparedStatement addCourse = connection.prepareStatement(
+                    "INSERT INTO Schedule (student_id, course_id, registration_status, waitlist_status) " +
+                            "VALUES (?, ?, ?, ?)");
+            addCourse.setString(1, studentID);
+            addCourse.setString(2, course.getCourseID());
+            addCourse.setString(3, "N"); //Means in enrollment cart while 'Y" means enrolled
+            addCourse.setString(4, "O"); //O for open, Q for queued, F for full
+            addCourse.executeUpdate();
+            System.out.println("Course added to schedule!");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Failed to add course to schedule.");
+            System.out.println("Could not add course.");
         }
     }
 }

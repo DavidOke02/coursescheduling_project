@@ -107,6 +107,8 @@ public class CourseSearchView extends JFrame {
             if (response == JOptionPane.YES_OPTION) {
                 controller.addCourseToSchedule(studentID, selected);
                 JOptionPane.showMessageDialog(this, "Course added to schedule.");
+                dispose();
+                new StudentScheduleView(studentID);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please select a course to add.");
