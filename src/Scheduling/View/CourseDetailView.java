@@ -29,15 +29,17 @@ public class CourseDetailView extends JFrame {
     private JButton goBackButton;
 
     private CourseDetailSearchController controller;
+    private String studentID;
 
-    public CourseDetailView(String courseID) {
+    public CourseDetailView(String courseID, String studentID) {
         this.add(courseDetailView);
         this.setTitle("Course Details");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
-        controller = new CourseDetailSearchController();
+        this.controller = new CourseDetailSearchController();
+        this.studentID = studentID;
         Course courseToDisplay = controller.displayCourseDetails(courseID);
         setFields(courseToDisplay);
         initializeButtons();
@@ -46,7 +48,7 @@ public class CourseDetailView extends JFrame {
     public void initializeButtons() {
         goBackButton.addActionListener(e -> {
             dispose();
-            new StudentScheduleView();
+            new StudentScheduleView(studentID);
         });
 
     }

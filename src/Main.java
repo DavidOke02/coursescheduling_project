@@ -13,8 +13,7 @@ public class Main {
         //For assignment -uncomment one of the 2 at a time to test each use case
         //new LoginUI();
         //AdminDashboard controller = new AdminDashboard();
-        new StudentScheduleView();
-        //new CourseDetailView("IST412");
+        new StudentScheduleView("123");
 
         //Db Connect
         Connection connection = DBConnection.getConnection();

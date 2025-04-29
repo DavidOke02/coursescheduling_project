@@ -42,13 +42,14 @@ public class ScheduleViewer {
     }
 
 
-    public void displayCourseList(){ //This is just a way to add optional filtering without making 2 almost the same funcs
+    public void displayCourseList(String studentID){ //This is just a way to add optional filtering without making 2 almost the same funcs
         Connection connection = DBConnection.getConnection();
 
         try{
             ResultSet resultSet;
 
-            PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM Schedule");
+            PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM Schedule where student_id = (?)");
+            displayCourseList.setString(1, studentID);
             resultSet = displayCourseList.executeQuery();
             System.out.println("Displaying Course List...");
 

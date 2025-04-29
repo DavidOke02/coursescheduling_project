@@ -1,5 +1,6 @@
 package Scheduling.View;
 
+import CourseManagement.Model.Course;
 import Scheduling.Controller.CourseDetailSearchController;
 import Scheduling.Model.LionPathCourse;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CourseSearchView extends JFrame {
 
@@ -17,8 +19,8 @@ public class CourseSearchView extends JFrame {
     private JButton searchButton;
     private JLabel courseIDLabel;
 
-    public CourseSearchView(CourseDetailSearchController controller) {
-        this.controller = controller;
+    public CourseSearchView() {
+        this.controller = new CourseDetailSearchController();
 
         setTitle("Course Detail Search");
         setSize(400, 300);
@@ -55,19 +57,20 @@ public class CourseSearchView extends JFrame {
 
     private void searchCourse() {
         String courseID = courseIDField.getText();
-        LionPathCourse course = controller.searchByCourseID(courseID);
+       ArrayList<Course> courseList = controller.searchCoursesByID(courseID);
 
-        if (course != null) {
-            resultArea.setText(
-                    "Course Title: " + course.getCourseTitle() + "\n" +
-                            "Instructor: " + course.getInstructorName() + "\n" +
-                            "Credits: " + course.getCredits() + "\n" +
-                            "Department: " + course.getDepartmentName() + "\n" +
-                            "Available Seats: " + course.getAvailableSeats() + "\n" +
-                            "Date Enrolled: " + course.getDateEnrolled()
-            );
-        } else {
-            resultArea.setText("Course not found.");
+       for (Course course : courseList) {
+           if (course != null) {
+               resultArea.append(
+                       "Course Title: " + course.getCourseID() + "\n" +
+                               "Instructor: " + course.getProfessor() + "\n" +
+                               "Credits: " + course.getCredits() + "\n" +
+                               "Department: " + course.getDepartmentCode() + "\n" +
+                               "Available Seats: " + course.getAvailableSeats() + "\n\n"
+               );
+           } else {
+               resultArea.setText("Course not found.");
+       }
         }
     }
     public static void main(String[] args) {
@@ -75,14 +78,14 @@ public class CourseSearchView extends JFrame {
         CourseDetailSearchController controller = new CourseDetailSearchController();
 
         // Insert sample courses into the database
-        controller.addCourseToDB(new LionPathCourse("CSE100", "Intro to Programming", "Dr. Smith", 3, "Computer Science", 20, "2025-01-10"));
-        controller.addCourseToDB(new LionPathCourse("MATH200", "Calculus II", "Dr. Johnson", 4, "Mathematics", 15, "2025-01-11"));
+        //controller.addCourseToDB(new LionPathCourse("CSE100", "Intro to Programming", "Dr. Smith", 3, "Computer Science", 20, "2025-01-10"));
+        //controller.addCourseToDB(new LionPathCourse("MATH200", "Calculus II", "Dr. Johnson", 4, "Mathematics", 15, "2025-01-11"));
 
         // Launch the UI
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CourseSearchView(controller).setVisible(true);
+                new CourseSearchView().setVisible(true);
             }
         });
 }}

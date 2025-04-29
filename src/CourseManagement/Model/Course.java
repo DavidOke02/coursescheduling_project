@@ -25,6 +25,15 @@ public class Course {
         this.credits = credits;
     }
 
+    public Course(String courseID, String courseName, String professor, int credits, String departmentCode, int availableSeats) {
+        this.courseID = courseID;
+        this.courseName = courseName;
+        this.professor = professor;
+        this.credits = credits;
+        this.departmentCode = departmentCode;
+        this.availableSeats = availableSeats;
+    }
+
     public Course(String id, String courseName, int credits, String departmentCode, int availableSeats, String professor, String prerequisites, String semesterOffered) {
         this.courseID = id;
         this.courseName = courseName;

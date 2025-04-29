@@ -95,6 +95,37 @@ public class CourseDetailSearchController {
         return course;
     }
 
+    public ArrayList<Course> searchCoursesByID(String courseName) {
+        System.out.println("Searching for courses containing: " + courseName);
+        Connection connection = DBConnection.getConnection();
+        ArrayList<Course> results = new ArrayList<>();
+
+        try {
+            PreparedStatement searchQuery = connection.prepareStatement(
+                    "SELECT * FROM Course WHERE id LIKE ?");
+            searchQuery.setString(1, "%" + courseName + "%");
+            ResultSet resultSet = searchQuery.executeQuery();
+
+            while (resultSet.next()) {
+                results.add(new Course(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("professor_id"),
+                        resultSet.getInt("credits"),
+                        resultSet.getString("department_code"),
+                        resultSet.getInt("seats")
+                ));
+            }
+
+            System.out.println("Found " + results.size() + " courses matching: " + courseName);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not search courses by name.");
+        }
+
+        return results;
+    }
+
     public List<CustomCourse> searchCoursesByName(String courseName) {
         System.out.println("Searching for courses containing: " + courseName);
         Connection connection = DBConnection.getConnection();
@@ -113,7 +144,7 @@ public class CourseDetailSearchController {
                         resultSet.getString("professor_id"),
                         resultSet.getInt("credits"),
                         resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats")
+                        resultSet.getInt("seats")
                 ));
             }
 

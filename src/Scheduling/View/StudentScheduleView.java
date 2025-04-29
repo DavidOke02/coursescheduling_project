@@ -28,10 +28,12 @@ public class StudentScheduleView extends JFrame{
     private JButton cancelButton;
 
     private ScheduleViewer controller;
+    private String studentID;
 
     //Setup
-    public StudentScheduleView() {
+    public StudentScheduleView(String studentID) {
         this.controller = new ScheduleViewer(this); //Controller
+        this.studentID = studentID;
 
         this.add(scheduleViewPanel);
         this.setTitle("Student Schedule");
@@ -40,7 +42,7 @@ public class StudentScheduleView extends JFrame{
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         initializeButtons();
-        controller.displayCourseList();
+        controller.displayCourseList(studentID);
     }
 
     //Button Logic
@@ -67,7 +69,13 @@ public class StudentScheduleView extends JFrame{
 
         addCourseButton.addActionListener(e -> {
             dispose();
-            new RegisterCourseView();
+            //new RegisterCourseView();
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new CourseSearchView().setVisible(true);
+                }
+            });
         });
 
         viewCourseButton.addActionListener(e -> {
@@ -86,7 +94,7 @@ public class StudentScheduleView extends JFrame{
                 return;
             }
             dispose();
-            new CourseDetailView(selectedCourseID.toString());
+            new CourseDetailView(selectedCourseID.toString(), studentID);
         });
     }
 
@@ -153,5 +161,10 @@ public class StudentScheduleView extends JFrame{
 
     public JButton getCancelButton() {
         return cancelButton;
+    }
+
+    // New: Get Main Panel
+    public JPanel getMainPanel() {
+        return scheduleViewPanel;
     }
 }
