@@ -3,6 +3,7 @@ package Authentication;
 import AdvisorApproval.Database.DatabaseUtil;
 import AdvisorApproval.Model.ApprovalRequest;
 import AdvisorApproval.View.RequestListUI;
+import Authentication.LoginUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,19 +11,20 @@ import java.util.List;
 
 public class AdvisorDashboard extends JFrame {
 
-    private String loggedInUserRole;
+    private String advisorId;
     private JPanel panel1;
     private JLabel welcomeLabel;
     private JPanel buttonPanel;
-    private JButton viewRequestListButton;
+    private JButton viewApprovalRequestsButton;
     private JButton logoutButton;
+    private JButton viewRequestListButton;
 
-    public AdvisorDashboard(String loggedInUserRole) {
-        this.loggedInUserRole = loggedInUserRole;
+    public AdvisorDashboard(String advisorId) {
+        this.advisorId = advisorId;
 
         setTitle("Advisor Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
+        setSize(500, 500);
         setLocationRelativeTo(null);
 
         initComponents();
@@ -33,7 +35,7 @@ public class AdvisorDashboard extends JFrame {
         setLayout(new BorderLayout());
 
         // Label at the top
-        welcomeLabel = new JLabel("Welcome to your Dashboard, " + loggedInUserRole + "!", JLabel.CENTER);
+        welcomeLabel = new JLabel("Welcome, Advisor " + advisorId + "!", JLabel.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(welcomeLabel, BorderLayout.NORTH);
 
@@ -42,39 +44,35 @@ public class AdvisorDashboard extends JFrame {
         buttonPanel.setLayout(new GridLayout(2, 1, 10, 10));
 
         // Buttons
-        viewRequestListButton = new JButton("View Request List");
+        viewApprovalRequestsButton = new JButton("View Approval Requests");
         logoutButton = new JButton("Logout");
 
         // Add buttons to panel
-        buttonPanel.add(viewRequestListButton);
+        buttonPanel.add(viewApprovalRequestsButton);
         buttonPanel.add(logoutButton);
 
         add(buttonPanel, BorderLayout.CENTER);
 
         // Button actions
-        viewRequestListButton.addActionListener(e -> openRequestListUI());
+        viewApprovalRequestsButton.addActionListener(e -> openRequestListUI());
         logoutButton.addActionListener(e -> logout());
     }
 
     private void openRequestListUI() {
-        // Fetch all approval requests from the database
-        List<ApprovalRequest> approvalRequests = DatabaseUtil.getAllApprovalRequests();
-
-        // Pass the list of approval requests to the RequestListUI
-        new RequestListUI(approvalRequests).setVisible(true);
+        // Open the RequestListUI
+        List<ApprovalRequest> requests = DatabaseUtil.getAllApprovalRequests(); // Fetch requests
+        new RequestListUI(requests); // Open the RequestListUI with the fetched requests
     }
 
     private void logout() {
-        // Confirm logout action with the user
-        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to log out?", "Logout", JOptionPane.YES_NO_OPTION);
-        if (confirmation == JOptionPane.YES_OPTION) {
-            dispose();
-            JOptionPane.showMessageDialog(this, "You have been logged out.");
-        }
+        dispose(); // Close the current window
+        JOptionPane.showMessageDialog(this, "You have been logged out.");
+        System.exit(0); // Exit the application completely
+        new LoginUI().setVisible(true); // Show the login UI
     }
 
     public static void main(String[] args) {
-        String loggedInUserRole = "Advisor"; // This should be dynamically set based on login
-        SwingUtilities.invokeLater(() -> new AdvisorDashboard(loggedInUserRole));
+        String advisorId = "ADV123"; // Replace with actual login
+        SwingUtilities.invokeLater(() -> new AdvisorDashboard(advisorId));
     }
 }
