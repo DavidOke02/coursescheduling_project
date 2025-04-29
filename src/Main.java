@@ -1,4 +1,5 @@
 import CourseManagement.View.AdminDashboard;
+import CourseManagement.View.CourseDetailView;
 import Scheduling.View.StudentScheduleView;
 import db.DBConnection;
 
@@ -12,7 +13,8 @@ public class Main {
         //For assignment -uncomment one of the 2 at a time to test each use case
         //new LoginUI();
         //AdminDashboard controller = new AdminDashboard();
-        new StudentScheduleView();
+        //new StudentScheduleView();
+        new CourseDetailView("IST412");
 
         //Db Connect
         Connection connection = DBConnection.getConnection();

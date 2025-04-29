@@ -16,7 +16,7 @@ public class StudentScheduleView extends JFrame{
     private JLabel enrollmentListLabel;
     private JTable table1;
     private JTable table2;
-    private JButton changeViewButton;
+    private JButton addCourseButton;
     private JButton modifyCourseButton;
     private JPanel addPanel;
     private JPanel breadcrumbPanel;
@@ -108,7 +108,7 @@ public class StudentScheduleView extends JFrame{
     }
 
     public JButton getChangeViewButton() {
-        return changeViewButton;
+        return addCourseButton;
     }
 
     public JButton getModifyCourseButton() {
