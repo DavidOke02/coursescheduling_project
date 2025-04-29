@@ -39,212 +39,231 @@ public class CourseDetailSearchController {
         }
     }
 
-    public void performSearch(String searchType, String searchTerm) {
-        List<CustomCourse> results;
-
-        switch (searchType.toLowerCase()) {
-            case "name":
-                results = searchCoursesByName(searchTerm);
-                break;
-            case "department":
-                results = searchCoursesByDepartment(searchTerm);
-                break;
-            case "instructor":
-                results = searchCoursesByInstructor(searchTerm);
-                break;
-            default:
-                results = getAllCourses();
-                break;
-        }
-
-        updateSearchResults(results);
-    }
-
-    public Course getCourseDetails(String courseID) {
-        System.out.println("Attempting to view course with ID: " + courseID);
+    public void addToSchedule (String studentID, String courseID) {
+        System.out.println("Attempting to add to schedule");
         Connection connection = DBConnection.getConnection();
-        Course course = null;
-
         try {
-            PreparedStatement viewCourse = connection.prepareStatement(
-                    "SELECT * FROM Course WHERE id = ?");
-            viewCourse.setString(1, courseID);
-            ResultSet resultSet = viewCourse.executeQuery();
-
-            if (resultSet.next()) {
-                course = new Course(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getInt("credits"),
-                        resultSet.getString("department_code"),
-                        resultSet.getInt("seats"),
-                        resultSet.getString("professor_id"),
-                        resultSet.getString("prerequisites"),
-                        resultSet.getString("semester")
-                );
-
-                System.out.println("Course found: " + course.getCourseName());
-            } else {
-                System.out.println("No course found with ID: " + courseID);
-            }
+            PreparedStatement addCourse = connection.prepareStatement(
+                    "INSERT INTO Schedule (student_id, course_id, registration_status, waitlist_status) " +
+                            "VALUES (?, ?, ?, ?)");
+            addCourse.setString(1, studentID);
+            addCourse.setString(2, courseID);
+            addCourse.setString(3, "N"); //Means in enrollment cart while 'Y" means enrolled
+            addCourse.setString(4, "O"); //O for open, Q for queued, F for full
+            addCourse.executeUpdate();
+            System.out.println("Course added");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not view course details.");
+            e.printStackTrace();
+            System.out.println("Could not add course.");
         }
-
-        return course;
     }
 
-    public ArrayList<Course> searchCoursesByID(String courseName) {
-        System.out.println("Searching for courses containing: " + courseName);
-        Connection connection = DBConnection.getConnection();
-        ArrayList<Course> results = new ArrayList<>();
+public void performSearch(String searchType, String searchTerm) {
+    List<CustomCourse> results;
 
-        try {
-            PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Course WHERE id LIKE ?");
-            searchQuery.setString(1, "%" + courseName + "%");
-            ResultSet resultSet = searchQuery.executeQuery();
-
-            while (resultSet.next()) {
-                results.add(new Course(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("professor_id"),
-                        resultSet.getInt("credits"),
-                        resultSet.getString("department_code"),
-                        resultSet.getInt("seats")
-                ));
-            }
-
-            System.out.println("Found " + results.size() + " courses matching: " + courseName);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not search courses by name.");
-        }
-
-        return results;
+    switch (searchType.toLowerCase()) {
+        case "name":
+            results = searchCoursesByName(searchTerm);
+            break;
+        case "department":
+            results = searchCoursesByDepartment(searchTerm);
+            break;
+        case "instructor":
+            results = searchCoursesByInstructor(searchTerm);
+            break;
+        default:
+            results = getAllCourses();
+            break;
     }
 
-    public List<CustomCourse> searchCoursesByName(String courseName) {
-        System.out.println("Searching for courses containing: " + courseName);
-        Connection connection = DBConnection.getConnection();
-        List<CustomCourse> results = new ArrayList<>();
+    updateSearchResults(results);
+}
 
-        try {
-            PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Course WHERE name LIKE ?");
-            searchQuery.setString(1, "%" + courseName + "%");
-            ResultSet resultSet = searchQuery.executeQuery();
+public Course getCourseDetails(String courseID) {
+    System.out.println("Attempting to view course with ID: " + courseID);
+    Connection connection = DBConnection.getConnection();
+    Course course = null;
 
-            while (resultSet.next()) {
-                results.add(new CustomCourse(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("professor_id"),
-                        resultSet.getInt("credits"),
-                        resultSet.getString("department_code"),
-                        resultSet.getInt("seats")
-                ));
-            }
+    try {
+        PreparedStatement viewCourse = connection.prepareStatement(
+                "SELECT * FROM Course WHERE id = ?");
+        viewCourse.setString(1, courseID);
+        ResultSet resultSet = viewCourse.executeQuery();
 
-            System.out.println("Found " + results.size() + " courses matching: " + courseName);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not search courses by name.");
+        if (resultSet.next()) {
+            course = new Course(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("credits"),
+                    resultSet.getString("department_code"),
+                    resultSet.getInt("seats"),
+                    resultSet.getString("professor_id"),
+                    resultSet.getString("prerequisites"),
+                    resultSet.getString("semester")
+            );
+
+            System.out.println("Course found: " + course.getCourseName());
+        } else {
+            System.out.println("No course found with ID: " + courseID);
         }
-
-        return results;
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        System.out.println("Could not view course details.");
     }
 
-    public List<CustomCourse> searchCoursesByDepartment(String departmentCode) {
-        System.out.println("Searching for courses in department: " + departmentCode);
-        Connection connection = DBConnection.getConnection();
-        List<CustomCourse> results = new ArrayList<>();
+    return course;
+}
 
-        try {
-            PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Course WHERE department_code = ?");
-            searchQuery.setString(1, departmentCode);
-            ResultSet resultSet = searchQuery.executeQuery();
+public ArrayList<Course> searchCoursesByID(String courseName) {
+    System.out.println("Searching for courses containing: " + courseName);
+    Connection connection = DBConnection.getConnection();
+    ArrayList<Course> results = new ArrayList<>();
 
-            while (resultSet.next()) {
-                results.add(new CustomCourse(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("professor_id"),
-                        resultSet.getInt("credits"),
-                        resultSet.getString("department_code"),
-                        resultSet.getInt("seats")
-                ));
-            }
+    try {
+        PreparedStatement searchQuery = connection.prepareStatement(
+                "SELECT * FROM Course WHERE id LIKE ?");
+        searchQuery.setString(1, "%" + courseName + "%");
+        ResultSet resultSet = searchQuery.executeQuery();
 
-            System.out.println("Found " + results.size() + " courses in department: " + departmentCode);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not search courses by department.");
+        while (resultSet.next()) {
+            results.add(new Course(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("professor_id"),
+                    resultSet.getInt("credits"),
+                    resultSet.getString("department_code"),
+                    resultSet.getInt("seats")
+            ));
         }
 
-        return results;
+        System.out.println("Found " + results.size() + " courses matching: " + courseName);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        System.out.println("Could not search courses by name.");
     }
 
-    public List<CustomCourse> searchCoursesByInstructor(String instructorName) {
-        System.out.println("Searching for courses taught by: " + instructorName);
-        Connection connection = DBConnection.getConnection();
-        List<CustomCourse> results = new ArrayList<>();
+    return results;
+}
 
-        try {
-            PreparedStatement searchQuery = connection.prepareStatement(
-                    "SELECT * FROM Course WHERE professor LIKE ?");
-            searchQuery.setString(1, "%" + instructorName + "%");
-            ResultSet resultSet = searchQuery.executeQuery();
+public List<CustomCourse> searchCoursesByName(String courseName) {
+    System.out.println("Searching for courses containing: " + courseName);
+    Connection connection = DBConnection.getConnection();
+    List<CustomCourse> results = new ArrayList<>();
 
-            while (resultSet.next()) {
-                results.add(new CustomCourse(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("professor_id"),
-                        resultSet.getInt("credits"),
-                        resultSet.getString("department_code"),
-                        resultSet.getInt("seats")
-                ));
-            }
+    try {
+        PreparedStatement searchQuery = connection.prepareStatement(
+                "SELECT * FROM Course WHERE name LIKE ?");
+        searchQuery.setString(1, "%" + courseName + "%");
+        ResultSet resultSet = searchQuery.executeQuery();
 
-            System.out.println("Found " + results.size() + " courses taught by: " + instructorName);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not search courses by instructor.");
+        while (resultSet.next()) {
+            results.add(new CustomCourse(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("professor_id"),
+                    resultSet.getInt("credits"),
+                    resultSet.getString("department_code"),
+                    resultSet.getInt("seats")
+            ));
         }
 
-        return results;
+        System.out.println("Found " + results.size() + " courses matching: " + courseName);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        System.out.println("Could not search courses by name.");
     }
 
-    public List<CustomCourse> getAllCourses() {
-        System.out.println("Retrieving all courses...");
-        Connection connection = DBConnection.getConnection();
-        List<CustomCourse> allCourses = new ArrayList<>();
+    return results;
+}
 
-        try {
-            PreparedStatement query = connection.prepareStatement("SELECT * FROM Course");
-            ResultSet resultSet = query.executeQuery();
+public List<CustomCourse> searchCoursesByDepartment(String departmentCode) {
+    System.out.println("Searching for courses in department: " + departmentCode);
+    Connection connection = DBConnection.getConnection();
+    List<CustomCourse> results = new ArrayList<>();
 
-            while (resultSet.next()) {
-                allCourses.add(new CustomCourse(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("professor_id"),
-                        resultSet.getInt("credits"),
-                        resultSet.getString("department_code"),
-                        resultSet.getInt("availableSeats")
-                ));
-            }
+    try {
+        PreparedStatement searchQuery = connection.prepareStatement(
+                "SELECT * FROM Course WHERE department_code = ?");
+        searchQuery.setString(1, departmentCode);
+        ResultSet resultSet = searchQuery.executeQuery();
 
-            System.out.println("Retrieved " + allCourses.size() + " courses.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Could not retrieve all courses.");
+        while (resultSet.next()) {
+            results.add(new CustomCourse(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("professor_id"),
+                    resultSet.getInt("credits"),
+                    resultSet.getString("department_code"),
+                    resultSet.getInt("seats")
+            ));
         }
 
-        return allCourses;
+        System.out.println("Found " + results.size() + " courses in department: " + departmentCode);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        System.out.println("Could not search courses by department.");
     }
+
+    return results;
+}
+
+public List<CustomCourse> searchCoursesByInstructor(String instructorName) {
+    System.out.println("Searching for courses taught by: " + instructorName);
+    Connection connection = DBConnection.getConnection();
+    List<CustomCourse> results = new ArrayList<>();
+
+    try {
+        PreparedStatement searchQuery = connection.prepareStatement(
+                "SELECT * FROM Course WHERE professor LIKE ?");
+        searchQuery.setString(1, "%" + instructorName + "%");
+        ResultSet resultSet = searchQuery.executeQuery();
+
+        while (resultSet.next()) {
+            results.add(new CustomCourse(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("professor_id"),
+                    resultSet.getInt("credits"),
+                    resultSet.getString("department_code"),
+                    resultSet.getInt("seats")
+            ));
+        }
+
+        System.out.println("Found " + results.size() + " courses taught by: " + instructorName);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        System.out.println("Could not search courses by instructor.");
+    }
+
+    return results;
+}
+
+public List<CustomCourse> getAllCourses() {
+    System.out.println("Retrieving all courses...");
+    Connection connection = DBConnection.getConnection();
+    List<CustomCourse> allCourses = new ArrayList<>();
+
+    try {
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Course");
+        ResultSet resultSet = query.executeQuery();
+
+        while (resultSet.next()) {
+            allCourses.add(new CustomCourse(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("professor_id"),
+                    resultSet.getInt("credits"),
+                    resultSet.getString("department_code"),
+                    resultSet.getInt("availableSeats")
+            ));
+        }
+
+        System.out.println("Retrieved " + allCourses.size() + " courses.");
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        System.out.println("Could not retrieve all courses.");
+    }
+
+    return allCourses;
+}
 }
