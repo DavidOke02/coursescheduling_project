@@ -23,7 +23,7 @@ public class AdminDashboard extends JFrame {
     public AdminDashboard() {
         setTitle("Admin Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+        setSize(850, 650);
         setLocationRelativeTo(null); // Center the window
         setLayout(new BorderLayout());
 
@@ -95,7 +95,7 @@ public class AdminDashboard extends JFrame {
 
         // Create the AddCourseUI and CourseListView panels
         AddCourseUI addCourseUI = new AddCourseUI();
-        CourseListView courseListView = new CourseListView(new CourseListViewController());
+        CourseListView courseListView = new CourseListView();
 
         // Create a panel for the dashboard, add it to the card layout
         cardPanel.add(dashboardPanel, "Dashboard");
