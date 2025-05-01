@@ -21,7 +21,7 @@ public class RegisterCourseController {
 
     public boolean registerCourse(String courseID, String courseName, String instructor,
                                   int credits, String departmentCode, int availableSeats,
-                                  String prerequisites, String semester) {
+                                  String prerequisites, String semester, String timeslot) {
 
         System.out.println("Attempting to register new course: " + courseID + " - " + courseName);
 
@@ -34,7 +34,8 @@ public class RegisterCourseController {
                 departmentCode,
                 availableSeats,
                 prerequisites,
-                semester
+                semester,
+                timeslot
         );
 
         // Attempting to add the course to the database
@@ -61,8 +62,8 @@ public class RegisterCourseController {
         try {
             // SQL query to insert the course details into the database with new column names
             PreparedStatement insertStatement = connection.prepareStatement(
-                    "INSERT INTO coursescheduling_db.Course (id, Name, credits, department_code, Seats, prerequisites, semester) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO coursescheduling_db.Course (id, Name, credits, department_code, Seats, prerequisites, semester, timeslot) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             insertStatement.setString(1, course.getCourseID());  // Course ID
             insertStatement.setString(2, course.getCourseName());  // Course Name
@@ -71,6 +72,7 @@ public class RegisterCourseController {
             insertStatement.setInt(5, course.getAvailableSeats());  // Available Seats
             insertStatement.setString(6, course.getPrerequisites());  // Prerequisites
             insertStatement.setString(7, course.getSemester());  // Semester
+            insertStatement.setString(8, course.getTimeslot());  // Timeslot
 
             int rowsAffected = insertStatement.executeUpdate();
             return rowsAffected > 0;

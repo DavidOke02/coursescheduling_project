@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class ModifyCourseDetails {
 
     public ModifyCourseDetails() {
@@ -24,7 +23,7 @@ public class ModifyCourseDetails {
 
         try {
             PreparedStatement viewCourse = connection.prepareStatement(
-                    "SELECT * FROM Course WHERE id = ?");
+                    "SELECT * FROM coursescheduling_db.Course WHERE id = ?");
             viewCourse.setString(1, courseId);
             ResultSet resultSet = viewCourse.executeQuery();
 
@@ -37,7 +36,8 @@ public class ModifyCourseDetails {
                         resultSet.getInt("seats"),
                         resultSet.getString("professor_id"),
                         resultSet.getString("prerequisites"),
-                        resultSet.getString("semester")
+                        resultSet.getString("semester"),
+                        resultSet.getString("timeslot")
                 );
                 System.out.println("Course found: " + course.getCourseName());
                 System.out.println("ID: " + course.getCourseID());
@@ -48,7 +48,7 @@ public class ModifyCourseDetails {
                 System.out.println("Professor: " + course.getProfessor());
                 System.out.println("Prerequisites: " + course.getPrerequisites());
                 System.out.println("Semester: " + course.getSemesterOffered());
-
+                System.out.println("Timeslot: " + course.getTimeslot());
             } else {
                 System.out.println("No course found with ID: " + courseId);
             }
@@ -68,8 +68,8 @@ public class ModifyCourseDetails {
 
         try {
             PreparedStatement updateCourse = connection.prepareStatement(
-                    "UPDATE Course SET name = ?, credits = ?, departmentCode = ?, " +
-                            "seats = ?, professor_id = ?, prerequisites = ?, semester = ? " +
+                    "UPDATE coursescheduling_db.Course SET name = ?, credits = ?, department_code = ?, " +
+                            "seats = ?, professor_id = ?, prerequisites = ?, semester = ?, timeslot = ? " +
                             "WHERE id = ?");
 
             updateCourse.setString(1, course.getCourseName());
@@ -79,7 +79,8 @@ public class ModifyCourseDetails {
             updateCourse.setString(5, course.getProfessor());
             updateCourse.setString(6, course.getPrerequisites());
             updateCourse.setString(7, course.getSemesterOffered());
-            updateCourse.setString(8, course.getCourseID());
+            updateCourse.setString(8, course.getTimeslot());  // Set the timeslot field
+            updateCourse.setString(9, course.getCourseID());
 
             int rowsAffected = updateCourse.executeUpdate();
             success = (rowsAffected > 0);
@@ -93,7 +94,6 @@ public class ModifyCourseDetails {
             System.out.println(e.getMessage());
             System.out.println("Could not update course.");
         }
-
     }
 
     // Delete course
@@ -104,13 +104,13 @@ public class ModifyCourseDetails {
 
         try {
             PreparedStatement deletePrereqs = connection.prepareStatement(
-                    "DELETE FROM Prerequisites WHERE course_id = ? OR prerequisite_id = ?");
+                    "DELETE FROM coursescheduling_db.Prerequisites WHERE course_id = ? OR prerequisite_id = ?");
             deletePrereqs.setString(1, courseId);
             deletePrereqs.setString(2, courseId);
             deletePrereqs.executeUpdate();
 
             PreparedStatement deleteCourse = connection.prepareStatement(
-                    "DELETE FROM Course WHERE id = ?");
+                    "DELETE FROM coursescheduling_db.Course WHERE id = ?");
             deleteCourse.setString(1, courseId);
 
             int rowsAffected = deleteCourse.executeUpdate();
@@ -127,4 +127,3 @@ public class ModifyCourseDetails {
         }
     }
 }
-

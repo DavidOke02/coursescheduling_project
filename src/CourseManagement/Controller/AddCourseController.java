@@ -1,15 +1,12 @@
 package CourseManagement.Controller;
 
 import CourseManagement.Model.Course;
-import CourseManagement.Model.Prerequisite;
 import CourseManagement.View.AddCourseUI;
 import db.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 
 public class AddCourseController {
     private AddCourseUI view;
@@ -23,14 +20,15 @@ public class AddCourseController {
         this.view = view;
     }
 
-// add course
+    // Add course
     public void addCourse(Course course) {
         System.out.println("Attempting to add course");
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement addCourse = connection.prepareStatement(
-                    "INSERT INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO coursescheduling_db.Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester, timeslot) " +  // Include timeslot column
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
             addCourse.setString(1, course.getCourseID());
             addCourse.setString(2, course.getCourseName());
             addCourse.setInt(3, course.getCredits());
@@ -39,6 +37,8 @@ public class AddCourseController {
             addCourse.setString(6, course.getProfessor());
             addCourse.setString(7, course.getPrerequisites());
             addCourse.setString(8, course.getSemesterOffered());
+            addCourse.setString(9, course.getTimeslot());  // Set the timeslot field
+
             addCourse.executeUpdate();
             System.out.println("Course added");
         } catch (SQLException e) {
@@ -47,4 +47,3 @@ public class AddCourseController {
         }
     }
 }
-

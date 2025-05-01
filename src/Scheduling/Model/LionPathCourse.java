@@ -8,12 +8,13 @@ public class LionPathCourse {
     private String departmentName;
     private int availableSeats;
     private String dateEnrolled;
-    private String prerequisites;  // New field
-    private String semester;       // New field
+    private String prerequisites;
+    private String semester;
+    private String timeSlot;       // New field
 
     public LionPathCourse(String courseID, String courseTitle, String instructorName, int credits,
                           String departmentName, int availableSeats, String dateEnrolled,
-                          String prerequisites, String semester) {
+                          String prerequisites, String semester, String timeSlot) {
         this.courseID = courseID;
         this.courseTitle = courseTitle;
         this.instructorName = instructorName;
@@ -23,6 +24,7 @@ public class LionPathCourse {
         this.dateEnrolled = dateEnrolled;
         this.prerequisites = prerequisites;
         this.semester = semester;
+        this.timeSlot = timeSlot;
     }
 
     public String getCourseID() {
@@ -61,9 +63,12 @@ public class LionPathCourse {
         return semester;
     }
 
+    public String getTimeSlot() {
+        return timeSlot;
+    }
 
     @Override
     public String toString() {
-        return courseID + ": " + courseTitle;  // Simple format for JList display
+        return courseID + ": " + courseTitle + " (" + timeSlot + ")";
     }
 }

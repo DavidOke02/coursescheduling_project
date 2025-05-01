@@ -12,6 +12,7 @@ public class Course {
     private String professor;
     private String prerequisites;
     private String semesterOffered;
+    private String timeslot;
 
     /**
      * Default constructor initializing course with default values
@@ -33,7 +34,7 @@ public class Course {
         this.availableSeats = availableSeats;
     }
 
-    public Course(String id, String courseName, int credits, String departmentCode, int availableSeats, String professor, String prerequisites, String semesterOffered) {
+    public Course(String id, String courseName, int credits, String departmentCode, int availableSeats, String professor, String prerequisites, String semesterOffered, String timeslot) {
         this.courseID = id;
         this.courseName = courseName;
         this.credits = credits;
@@ -42,6 +43,7 @@ public class Course {
         this.professor = professor;
         this.prerequisites = prerequisites;
         this.semesterOffered = semesterOffered;
+        this.timeslot = timeslot;
     }
 
     // Getters and setters
@@ -109,8 +111,17 @@ public class Course {
         this.semesterOffered = semesterOffered;
     }
 
+    // Getter and Setter for timeslot
+    public String getTimeslot() {
+        return timeslot;
+    }
+
+    public void setTimeslot(String timeslot) {
+        this.timeslot = timeslot;
+    }
+
     @Override
     public String toString() {
-        return courseID + ": " + courseName; // Format this as you like
+        return courseID + ": " + courseName + " (" + timeslot + ")"; // Include timeslot in toString method
     }
 }

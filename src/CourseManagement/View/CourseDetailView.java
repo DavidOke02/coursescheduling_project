@@ -26,10 +26,11 @@ public class CourseDetailView extends JFrame {
     private JTextField professorField;
     private JButton updateCourseButton;
     private JButton deleteCourseButton;
+    private JTextField timeSlotField;  // New timeSlot field
 
     private ModifyCourseDetails controller;
 
-    //Setup
+    // Setup
     public CourseDetailView(String courseID) {
         this.add(courseDetailView);
         this.setTitle("Course Details");
@@ -43,10 +44,10 @@ public class CourseDetailView extends JFrame {
         initializeButtons();
     }
 
-    //Button Logic
+    // Button Logic
     public void initializeButtons() {
         getUpdateCourseButton().addActionListener(e -> {
-            try{
+            try {
                 String id = idLabel.getText();
                 String name = courseNameField.getText();
                 int credits = Integer.parseInt(creditsField.getText());
@@ -55,21 +56,22 @@ public class CourseDetailView extends JFrame {
                 String professor = professorIDLabel.getText();
                 String prerequisite = prerequisiteField.getText();
                 String semester = semesterField.getText();
-                Course updatedCourse = new Course(id, name, credits, department, seats, professor, prerequisite, semester);
+                String timeSlot = timeSlotField.getText(); // Get timeSlot from the new field
+                Course updatedCourse = new Course(id, name, credits, department, seats, professor, prerequisite, semester, timeSlot);
                 controller.updateCourse(updatedCourse);
                 System.out.println("Updated Course Details for " + id);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         });
 
         getDeleteCourseButton().addActionListener(e -> {
-            try{
+            try {
                 String id = idLabel.getText();
                 controller.deleteCourse(id);
                 System.out.println("Deleted Course " + idLabel.getText());
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -85,9 +87,10 @@ public class CourseDetailView extends JFrame {
         professorField.setText(course.getProfessor());
         prerequisiteField.setText(course.getPrerequisites());
         semesterField.setText(course.getSemesterOffered());
+        timeSlotField.setText(course.getTimeslot());
     }
 
-    //Getters
+    // Getters
     public JTextField getCourseDescriptionField() {
         return courseNameField;
     }
@@ -112,16 +115,20 @@ public class CourseDetailView extends JFrame {
         return professorField;
     }
 
+    public JTextField getSeatsField() {
+        return seatsField;
+    }
+
+    public JTextField getTimeSlotField() {
+        return timeSlotField;
+    }
+
     public JButton getUpdateCourseButton() {
         return updateCourseButton;
     }
 
     public JButton getDeleteCourseButton() {
         return deleteCourseButton;
-    }
-
-    public JTextField getSeatsField() {
-        return seatsField;
     }
 
     public JLabel getIdLabel() {

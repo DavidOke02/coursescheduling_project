@@ -19,10 +19,11 @@ public class AddCourseUI extends JPanel {
     private JTextField professorIDField;
     private JTextField prereqField;
     private JTextField semesterField;
+    private JTextField timeSlotField;  // New field for Time Slot
     private JLabel statusLabel;
 
     public AddCourseUI() {
-        setLayout(new GridLayout(11, 2));
+        setLayout(new GridLayout(12, 2));  // Adjusted grid to accommodate the new field
 
         // Course ID
         add(new JLabel("Course ID:"));
@@ -64,6 +65,11 @@ public class AddCourseUI extends JPanel {
         semesterField = new JTextField();
         add(semesterField);
 
+        // Time Slot
+        add(new JLabel("Time Slot:"));  // New label for Time Slot
+        timeSlotField = new JTextField();  // New text field for Time Slot
+        add(timeSlotField);
+
         // Submit Button
         JButton submitButton = new JButton("Add Course");
         submitButton.addActionListener(new ActionListener() {
@@ -100,8 +106,9 @@ public class AddCourseUI extends JPanel {
             String professorID = professorIDField.getText();
             String prereq = prereqField.getText();
             String semester = semesterField.getText();
+            String timeSlot = timeSlotField.getText();  // Get timeSlot from the new field
 
-            Course courseToAdd = new Course(courseID, courseName, credits, dept, seats, professorID, prereq, semester);
+            Course courseToAdd = new Course(courseID, courseName, credits, dept, seats, professorID, prereq, semester, timeSlot);
 
             AddCourseController controller = new AddCourseController();
             controller.addCourse(courseToAdd);

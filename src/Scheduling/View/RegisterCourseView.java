@@ -25,6 +25,8 @@ public class RegisterCourseView extends JFrame {
     private JTextField PrerequisitesField;
     private JLabel SemesterLabel;
     private JTextField SemesterField;
+    private JLabel TimeslotLabel;  // New label for Timeslot
+    private JTextField TimeslotField;  // New field for Timeslot
     private JButton registerCourseButton;
 
     private RegisterCourseController controller;
@@ -51,11 +53,12 @@ public class RegisterCourseView extends JFrame {
                 String courseName = CourseNameField.getText().trim();
                 String instructor = InstructorField.getText().trim();
                 String departmentCode = DepartmentCodeField.getText().trim();
-                String prerequisites = "";  // You'll likely need to capture this from another field or set as needed
-                String semester = "";  // Similarly, capture semester as needed
+                String prerequisites = PrerequisitesField.getText().trim();
+                String semester = SemesterField.getText().trim();
+                String timeslot = TimeslotField.getText().trim();  // Get the timeslot input
 
                 if (courseID.isEmpty() || courseName.isEmpty() || instructor.isEmpty() ||
-                        CreditsField.getText().trim().isEmpty() || departmentCode.isEmpty()) {
+                        CreditsField.getText().trim().isEmpty() || departmentCode.isEmpty() || timeslot.isEmpty()) {
                     JOptionPane.showMessageDialog(RegisterCourseView.this,
                             "All fields are required",
                             "Validation Error",
@@ -87,12 +90,11 @@ public class RegisterCourseView extends JFrame {
 
                 int availableSeats = 30;  // Set default value or get from input if necessary
 
-                // Call registerCourse with prerequisites and semester
-                controller.registerCourse(courseID, courseName, instructor, credits, departmentCode, availableSeats, prerequisites, semester);
+                // Call registerCourse with timeslot added to the parameters
+                controller.registerCourse(courseID, courseName, instructor, credits, departmentCode, availableSeats, prerequisites, semester, timeslot);
             }
         });
     }
-
 
     public void displayRegistrationSuccess(CustomCourse newCourse) {
         JOptionPane.showMessageDialog(this,
@@ -100,6 +102,7 @@ public class RegisterCourseView extends JFrame {
                 "Registration Success",
                 JOptionPane.INFORMATION_MESSAGE);
 
+        // Clear the form fields, including the new Timeslot field
         CourseIDField.setText("");
         CourseNameField.setText("");
         InstructorField.setText("");
@@ -107,6 +110,7 @@ public class RegisterCourseView extends JFrame {
         DepartmentCodeField.setText("");
         PrerequisitesField.setText("");
         SemesterField.setText("");
+        TimeslotField.setText("");  // Clear Timeslot field
     }
 
     public void displayRegistrationFailure() {
@@ -179,6 +183,14 @@ public class RegisterCourseView extends JFrame {
 
     public JTextField getSemesterField() {
         return SemesterField;
+    }
+
+    public JLabel getTimeslotLabel() {
+        return TimeslotLabel;
+    }
+
+    public JTextField getTimeslotField() {
+        return TimeslotField;
     }
 
     public JButton getRegisterCourseButton() {

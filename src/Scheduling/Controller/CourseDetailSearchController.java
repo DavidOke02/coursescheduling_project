@@ -51,7 +51,8 @@ public class CourseDetailSearchController {
                             resultSet.getInt("seats"),
                             resultSet.getString("professor_id"),
                             resultSet.getString("prerequisites"),
-                            resultSet.getString("semester")
+                            resultSet.getString("semester"),
+                            resultSet.getString("timeslot")  // New field
                     );
                     System.out.println("Course found: " + course.getCourseName());
                 } else {
@@ -66,7 +67,6 @@ public class CourseDetailSearchController {
         return course;
     }
 
-    // New method for searching courses by ID
     public List<Course> searchCoursesByID(String courseID) {
         System.out.println("Attempting to search for course with ID: " + courseID);
         List<Course> courses = new ArrayList<>();
@@ -86,7 +86,8 @@ public class CourseDetailSearchController {
                             resultSet.getInt("seats"),
                             resultSet.getString("professor_id"),
                             resultSet.getString("prerequisites"),
-                            resultSet.getString("semester")
+                            resultSet.getString("semester"),
+                            resultSet.getString("timeslot")
                     );
                     courses.add(course);
                     System.out.println("Course found: " + course.getCourseName());
@@ -100,7 +101,7 @@ public class CourseDetailSearchController {
         return courses;
     }
 
-    public void addCourseToSchedule (String studentID, Course course) {
+    public void addCourseToSchedule(String studentID, Course course) {
         System.out.println("Attempting to add to schedule");
         Connection connection = DBConnection.getConnection();
         try {
@@ -109,8 +110,8 @@ public class CourseDetailSearchController {
                             "VALUES (?, ?, ?, ?)");
             addCourse.setString(1, studentID);
             addCourse.setString(2, course.getCourseID());
-            addCourse.setString(3, "N"); //Means in enrollment cart while 'Y" means enrolled
-            addCourse.setString(4, "O"); //O for open, Q for queued, F for full
+            addCourse.setString(3, "N"); // Means in enrollment cart while 'Y' means enrolled
+            addCourse.setString(4, "O"); // O for open, Q for queued, F for full
             addCourse.executeUpdate();
             System.out.println("Course added to schedule!");
         } catch (SQLException e) {
