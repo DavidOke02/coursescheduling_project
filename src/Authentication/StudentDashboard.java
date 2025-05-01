@@ -20,7 +20,12 @@ public class StudentDashboard extends JFrame {
     private JButton logoutButton;
     private JButton overrideRequestButton;
     private JButton goToScheduleButton;
-    private JButton backToDashboardButton;
+
+    // Track sub-windows
+    private JFrame decisionFrame;
+    private JFrame scheduleFrame;
+    private JFrame overrideFrame;
+    private JFrame scheduleViewFrame;
 
     public StudentDashboard(String studentId) {
         this.studentId = studentId;
@@ -71,12 +76,12 @@ public class StudentDashboard extends JFrame {
     }
 
     private void openScheduleApprovalUI() {
-        JFrame scheduleFrame = new ScheduleApprovalUI(studentId);
+        scheduleFrame = new ScheduleApprovalUI(studentId);
         addBackButton(scheduleFrame);
     }
 
     private void openStudentDecisionsViewer() {
-        JFrame decisionFrame = new JFrame("View My Decisions");
+        decisionFrame = new JFrame("View My Decisions");
         StudentDecisionViewer viewer = new StudentDecisionViewer(studentId);
         decisionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         decisionFrame.setSize(500, 400);
@@ -86,7 +91,7 @@ public class StudentDashboard extends JFrame {
     }
 
     private void openOverrideRequestForm() {
-        JFrame overrideFrame = new JFrame("Override Request Form");
+        overrideFrame = new JFrame("Override Request Form");
         OverrideRequestForm form = new OverrideRequestForm(studentId);
         overrideFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         overrideFrame.setSize(500, 400);
@@ -96,16 +101,21 @@ public class StudentDashboard extends JFrame {
     }
 
     private void openStudentScheduleView() {
-        JFrame scheduleViewFrame = new JFrame("View My Schedule");
+        scheduleViewFrame = new JFrame("View My Schedule");
         StudentScheduleView scheduleView = new StudentScheduleView(studentId);
         scheduleViewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        scheduleViewFrame.setSize(500, 400);
+        scheduleViewFrame.setSize(800, 600);
         scheduleViewFrame.setLocationRelativeTo(null);
         scheduleViewFrame.add(scheduleView.getMainPanel());
         addBackButton(scheduleViewFrame);
     }
 
     private void logout() {
+        if (decisionFrame != null) decisionFrame.dispose();
+        if (scheduleFrame != null) scheduleFrame.dispose();
+        if (overrideFrame != null) overrideFrame.dispose();
+        if (scheduleViewFrame != null) scheduleViewFrame.dispose();
+
         dispose();
         JOptionPane.showMessageDialog(this, "You have been logged out.");
         new LoginUI().setVisible(true);
@@ -127,7 +137,7 @@ public class StudentDashboard extends JFrame {
     }
 
     public static void main(String[] args) {
-        String studentId = "ABC123"; // Replace with actual login
+        String studentId = "ABC123";
         SwingUtilities.invokeLater(() -> new StudentDashboard(studentId));
     }
 }

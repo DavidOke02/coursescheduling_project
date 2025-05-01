@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StudentScheduleView extends JFrame{
+public class StudentScheduleView {
     private JPanel scheduleViewPanel;
     private JPanel enrollmentCartPanel;
     private JPanel enrollmentListPanel;
@@ -30,22 +30,16 @@ public class StudentScheduleView extends JFrame{
     private ScheduleViewer controller;
     private String studentID;
 
-    //Setup
+    // Constructor: no JFrame or setVisible here!
     public StudentScheduleView(String studentID) {
-        this.controller = new ScheduleViewer(this); //Controller
+        this.controller = new ScheduleViewer(this);
         this.studentID = studentID;
 
-        this.add(scheduleViewPanel);
-        this.setTitle("Student Schedule");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
-        this.setSize(800, 600);
-        this.setMinimumSize(new Dimension(200,150));
         initializeButtons();
         controller.displayCourseList(studentID);
     }
 
-    //Button Logic
+    // Button Logic
     public void initializeButtons() {
         makeClickable(getHomeNavLabel());
         makeClickable(getSchedulingNavLabel());
@@ -54,65 +48,56 @@ public class StudentScheduleView extends JFrame{
         getHomeNavLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dispose();
-                StudentDashboardController homeTestController= new StudentDashboardController();
+                SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
+                new StudentDashboardController();
             }
         });
 
         getSchedulingNavLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dispose();
-                StudentScheduleHomeView studentScheduleHomeView = new StudentScheduleHomeView();
+                SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
+                new StudentScheduleHomeView();
             }
         });
 
         addCourseButton.addActionListener(e -> {
-            dispose();
-            //new RegisterCourseView();
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new CourseSearchView().setVisible(true);
-                }
-            });
+            SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
+            SwingUtilities.invokeLater(() -> new CourseSearchView().setVisible(true));
         });
 
         viewCourseButton.addActionListener(e -> {
             int selectedRowCart = table1.getSelectedRow();
             int selectedRowEnrollment = table2.getSelectedRow();
             Object selectedCourseID;
+
             if (selectedRowCart == -1 && selectedRowEnrollment == -1) {
                 return;
             } else if (selectedRowCart != -1) {
-                TableModel table1Model = (TableModel) table1.getModel();
-                selectedCourseID = table1Model.getValueAt(selectedRowCart, 0);
-            } else if (selectedRowEnrollment !=1 ) {
-                TableModel table2Model = (TableModel) table2.getModel();
-                selectedCourseID = table2Model.getValueAt(selectedRowEnrollment, 0);
+                selectedCourseID = table1.getModel().getValueAt(selectedRowCart, 0);
             } else {
-                return;
+                selectedCourseID = table2.getModel().getValueAt(selectedRowEnrollment, 0);
             }
-            dispose();
+
+            SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
             new CourseDetailView(selectedCourseID.toString(), studentID);
         });
 
         enrollInCourseButton.addActionListener(e -> {
             int selectedRowCart = table1.getSelectedRow();
-            Object selectedCourseID;
             if (selectedRowCart != -1) {
-                TableModel table1Model = (TableModel) table1.getModel();
-                selectedCourseID = table1Model.getValueAt(selectedRowCart, 0);
+                Object selectedCourseID = table1.getModel().getValueAt(selectedRowCart, 0);
                 controller.moveToEnrollment(studentID, selectedCourseID.toString());
                 controller.displayCourseList(studentID);
-            }});
+            }
+        });
     }
 
     public void makeClickable(JLabel label) {
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    //Getters
+    // Getters
     public JPanel getScheduleViewPanel() {
         return scheduleViewPanel;
     }
@@ -173,7 +158,7 @@ public class StudentScheduleView extends JFrame{
         return cancelButton;
     }
 
-    // New: Get Main Panel
+    // Public method to provide the full panel
     public JPanel getMainPanel() {
         return scheduleViewPanel;
     }
