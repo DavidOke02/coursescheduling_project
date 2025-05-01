@@ -17,7 +17,7 @@ public class DatabaseUtil {
 
     public static ArrayList<CourseOverride> getCourseOverridesForStudent(String studentId) {
         ArrayList<CourseOverride> overrides = new ArrayList<>();
-        String sql = "SELECT override_id, student_id, course_id, reason, status, comment FROM course_overrides WHERE student_id = ?";
+        String sql = "SELECT override_id, student_id, course_id, reason, status, comment FROM coursescheduling_db.course_overrides WHERE student_id = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -45,7 +45,7 @@ public class DatabaseUtil {
     }
 
     public static void insertApprovalRequest(ApprovalRequest request) {
-        String sql = "INSERT INTO approval_requests (student_id, course_id, comment, advisor_comment, status, term) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO coursescheduling_db.approval_requests (student_id, course_id, comment, advisor_comment, status, term) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -69,7 +69,7 @@ public class DatabaseUtil {
     }
 
     public static void updateApprovalRequestStatus(String studentId, String courseId, String status, String comment) {
-        String sql = "UPDATE approval_requests SET status = ?, advisor_comment = ? WHERE student_id = ? AND course_id = ?";
+        String sql = "UPDATE coursescheduling_db.approval_requests SET status = ?, advisor_comment = ? WHERE student_id = ? AND course_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, status);
@@ -85,7 +85,7 @@ public class DatabaseUtil {
 
     public static ArrayList<ApprovalRequest> getAllApprovalRequests() {
         ArrayList<ApprovalRequest> requests = new ArrayList<>();
-        String sql = "SELECT request_id, student_id, course_id, comment, advisor_comment, status, term FROM approval_requests";
+        String sql = "SELECT request_id, student_id, course_id, comment, advisor_comment, status, term FROM coursescheduling_db.approval_requests";
 
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -111,7 +111,7 @@ public class DatabaseUtil {
 
     public static ArrayList<ApprovalRequest> getApprovalRequestsForStudent(String studentId) {
         ArrayList<ApprovalRequest> requests = new ArrayList<>();
-        String sql = "SELECT request_id, student_id, course_id, comment, advisor_comment, status, term FROM approval_requests WHERE student_id = ?";
+        String sql = "SELECT request_id, student_id, course_id, comment, advisor_comment, status, term FROM coursescheduling_db.approval_requests WHERE student_id = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -139,7 +139,7 @@ public class DatabaseUtil {
     }
 
     public static void updateCourseOverrideStatus(int overrideId, String status, String reason, String comment) {
-        String sql = "UPDATE course_overrides SET status = ?, reason = ?, comment = ? WHERE override_id = ?";
+        String sql = "UPDATE coursescheduling_db.course_overrides SET status = ?, reason = ?, comment = ? WHERE override_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, status);
@@ -191,8 +191,8 @@ public class DatabaseUtil {
 
     public void addTestData() {
         try (Connection conn = DBConnection.getConnection()) {
-            String checkApproval = "SELECT COUNT(*) FROM approval_requests";
-            String checkOverride = "SELECT COUNT(*) FROM course_overrides";
+            String checkApproval = "SELECT COUNT(*) FROM coursescheduling_db.approval_requests";
+            String checkOverride = "SELECT COUNT(*) FROM coursescheduling_db.course_overrides";
 
             try (Statement stmt = conn.createStatement();
                  ResultSet rs1 = stmt.executeQuery(checkApproval)) {
@@ -221,7 +221,7 @@ public class DatabaseUtil {
     }
 
     private void insertApprovalTestData(Connection conn) throws SQLException {
-        String insertSQL = "INSERT INTO approval_requests (student_id, course_id, comment, advisor_comment, status, term) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO coursescheduling_db.approval_requests (student_id, course_id, comment, advisor_comment, status, term) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
             stmt.setString(1, "STU123");
             stmt.setString(2, "CYBER 300");
@@ -242,7 +242,7 @@ public class DatabaseUtil {
     }
 
     private void insertOverrideTestData(Connection conn) throws SQLException {
-        String insertSQL = "INSERT INTO course_overrides (student_id, course_id, reason, status, comment) VALUES (?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO coursescheduling_db.course_overrides (student_id, course_id, reason, status, comment) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
             stmt.setString(1, "STU123");
             stmt.setString(2, "ENG 200");
@@ -268,7 +268,7 @@ public class DatabaseUtil {
     }
 
     public static void insertCourseOverride(CourseOverride override) {
-        String sql = "INSERT INTO course_overrides (student_id, course_id, reason, status, comment) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO coursescheduling_db.course_overrides (student_id, course_id, reason, status, comment) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

@@ -2,7 +2,24 @@ package AdvisorApproval.Model;
 
 public class CourseOverride {
     private int overrideID;
+    private String studentID;
+    private String courseID;
+    private String reason;
+    private String status;
+    private String comment;
 
+
+    public CourseOverride(Integer overrideID, String studentID, String courseID,
+                          String reason, String status, String comment) {
+        this.overrideID = (overrideID != null) ? overrideID : -1; // Use -1 or another sentinel value if null
+        this.studentID = studentID;
+        this.courseID = courseID;
+        this.reason = reason;
+        this.status = status;
+        this.comment = comment;
+    }
+
+    // Getters and setters
     public int getOverrideID() {
         return overrideID;
     }
@@ -50,21 +67,4 @@ public class CourseOverride {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    private String studentID;
-    private String courseID;
-    private String reason;
-    private String status;
-    private String comment;
-
-
-    public CourseOverride(Integer overrideID, String studentID, String courseID, String reason, String status, String comment) {
-        this.overrideID = overrideID;
-        this.studentID = studentID;
-        this.courseID = courseID;
-        this.reason = reason;
-        this.status = status;
-        this.comment = comment;
-    }
-
 }
