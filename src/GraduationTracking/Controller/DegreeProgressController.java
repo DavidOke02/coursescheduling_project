@@ -28,33 +28,6 @@ public class DegreeProgressController {
         }
     }
 
-    public double calculateCategoryProgress(String studentID, String category) {
-        StudentAcademicRecord record = new StudentAcademicRecord(studentID);
-
-        if (record.getStudentID().equals(studentID)) {
-            // For the method stub, we'll return fixed percentages based on category
-            double progress = 0.0;
-            switch (category) {
-                case "Core Courses":
-                    progress = 75.0;
-                    break;
-                case "Electives":
-                    progress = 50.0;
-                    break;
-                case "General Education":
-                    progress = 90.0;
-                    break;
-                default:
-                    progress = 0.0;
-            }
-            System.out.println("Calculated " + category + " progress for student " + studentID + ": " + progress + "%");
-            return progress;
-        } else {
-            System.out.println("Student record not found for ID: " + studentID);
-            return 0.0;
-        }
-    }
-
     public String[] getRemainingRequirements(String studentID) {
         StudentAcademicRecord record = new StudentAcademicRecord(studentID);
         GraduationRequirements requirements = new GraduationRequirements();

@@ -6,7 +6,6 @@ package GraduationTracking.Model;
 public class GraduationRequirements {
     private String degreeProgramName;
     private int totalCreditsRequired;
-    private int totalCreditsEarned;
     private double minimumGPA;
     private String[] requiredCourses;
 
@@ -17,7 +16,6 @@ public class GraduationRequirements {
     public GraduationRequirements() {
         this.degreeProgramName = "Computer Science";
         this.totalCreditsRequired = 120;
-        this.totalCreditsEarned = 0;
         this.minimumGPA = 2.0;
         this.requiredCourses = new String[]{"CS101", "CS201", "CS301", "MATH101", "MATH201"};
 
@@ -27,9 +25,6 @@ public class GraduationRequirements {
      * Checks if the student has met graduation requirements.
      * @return true if requirements are met, false otherwise.
      */
-    public boolean isEligibleForGraduation() {
-        return totalCreditsEarned >= totalCreditsRequired;
-    }
 
     public String getDegreeProgramName() {
         return degreeProgramName;
@@ -61,14 +56,6 @@ public class GraduationRequirements {
 
     public void setTotalCreditsRequired(int totalCreditsRequired) {
         this.totalCreditsRequired = totalCreditsRequired;
-    }
-
-    public int getTotalCreditsEarned() {
-        return totalCreditsEarned;
-    }
-
-    public void setTotalCreditsEarned(int totalCreditsEarned) {
-        this.totalCreditsEarned = totalCreditsEarned;
     }
 }
 

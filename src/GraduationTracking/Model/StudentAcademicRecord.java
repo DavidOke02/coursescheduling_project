@@ -11,7 +11,7 @@ public class StudentAcademicRecord {
     private int completedCredits;
     private String degree;
     private double currentGPA;
-    private Map<String, String> completedCourses; //Will hold course ID and name
+    private Map<String, Double> completedCourses; //Will hold name and dpa
 
 
     /**
@@ -23,10 +23,10 @@ public class StudentAcademicRecord {
         this.degree = "Computer Science";
         this.currentGPA = 3.5;
         this.completedCourses = new HashMap<>();
-        this.completedCourses.put("CS101", "A");
-        this.completedCourses.put("CS201", "B+");
-        this.completedCourses.put("MATH101", "A-");
-        this.completedCourses.put("MATH201", "B");
+        this.completedCourses.put("CS101", 3.0);
+        this.completedCourses.put("CS201", 3.4);
+        this.completedCourses.put("MATH101", 3.9);
+        this.completedCourses.put("MATH201", 3.1);
 
     }
 
@@ -71,20 +71,20 @@ public class StudentAcademicRecord {
         this.currentGPA = currentGPA;
     }
 
-    public Map<String, String> getCompletedCourses() {
+    public Map<String, Double> getCompletedCourses() {
         return completedCourses;
     }
 
-    public void addCompletedCourse(String courseID, String grade) {
-        this.completedCourses.put(courseID, grade);
+    public void addCompletedCourse(String courseID, Double gpa) {
+        this.completedCourses.put(courseID, gpa);
     }
 
     public boolean hasCourseCompleted(String courseID) {
         return this.completedCourses.containsKey(courseID);
     }
 
-    public String getCourseGrade(String courseID) {
-        return this.completedCourses.get(courseID);
+    public Double getCourseGPA(String courseGPA) {
+        return this.completedCourses.get(courseGPA);
     }
 
 

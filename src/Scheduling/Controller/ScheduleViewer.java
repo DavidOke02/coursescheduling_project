@@ -67,13 +67,13 @@ public class ScheduleViewer {
                 cartTableModel.addColumn("Course ID");
                 cartTableModel.addColumn("Registration Status");
                 cartTableModel.addColumn("Waitlist Status");
-                cartTableModel.addColumn("Timeslot");  // Added column for timeslot
+                //cartTableModel.addColumn("Timeslot");  // Added column for timeslot
 
                 enrollmentTableModel.setRowCount(0);
                 enrollmentTableModel.addColumn("Course ID");
                 enrollmentTableModel.addColumn("Registration Status");
                 enrollmentTableModel.addColumn("Waitlist Status");
-                enrollmentTableModel.addColumn("Timeslot");  // Added column for timeslot
+                //enrollmentTableModel.addColumn("Timeslot");  // Added column for timeslot
             }
 
             Object[] rowdata = new Object[4]; // Updated rowdata to accommodate the timeslot field

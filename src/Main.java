@@ -15,8 +15,8 @@ public class Main {
         //App start (From login screen)
 
         //For assignment - Can either log in with LoginUI or uncomment one dashboard at a time to see that section specifically.
-        new LoginUI();
-        //AdminDashboard controller = new AdminDashboard();
+        //new LoginUI();
+        AdminDashboard controller = new AdminDashboard();
         //StudentDashboard sdv = new StudentDashboard("STU123");
         //AdvisorDashboard adv =new AdvisorDashboard("ADV123");
 
