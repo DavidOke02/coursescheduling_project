@@ -14,9 +14,13 @@ import java.sql.*;
 public class CourseListViewController {
     private CourseListView view;
     private boolean tableRowsCreated;
+    ProfessorManager profManager;
+    PrerequisiteManager prereqManager;
 
     public CourseListViewController() {
         System.out.println("Displaying Course List View...");
+        this.profManager = new ProfessorManager();
+        this.prereqManager = new PrerequisiteManager();
         createCourseTable();
         tableRowsCreated = false; //For UI
     }
@@ -34,7 +38,6 @@ public class CourseListViewController {
         Connection connection = DBConnection.getConnection();
 
         //Setting up Professor for courses to interact with
-        ProfessorManager profManager = new ProfessorManager();
         profManager.initializeCourseProfessors();
 
         try {
@@ -53,7 +56,6 @@ public class CourseListViewController {
             System.out.println("Course table created, or already exists!");
 
             //Setting up Prereqs for courses to interact with
-            PrerequisiteManager prereqManager = new PrerequisiteManager();
             prereqManager.initializeCoursePrerequisites();
 
         }catch (SQLException e){
@@ -116,4 +118,29 @@ public class CourseListViewController {
             System.out.println("Could not display course list.");
         }
     }
+
+//
 }
+//public void insertTestCourses(){
+////        Connection connection = DBConnection.getConnection();
+////        try {
+////            Professor testProfessor1 = new Professor();
+////            profManager.addProfessorToRoster(testProfessor1);
+////            PreparedStatement addCourse = connection.prepareStatement(
+////                    "INSERT INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
+////                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+////            addCourse.setString(1, course.getCourseID());
+////            addCourse.setString(2, course.getCourseName());
+////            addCourse.setInt(3, course.getCredits());
+////            addCourse.setString(4, course.getDepartmentCode());
+////            addCourse.setInt(5, course.getAvailableSeats());
+////            addCourse.setString(6, course.getProfessor());
+////            addCourse.setString(7, course.getPrerequisites());
+////            addCourse.setString(8, course.getSemesterOffered());
+////            addCourse.executeUpdate();
+////            System.out.println("Course added");
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////            System.out.println("Could not add course.");
+////        }
+////    }
