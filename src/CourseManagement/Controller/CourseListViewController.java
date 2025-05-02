@@ -88,7 +88,7 @@ public class CourseListViewController {
                 tableModel.addColumn("Instructor");
                 tableModel.addColumn("Department");
                 tableModel.addColumn("Credits");
-                tableModel.addColumn("Timeslot");  // Added Timeslot column
+                //tableModel.addColumn("Timeslot");  // Added Timeslot column
                 tableRowsCreated = true;
             }
 
