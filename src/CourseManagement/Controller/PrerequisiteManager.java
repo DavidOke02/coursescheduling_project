@@ -43,7 +43,7 @@ public class PrerequisiteManager {
         Connection connection = DBConnection.getConnection();
 
         try{
-            PreparedStatement addProfessor = connection.prepareStatement("INSERT INTO Prerequisites (course_id, prerequisite_id) VALUES (?,?)");
+            PreparedStatement addProfessor = connection.prepareStatement("INSERT IGNORE INTO Prerequisites (course_id, prerequisite_id) VALUES (?,?)");
             addProfessor.setString(1, prerequisite.getCourseID());
             addProfessor.setString(2, prerequisite.getPrerequisiteCourseID());
             addProfessor.executeUpdate();

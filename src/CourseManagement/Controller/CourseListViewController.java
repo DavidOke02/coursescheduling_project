@@ -1,10 +1,10 @@
 package CourseManagement.Controller;
 
 import CourseManagement.Model.Course;
+import CourseManagement.Model.Prerequisite;
 import CourseManagement.Model.Professor;
 import CourseManagement.View.CourseListView;
 import CourseManagement.View.AddCourseUI;
-import CourseManagement.View.CourseListView;
 import db.DBConnection;
 
 import javax.swing.*;
@@ -22,6 +22,7 @@ public class CourseListViewController {
         this.profManager = new ProfessorManager();
         this.prereqManager = new PrerequisiteManager();
         createCourseTable();
+        insertTestCourses();
         tableRowsCreated = false; //For UI
     }
 
@@ -119,28 +120,42 @@ public class CourseListViewController {
         }
     }
 
-//
+    public void insertTestCourses(){
+            Connection connection = DBConnection.getConnection();
+            try {
+                Professor testProfessor1 = new Professor("JMD123", "John Doe", "IST");
+                Professor testProfessor2 = new Professor("JAD123", "Jane Doe", "MATH");
+                profManager.addProfessorToRoster(testProfessor1);
+                profManager.addProfessorToRoster(testProfessor2);
+                PreparedStatement addTestCourse1 = connection.prepareStatement(
+                        "INSERT IGNORE INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
+                                "VALUES ('IST412', 'Complex Sys', 3, 'IST', 20, 'JMD123', '', 'Spring 2025')");
+                addTestCourse1.executeUpdate();
+
+                //Course 2
+                PreparedStatement addTestCourse2 = connection.prepareStatement(
+                        "INSERT IGNORE INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
+                                "VALUES ('IST512', 'Complex Sys II', 3, 'IST', 30, 'JMD123', 'IST412', 'Spring 2025')");
+                addTestCourse2.executeUpdate();
+                Prerequisite testPrereq1 = new Prerequisite("IST512", "IST412");
+                prereqManager.addPrerequisites(testPrereq1);
+
+                //Course 3
+                PreparedStatement addTestCourse3 = connection.prepareStatement(
+                        "INSERT IGNORE INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
+                                "VALUES ('IST411', 'Adv Web Dev', 3, 'IST', 40, 'JMD123', '', 'Spring 2025')");
+                addTestCourse3.executeUpdate();
+
+                //Course 4
+                PreparedStatement addTestCourse4 = connection.prepareStatement(
+                        "INSERT IGNORE INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
+                                "VALUES ('MATH 360', 'Discrete Math', 4, 'MATH', 50, 'JAD123', '', 'Spring 2025')");
+                addTestCourse4.executeUpdate();
+
+                System.out.println("Test course added");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Could not add course.");
+            }
+        }
 }
-//public void insertTestCourses(){
-////        Connection connection = DBConnection.getConnection();
-////        try {
-////            Professor testProfessor1 = new Professor();
-////            profManager.addProfessorToRoster(testProfessor1);
-////            PreparedStatement addCourse = connection.prepareStatement(
-////                    "INSERT INTO Course (id, name, credits, department_code, seats, professor_id, prerequisites, semester) " +
-////                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-////            addCourse.setString(1, course.getCourseID());
-////            addCourse.setString(2, course.getCourseName());
-////            addCourse.setInt(3, course.getCredits());
-////            addCourse.setString(4, course.getDepartmentCode());
-////            addCourse.setInt(5, course.getAvailableSeats());
-////            addCourse.setString(6, course.getProfessor());
-////            addCourse.setString(7, course.getPrerequisites());
-////            addCourse.setString(8, course.getSemesterOffered());
-////            addCourse.executeUpdate();
-////            System.out.println("Course added");
-////        } catch (SQLException e) {
-////            e.printStackTrace();
-////            System.out.println("Could not add course.");
-////        }
-////    }
