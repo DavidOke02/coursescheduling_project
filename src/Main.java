@@ -3,6 +3,7 @@ import Authentication.LoginUI;
 import Authentication.StudentDashboard;
 import CourseManagement.View.AdminDashboard;
 import CourseManagement.View.CourseDetailView;
+import GraduationTracking.View.GraduationHomeView;
 import Scheduling.Controller.StudentDashboardController;
 import Scheduling.View.StudentDashboardView;
 import Scheduling.View.StudentScheduleView;
@@ -16,9 +17,10 @@ public class Main {
 
         //For assignment - Can either log in with LoginUI or uncomment one dashboard at a time to see that section specifically.
         //new LoginUI();
-        AdminDashboard controller = new AdminDashboard();
+        //AdminDashboard controller = new AdminDashboard();
         //StudentDashboard sdv = new StudentDashboard("STU123");
         //AdvisorDashboard adv =new AdvisorDashboard("ADV123");
+        new GraduationHomeView();
 
         //Db Connect
         Connection connection = DBConnection.getConnection();

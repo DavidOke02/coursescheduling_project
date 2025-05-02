@@ -1,4 +1,4 @@
 package GraduationTracking.View;
 
-public class GraduationStatusView {
+public class AcademicRecordView {
 }
