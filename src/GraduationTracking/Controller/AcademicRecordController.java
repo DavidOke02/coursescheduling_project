@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import GraduationTracking.Model.StudentAcademicRecord;
 import db.DBConnection;
 
@@ -23,11 +26,13 @@ public class AcademicRecordController {
         try {
             Statement createTable = connection.createStatement();
             createTable.executeUpdate("CREATE TABLE IF NOT EXISTS academic_record (" +
+                    "entry_id INT NOT NULL AUTO_INCREMENT," +
                     "student_id varchar(10) NOT NULL," +
                     "course_id varchar(45) NOT NULL," +
                     "gpa double(3,2)," +
+                    "credits int," +
                     "status varchar(1)," +
-                    "PRIMARY KEY(student_id, course_id)" +
+                    "PRIMARY KEY(entry_id)" +
                     ")");
             System.out.println("Academic record table created, or already exists!");
 
@@ -49,18 +54,47 @@ public class AcademicRecordController {
             displayRecords.setString(1, studentID);
             ResultSet resultSet = displayRecords.executeQuery();
 
+            //Getting total credits
+            PreparedStatement getCompletedCredits = connection.prepareStatement(
+                    "SELECT SUM(credits) FROM academic_record WHERE student_id = ?"
+            );
+            getCompletedCredits.setString(1, studentID);
+            ResultSet resultGetTotalCredits = getCompletedCredits.executeQuery();
+            int totalCredits = 0;
+            if (resultGetTotalCredits.next()) {
+                totalCredits = resultGetTotalCredits.getInt(1);
+            }
+
+            //Getting current gpa
+            PreparedStatement getAverageGPA = connection.prepareStatement(
+                    "SELECT AVG(gpa) FROM academic_record WHERE student_id = ?"
+            );
+            getAverageGPA.setString(1, studentID);
+            ResultSet resultGetAverageGPA = getAverageGPA.executeQuery();
+            double avgGPA = 0;
+            if (resultGetAverageGPA.next()) {
+                totalCredits = resultGetAverageGPA.getInt(1);
+            }
+
+            //Get course-gpa list
+            PreparedStatement getListOfGrades = connection.prepareStatement("" +
+                    "SELECT * FROM academic_record WHERE student_id = ?");
+            getListOfGrades.setString(1, studentID);
+            ResultSet resultGetTotalGrades = getListOfGrades.executeQuery();
+            Map<String, Double> grades = new HashMap<>();
+            while (resultGetTotalGrades.next()) {
+                grades.put(resultGetTotalGrades.getString("course_id"), resultGetTotalGrades.getDouble("gpa"));
+            }
+
             while (resultSet.next()) {
                 StudentAcademicRecord record = new StudentAcademicRecord(
                         resultSet.getString("student_id"),
-                        resultSet.getString("course_id"),
-                        resultSet.getDouble("gpa"),
-                        resultSet.getString("status")
+                        totalCredits,
+                        "IST",
+                        avgGPA,
+                        grades
                 );
                 records.add(record);
-
-                // For debugging purposes
-                System.out.println("Record found: " + record.getCourseID());
-                System.out.println("GPA: " + record.getGpa() + ", Status: " + record.getStatus());
             }
 
             if (records.isEmpty()) {

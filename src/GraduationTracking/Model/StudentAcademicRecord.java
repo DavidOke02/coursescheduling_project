@@ -11,23 +11,18 @@ public class StudentAcademicRecord {
     private int completedCredits;
     private String degree;
     private double currentGPA;
-    private Map<String, Double> completedCourses; //Will hold name and dpa
+    private Map<String, Double> completedCourses; //Will hold name and gpa
 
 
     /**
      * Default constructor initializing a student's record.
      */
-    public StudentAcademicRecord(String studentID) {
+    public StudentAcademicRecord(String studentID, int completedCredits, String degree, double currentGPA, Map<String, Double> completedCourses) {
         this.studentID = studentID;
-        this.completedCredits = 0;
-        this.degree = "Computer Science";
-        this.currentGPA = 3.5;
+        this.completedCredits = completedCredits;
+        this.degree = degree;
+        this.currentGPA = currentGPA;
         this.completedCourses = new HashMap<>();
-        this.completedCourses.put("CS101", 3.0);
-        this.completedCourses.put("CS201", 3.4);
-        this.completedCourses.put("MATH101", 3.9);
-        this.completedCourses.put("MATH201", 3.1);
-
     }
 
     /**
