@@ -50,33 +50,33 @@ public class ScheduleViewer {
             ResultSet resultSet;
 
             PreparedStatement displayCourseList = connection.prepareStatement(
-                    "SELECT * FROM coursescheduling_db.Schedule WHERE student_id = (?)");
+                    "SELECT * FROM Schedule WHERE student_id = (?)");
             displayCourseList.setString(1, studentID);
             resultSet = displayCourseList.executeQuery();
             System.out.println("Displaying Course List...");
 
             // Cart Table Setup
             DefaultTableModel cartTableModel = (DefaultTableModel) view.getTable1().getModel();
+            cartTableModel.setRowCount(0);
 
             // Enrollment Table Setup
             DefaultTableModel enrollmentTableModel = (DefaultTableModel) view.getTable2().getModel();
+            enrollmentTableModel.setRowCount(0);
 
             if (!tableRowsCreated) {
                 tableRowsCreated = true;
-                cartTableModel.setRowCount(0);
                 cartTableModel.addColumn("Course ID");
                 cartTableModel.addColumn("Registration Status");
                 cartTableModel.addColumn("Waitlist Status");
                 //cartTableModel.addColumn("Timeslot");  // Added column for timeslot
 
-                enrollmentTableModel.setRowCount(0);
                 enrollmentTableModel.addColumn("Course ID");
                 enrollmentTableModel.addColumn("Registration Status");
                 enrollmentTableModel.addColumn("Waitlist Status");
                 //enrollmentTableModel.addColumn("Timeslot");  // Added column for timeslot
             }
 
-            Object[] rowdata = new Object[4]; // Updated rowdata to accommodate the timeslot field
+            Object[] rowdata = new Object[3]; // Updated rowdata to accommodate the timeslot field
 
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("User table is empty.");
@@ -87,7 +87,7 @@ public class ScheduleViewer {
                     rowdata[0] = resultSet.getString("course_id");
                     rowdata[1] = resultSet.getString("registration_status");
                     rowdata[2] = resultSet.getString("waitlist_status");
-                    rowdata[3] = resultSet.getString("timeslot");  // Timeslot for each course
+                    //rowdata[3] = resultSet.getString("timeslot");  // Timeslot for each course
 
                     if (rowdata[1].toString().equals("Y")) {
                         enrollmentTableModel.addRow(rowdata);

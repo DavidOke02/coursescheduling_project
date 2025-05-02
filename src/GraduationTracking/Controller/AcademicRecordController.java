@@ -11,14 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 import GraduationTracking.Model.StudentAcademicRecord;
+import GraduationTracking.View.AcademicRecordView;
 import db.DBConnection;
+
+import javax.swing.table.DefaultTableModel;
 
 public class AcademicRecordController {
     //create table (student_id - varchar(10), course_id - (Varchar(45), gpa - (double(3,2), status - varchar(1))
 
-    public AcademicRecordController() {
+    private boolean tableRowsCreated;
+    private AcademicRecordView view;
+
+    public AcademicRecordController(AcademicRecordView view) {
         System.out.println("AcademicRecordController started!");
         createAcademicRecordTable();
+        tableRowsCreated = false;
+        this.view = view;
     }
 
     public void createAcademicRecordTable() {
@@ -43,7 +51,7 @@ public class AcademicRecordController {
     }
 
     //displayRecordTable(String studentID) (select * from academic_record where student_id = ?)
-    public List<StudentAcademicRecord> displayRecordTable(String studentID) {
+    public void displayRecordTable(String studentID) {
         System.out.println("Displaying academic records for student: " + studentID);
         Connection connection = DBConnection.getConnection();
         List<StudentAcademicRecord> records = new ArrayList<>();
@@ -86,6 +94,20 @@ public class AcademicRecordController {
                 grades.put(resultGetTotalGrades.getString("course_id"), resultGetTotalGrades.getDouble("gpa"));
             }
 
+            DefaultTableModel tableModel = (DefaultTableModel) view.getAcademicRecordTable().getModel();
+            tableModel.setNumRows(0);
+
+            //Table setup
+            if (!tableRowsCreated) {
+                tableModel.addColumn("Course ID");
+                tableModel.addColumn("GPA");
+                tableModel.addColumn("Status");
+                tableModel.addColumn("Credits");
+                tableRowsCreated = true;
+            }
+
+            Object[] rowdata = new Object[4];
+
             while (resultSet.next()) {
                 StudentAcademicRecord record = new StudentAcademicRecord(
                         resultSet.getString("student_id"),
@@ -95,6 +117,12 @@ public class AcademicRecordController {
                         grades
                 );
                 records.add(record);
+
+                rowdata[0] = resultSet.getString("course_id");
+                rowdata[1] = resultSet.getString("gpa");
+                rowdata[2] = resultSet.getString("status");
+                rowdata[3] = resultSet.getInt("credits");
+                tableModel.addRow(rowdata);
             }
 
             if (records.isEmpty()) {
@@ -104,8 +132,6 @@ public class AcademicRecordController {
             System.out.println(e.getMessage());
             System.out.println("Could not display academic records.");
         }
-
-        return records;
     }
 }
     //create table (student_id - varchar(10), course_id - (Varchar(45), gpa - (double(3,2), status - varchar(1))

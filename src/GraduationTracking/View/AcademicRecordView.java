@@ -13,9 +13,10 @@ public class AcademicRecordView extends JFrame {
     private JPanel buttonPanel;
     private JButton goBackButton;
 
-    private AcademicRecordController academicRecordController;
+    private AcademicRecordController controller;
 
-    public AcademicRecordView() {
+    public AcademicRecordView(String studentID) {
+        this.controller = new AcademicRecordController(this);
         this.add(academicControllerView);
         this.setTitle("Academic Record");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,11 +25,23 @@ public class AcademicRecordView extends JFrame {
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         displayContent();
+        controller.displayRecordTable(studentID);
     }
 
     public void displayContent() {
-
+        goBackButton.addActionListener(e -> {
+            dispose();
+            new GraduationHomeView("STU123");
+        });
     }
 
     //Getters
+
+    public JTable getAcademicRecordTable() {
+        return academicRecordTable;
+    }
+
+    public JButton getGoBackButton() {
+        return goBackButton;
+    }
 }

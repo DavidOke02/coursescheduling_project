@@ -34,7 +34,7 @@ public class CourseDetailView extends JFrame {
     public CourseDetailView(String courseID) {
         this.add(courseDetailView);
         this.setTitle("Course Details");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));

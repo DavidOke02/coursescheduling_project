@@ -19,8 +19,8 @@ public class GraduationHomeView extends JFrame {
 
     private GraduationHomeViewController controller;
 
-    public GraduationHomeView() {
-        controller = new GraduationHomeViewController();
+    public GraduationHomeView(String studentID) {
+        controller = new GraduationHomeViewController(this);
         this.add(graduationHomeView);
         this.setTitle("Graduation Home");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,12 +29,38 @@ public class GraduationHomeView extends JFrame {
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         displayContent();
+        controller.displayTables();
+        controller.displayRemainingTables();
     }
 
     public void displayContent() {
+        viewAcademicRecordButton.addActionListener(e -> {
+            dispose();
+            new AcademicRecordView("STU123");
+        });
 
+        viewGraduationEligibilityButton.addActionListener(e -> {
+            dispose();
+            new GraduationStatusView();
+        });
     }
 
     //Getters
 
+
+    public JTable getCoursesCompletedTable() {
+        return coursesCompletedTable;
+    }
+
+    public JTable getCoursesRemainingTable() {
+        return coursesRemainingTable;
+    }
+
+    public JTable getInProgressTable() {
+        return inProgressTable;
+    }
+
+    public JProgressBar getDegreeProgressBar() {
+        return degreeProgressBar;
+    }
 }
