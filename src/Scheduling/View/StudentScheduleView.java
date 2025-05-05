@@ -1,6 +1,5 @@
 package Scheduling.View;
 
-import CourseManagement.Model.Course;
 import Scheduling.Controller.ScheduleViewer;
 import Scheduling.Controller.StudentDashboardController;
 
@@ -26,6 +25,7 @@ public class StudentScheduleView extends JFrame{
     private JLabel schedulingNavLabel;
     private JLabel viewCurrentScheduleNavLabel;
     private JButton cancelButton;
+    private JButton enrollInCourseButton;
 
     private ScheduleViewer controller;
     private String studentID;
@@ -96,6 +96,16 @@ public class StudentScheduleView extends JFrame{
             dispose();
             new CourseDetailView(selectedCourseID.toString(), studentID);
         });
+
+        enrollInCourseButton.addActionListener(e -> {
+            int selectedRowCart = table1.getSelectedRow();
+            Object selectedCourseID;
+            if (selectedRowCart != -1) {
+                TableModel table1Model = (TableModel) table1.getModel();
+                selectedCourseID = table1Model.getValueAt(selectedRowCart, 0);
+                controller.moveToEnrollment(studentID, selectedCourseID.toString());
+                controller.displayCourseList(studentID);
+            }});
     }
 
     public void makeClickable(JLabel label) {

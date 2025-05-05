@@ -15,10 +15,12 @@ public class ScheduleViewer {
      */
 
     private StudentScheduleView view;
+    private boolean tableRowsCreated;
 
     public ScheduleViewer(StudentScheduleView view) {
         createScheduleTable();
         this.view = view;
+        tableRowsCreated = false;
     }
 
     public void createScheduleTable(){
@@ -55,17 +57,23 @@ public class ScheduleViewer {
 
             //Cart Table Setup
             DefaultTableModel cartTableModel = (DefaultTableModel) view.getTable1().getModel();
-            cartTableModel.setRowCount(0);
-            cartTableModel.addColumn("Course ID");
-            cartTableModel.addColumn("Registration Status");
-            cartTableModel.addColumn("Waitlist Status");
 
             //Enrollment Table setup
             DefaultTableModel enrollmentTableModel = (DefaultTableModel) view.getTable2().getModel();
-            enrollmentTableModel.setRowCount(0);
-            enrollmentTableModel.addColumn("Course ID");
-            enrollmentTableModel.addColumn("Registration Status");
-            enrollmentTableModel.addColumn("Waitlist Status");
+
+            if(!tableRowsCreated){
+                tableRowsCreated = true;
+                cartTableModel.setRowCount(0);
+                cartTableModel.addColumn("Course ID");
+                cartTableModel.addColumn("Registration Status");
+                cartTableModel.addColumn("Waitlist Status");
+
+                enrollmentTableModel.setRowCount(0);
+                enrollmentTableModel.addColumn("Course ID");
+                enrollmentTableModel.addColumn("Registration Status");
+                enrollmentTableModel.addColumn("Waitlist Status");
+
+            }
 
             Object [] rowdata = new Object[3];
 
@@ -94,6 +102,22 @@ public class ScheduleViewer {
             System.out.println(e.getMessage());
             System.out.println("Could not display course list.");
         }
+    }
+
+    public void moveToEnrollment(String studentID, String courseID){
+        Connection connection = DBConnection.getConnection();
+        try{
+            PreparedStatement enrollSelectedCourse = connection.prepareStatement("UPDATE Schedule SET registration_status = 'Y' where student_id = (?) and course_id = (?)");
+            enrollSelectedCourse.setString(1, studentID);
+            enrollSelectedCourse.setString(2, courseID);
+            enrollSelectedCourse.executeUpdate();
+            System.out.println("Updating Schedule...");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not enroll in course..");
+        }
+
     }
 
     //ScheduleUpdate and WithdrawFromCourse will now just be methods in here

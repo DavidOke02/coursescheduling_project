@@ -2,92 +2,123 @@ package Scheduling.View;
 
 import CourseManagement.Model.Course;
 import Scheduling.Controller.CourseDetailSearchController;
-import Scheduling.Model.LionPathCourse;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CourseSearchView extends JFrame {
-
     private CourseDetailSearchController controller;
-    private JTextField courseIDField;
-    private JTextArea resultArea;
-    private JPanel basePanel;
+    private JTextField courseIDnameField;
     private JButton searchButton;
+    private JPanel basePanel;
+    private JButton addButton;
+    private JTextArea resultArea;
     private JLabel courseIDLabel;
+    private JButton addbutton;
+    private DefaultListModel<Course> listModel;
+    private JList<Course> courseList;
+    private JTextArea detailArea;
+    private String studentID = "STU123";
 
     public CourseSearchView() {
-        this.controller = new CourseDetailSearchController();
-
-        setTitle("Course Detail Search");
-        setSize(400, 300);
+        controller = new CourseDetailSearchController();
+        setTitle("Course Search");
+        setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        initUI();
+    }
+
+    private void initUI() {
         setLayout(new BorderLayout());
 
-        // Top panel for input
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout());
+        JPanel searchPanel = new JPanel(new FlowLayout());
+        JLabel label = new JLabel("Enter Course ID:");
+        courseIDnameField = new JTextField(20);
+        searchButton = new JButton("Search");
+        searchPanel.add(label);
+        searchPanel.add(courseIDnameField);
+        searchPanel.add(searchButton);
+        add(searchPanel, BorderLayout.NORTH);
 
-        JLabel courseIDLabel = new JLabel("Enter Course ID:");
-        courseIDField = new JTextField(15);
-        JButton searchButton = new JButton("Search");
+        listModel = new DefaultListModel<>();
+        courseList = new JList<>(listModel);
+        courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane listScrollPane = new JScrollPane(courseList);
 
-        topPanel.add(courseIDLabel);
-        topPanel.add(courseIDField);
-        topPanel.add(searchButton);
+        detailArea = new JTextArea(6, 30);
+        detailArea.setEditable(false);
+        JScrollPane detailScrollPane = new JScrollPane(detailArea);
 
-        add(topPanel, BorderLayout.NORTH);
+        JSplitPane centerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, listScrollPane, detailScrollPane);
+        centerPane.setDividerLocation(200);
+        add(centerPane, BorderLayout.CENTER);
 
-        // Center panel for results
-        resultArea = new JTextArea();
-        resultArea.setEditable(false);
-        add(new JScrollPane(resultArea), BorderLayout.CENTER);
+        addButton = new JButton("Add Selected Course to Schedule");
+        add(addButton, BorderLayout.SOUTH);
 
-        // Action listener for search button
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchCourse();
-            }
-        });
+        searchButton.addActionListener(e -> searchCourses());
+        courseList.addListSelectionListener(e -> showCourseDetails());
+        addButton.addActionListener(e -> addSelectedCourse());
     }
 
-    private void searchCourse() {
-        String courseID = courseIDField.getText();
-       ArrayList<Course> courseList = controller.searchCoursesByID(courseID);
+    private void searchCourses() {
+        String searchTerm = courseIDnameField.getText().trim();
+        listModel.clear();
+        detailArea.setText("");
 
-       for (Course course : courseList) {
-           if (course != null) {
-               resultArea.append(
-                       "Course Title: " + course.getCourseID() + "\n" +
-                               "Instructor: " + course.getProfessor() + "\n" +
-                               "Credits: " + course.getCredits() + "\n" +
-                               "Department: " + course.getDepartmentCode() + "\n" +
-                               "Available Seats: " + course.getAvailableSeats() + "\n\n"
-               );
-           } else {
-               resultArea.setText("Course not found.");
-       }
+        if (searchTerm.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a course ID.");
+            return;
+        }
+
+        List<Course> results = controller.searchCoursesByID(searchTerm);
+        if (results.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No matching courses found.");
+        } else {
+            for (Course c : results) {
+                listModel.addElement(c);
+            }
         }
     }
-    public static void main(String[] args) {
-        // Create controller instance
-        CourseDetailSearchController controller = new CourseDetailSearchController();
 
-        // Insert sample courses into the database
-        //controller.addCourseToDB(new LionPathCourse("CSE100", "Intro to Programming", "Dr. Smith", 3, "Computer Science", 20, "2025-01-10"));
-        //controller.addCourseToDB(new LionPathCourse("MATH200", "Calculus II", "Dr. Johnson", 4, "Mathematics", 15, "2025-01-11"));
+    private void showCourseDetails() {
+        Course selected = courseList.getSelectedValue();
+        if (selected != null) {
+            detailArea.setText(
+                    "Course ID: " + selected.getCourseID() + "\n" +
+                            "Name: " + selected.getCourseName() + "\n" +
+                            "Instructor: " + selected.getProfessor() + "\n" +
+                            "Credits: " + selected.getCredits() + "\n" +
+                            "Department: " + selected.getDepartmentCode() + "\n" +
+                            "Seats Available: " + selected.getAvailableSeats() + "\n" +
+                            "Prerequisite: " + selected.getPrerequisites() + "\n"
+            );
+        }
+    }
 
-        // Launch the UI
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CourseSearchView().setVisible(true);
+    private void addSelectedCourse() {
+        Course selected = courseList.getSelectedValue();
+        if (selected != null) {
+            String message = "Do you want to add this course to your schedule?";
+            int response = JOptionPane.showConfirmDialog(this, message);
+            if (response == JOptionPane.YES_OPTION) {
+                controller.addCourseToSchedule(studentID, selected);
+                JOptionPane.showMessageDialog(this, "Course added to schedule.");
+                dispose();
+                new StudentScheduleView(studentID);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a course to add.");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            CourseSearchView view = new CourseSearchView();
+            view.setVisible(true);
         });
-}}
-
-
+    }
+}

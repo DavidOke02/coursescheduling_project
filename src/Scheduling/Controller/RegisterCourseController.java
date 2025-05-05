@@ -20,19 +20,24 @@ public class RegisterCourseController {
     }
 
     public boolean registerCourse(String courseID, String courseName, String instructor,
-                                  int credits, String departmentCode, int availableSeats) {
+                                  int credits, String departmentCode, int availableSeats,
+                                  String prerequisites, String semester) {
 
         System.out.println("Attempting to register new course: " + courseID + " - " + courseName);
 
+        // Creating a new CustomCourse object with the provided data
         CustomCourse newCourse = new CustomCourse(
                 courseID,
                 courseName,
                 instructor,
                 credits,
                 departmentCode,
-                availableSeats
+                availableSeats,
+                prerequisites,
+                semester
         );
 
+        // Attempting to add the course to the database
         boolean success = addCourseToDatabase(newCourse);
 
         if (success) {
@@ -54,17 +59,18 @@ public class RegisterCourseController {
         Connection connection = DBConnection.getConnection();
 
         try {
+            // SQL query to insert the course details into the database with new column names
             PreparedStatement insertStatement = connection.prepareStatement(
-                    "INSERT INTO Courses (id, courseName, professor, credits, department_code, availableSeats, dateEnrolled) " +
+                    "INSERT INTO coursescheduling_db.Course (id, Name, credits, department_code, Seats, prerequisites, semester) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-            insertStatement.setString(1, course.getCourseID());
-            insertStatement.setString(2, course.getCourseName());
-            insertStatement.setString(3, course.getInstructor());
-            insertStatement.setInt(4, course.getCredits());
-            insertStatement.setString(5, course.getDepartmentCode());
-            insertStatement.setInt(6, course.getAvailableSeats());
-            insertStatement.setDate(7, course.getDateAdded());
+            insertStatement.setString(1, course.getCourseID());  // Course ID
+            insertStatement.setString(2, course.getCourseName());  // Course Name
+            insertStatement.setInt(3, course.getCredits());  // Credits
+            insertStatement.setString(4, course.getDepartmentCode());  // Department Code
+            insertStatement.setInt(5, course.getAvailableSeats());  // Available Seats
+            insertStatement.setString(6, course.getPrerequisites());  // Prerequisites
+            insertStatement.setString(7, course.getSemester());  // Semester
 
             int rowsAffected = insertStatement.executeUpdate();
             return rowsAffected > 0;
@@ -81,7 +87,7 @@ public class RegisterCourseController {
 
         try {
             PreparedStatement checkStatement = connection.prepareStatement(
-                    "SELECT COUNT(*) FROM Courses WHERE id = ?");
+                    "SELECT COUNT(*) FROM coursescheduling_db.Course WHERE id = ?");
             checkStatement.setString(1, courseID);
 
             var resultSet = checkStatement.executeQuery();
