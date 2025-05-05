@@ -111,7 +111,6 @@ public class Course {
         this.semesterOffered = semesterOffered;
     }
 
-    // Getter and Setter for timeslot
     public String getTimeslot() {
         return timeslot;
     }
@@ -122,6 +121,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return courseID + ": " + courseName + " (" + timeslot + ")"; // Include timeslot in toString method
+        return courseID + ": " + courseName + " (" + timeslot + ")";
     }
 }

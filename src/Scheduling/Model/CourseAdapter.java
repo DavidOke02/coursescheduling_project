@@ -6,7 +6,6 @@ public class CourseAdapter extends CustomCourse {
     private LionPathCourse lionPathCourse;
 
     public CourseAdapter(LionPathCourse lionPathCourse) {
-        // Make sure CustomCourse has a constructor that accepts timeSlot
         super(lionPathCourse.getCourseID(), lionPathCourse.getCourseTitle(), lionPathCourse.getInstructorName(),
                 lionPathCourse.getCredits(), lionPathCourse.getDepartmentName(), lionPathCourse.getAvailableSeats(),
                 lionPathCourse.getPrerequisites(), lionPathCourse.getSemester(), lionPathCourse.getTimeSlot());

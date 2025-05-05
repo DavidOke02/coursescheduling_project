@@ -30,7 +30,7 @@ public class StudentScheduleView {
     private ScheduleViewer controller;
     private String studentID;
 
-    // Constructor: no JFrame or setVisible here!
+    // Setup
     public StudentScheduleView(String studentID) {
         this.controller = new ScheduleViewer(this);
         this.studentID = studentID;
@@ -75,8 +75,11 @@ public class StudentScheduleView {
                 return;
             } else if (selectedRowCart != -1) {
                 selectedCourseID = table1.getModel().getValueAt(selectedRowCart, 0);
-            } else {
+            } else if (selectedRowEnrollment !=1 ) {
                 selectedCourseID = table2.getModel().getValueAt(selectedRowEnrollment, 0);
+            }
+            else {
+                return;
             }
 
             SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
@@ -158,7 +161,7 @@ public class StudentScheduleView {
         return cancelButton;
     }
 
-    // Public method to provide the full panel
+    // Get Panel
     public JPanel getMainPanel() {
         return scheduleViewPanel;
     }

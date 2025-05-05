@@ -66,8 +66,8 @@ public class AddCourseUI extends JPanel {
         add(semesterField);
 
         // Time Slot
-        add(new JLabel("Time Slot:"));  // New label for Time Slot
-        timeSlotField = new JTextField();  // New text field for Time Slot
+        add(new JLabel("Time Slot:"));
+        timeSlotField = new JTextField();
         add(timeSlotField);
 
         // Submit Button
@@ -106,7 +106,7 @@ public class AddCourseUI extends JPanel {
             String professorID = professorIDField.getText();
             String prereq = prereqField.getText();
             String semester = semesterField.getText();
-            String timeSlot = timeSlotField.getText();  // Get timeSlot from the new field
+            String timeSlot = timeSlotField.getText();
 
             Course courseToAdd = new Course(courseID, courseName, credits, dept, seats, professorID, prereq, semester, timeSlot);
 

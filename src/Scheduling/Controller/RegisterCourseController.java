@@ -62,7 +62,7 @@ public class RegisterCourseController {
         try {
             // SQL query to insert the course details into the database with new column names
             PreparedStatement insertStatement = connection.prepareStatement(
-                    "INSERT INTO coursescheduling_db.Course (id, Name, credits, department_code, Seats, prerequisites, semester, timeslot) " +
+                    "INSERT INTO Course (id, Name, credits, department_code, Seats, prerequisites, semester, timeslot) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             insertStatement.setString(1, course.getCourseID());  // Course ID
@@ -89,7 +89,7 @@ public class RegisterCourseController {
 
         try {
             PreparedStatement checkStatement = connection.prepareStatement(
-                    "SELECT COUNT(*) FROM coursescheduling_db.Course WHERE id = ?");
+                    "SELECT COUNT(*) FROM Course WHERE id = ?");
             checkStatement.setString(1, courseID);
 
             var resultSet = checkStatement.executeQuery();

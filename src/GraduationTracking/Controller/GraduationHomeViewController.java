@@ -25,13 +25,13 @@ public class GraduationHomeViewController {
         view.getDegreeProgressBar().setValue(2);
     }
 
-    public void displayTables(){
+    public void displayTables(String studentID){
         Connection connection = DBConnection.getConnection();
 
         try {
             ResultSet resultSet;
             PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM academic_record where student_id = ?");
-                displayCourseList.setString(1, "STU123");
+                displayCourseList.setString(1, studentID);
                 resultSet = displayCourseList.executeQuery();
                 System.out.println("Displaying Course List...");
 
@@ -74,13 +74,14 @@ public class GraduationHomeViewController {
         }
     }
 
-    public void displayRemainingTables(){
+    public void displayRemainingTables(String studentID){
         Connection connection = DBConnection.getConnection();
 
         try {
             ResultSet resultSet;
-            PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM degree_requirements where degree_id = ? and course_id not in (select course_id from academic_record);");
+            PreparedStatement displayCourseList = connection.prepareStatement("SELECT * FROM degree_requirements where degree_id = ? and course_id not in (select course_id from academic_record where student_id = ?);");
             displayCourseList.setInt(1, 1);
+            displayCourseList.setString(2, studentID);
             resultSet = displayCourseList.executeQuery();
             System.out.println("Displaying Course List...");
 

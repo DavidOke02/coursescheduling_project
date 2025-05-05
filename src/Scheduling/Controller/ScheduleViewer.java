@@ -28,13 +28,13 @@ public class ScheduleViewer {
         try {
             Statement createUserTable = connection.createStatement();
             createUserTable.executeUpdate("CREATE TABLE IF NOT EXISTS Schedule (" +
-                    "student_id varchar(25) NOT NULL," +
-                    "course_id varchar(25) NOT NULL," +
-                    "timeslot varchar(25), " +  // New field for timeslot
-                    "registration_status varchar(25) DEFAULT 'N'," +
-                    "waitlist_status varchar(25) DEFAULT 'O'," +
-                    "PRIMARY KEY(student_id, course_id)" +
-                    ")");
+                    "  `entry_id` INT NOT NULL AUTO_INCREMENT," +
+                    "  `student_id` VARCHAR(10) NULL," +
+                    "  `course_id` VARCHAR(45) NULL," +
+                    "  `registration_status` VARCHAR(1) NULL DEFAULT 'N'," +
+                    "  `waitlist_status` VARCHAR(1) NULL DEFAULT 'N'," +
+                    "  FOREIGN KEY (`course_id`) REFERENCES Course (`id`)," +
+                    "  PRIMARY KEY (`entry_id`))");
             System.out.println("Schedule table created, or already exists!");
 
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class ScheduleViewer {
                 //enrollmentTableModel.addColumn("Timeslot");  // Added column for timeslot
             }
 
-            Object[] rowdata = new Object[3]; // Updated rowdata to accommodate the timeslot field
+            Object[] rowdata = new Object[3];
 
             if (!resultSet.isBeforeFirst()) {
                 System.out.println("User table is empty.");
@@ -108,7 +108,7 @@ public class ScheduleViewer {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement enrollSelectedCourse = connection.prepareStatement(
-                    "UPDATE coursescheduling_db.Schedule SET registration_status = 'Y' WHERE student_id = (?) AND course_id = (?)");
+                    "UPDATE Schedule SET registration_status = 'Y' WHERE student_id = (?) AND course_id = (?)");
             enrollSelectedCourse.setString(1, studentID);
             enrollSelectedCourse.setString(2, courseID);
             enrollSelectedCourse.executeUpdate();

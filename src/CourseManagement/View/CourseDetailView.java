@@ -26,7 +26,7 @@ public class CourseDetailView extends JFrame {
     private JTextField professorField;
     private JButton updateCourseButton;
     private JButton deleteCourseButton;
-    private JTextField timeSlotField;  // New timeSlot field
+    private JTextField timeSlotField;
 
     private ModifyCourseDetails controller;
 

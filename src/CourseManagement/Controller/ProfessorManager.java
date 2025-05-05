@@ -41,7 +41,7 @@ public class ProfessorManager {
         Connection connection = DBConnection.getConnection();
 
         try{
-            PreparedStatement addProfessor = connection.prepareStatement("INSERT INTO Professor (id, name, department) VALUES (?,?,?)");
+            PreparedStatement addProfessor = connection.prepareStatement("INSERT IGNORE INTO Professor (id, name, department) VALUES (?,?,?)");
             addProfessor.setString(1, professor.getProfessorID());
             addProfessor.setString(2, professor.getName());
             addProfessor.setString(3, professor.getDepartment());

@@ -9,7 +9,7 @@ public class CustomCourse {
     private int availableSeats;
     private String prerequisites;
     private String semester;
-    private String timeslot;  // New field for timeslot
+    private String timeslot;
 
     // Constructor with 9 parameters
     public CustomCourse(String courseID, String courseName, String instructor, int credits,
@@ -22,7 +22,7 @@ public class CustomCourse {
         this.availableSeats = availableSeats;
         this.prerequisites = prerequisites;
         this.semester = semester;
-        this.timeslot = timeslot;  // Initialize the timeslot field
+        this.timeslot = timeslot;
     }
 
     // Getters and Setters

@@ -10,7 +10,7 @@ public class LionPathCourse {
     private String dateEnrolled;
     private String prerequisites;
     private String semester;
-    private String timeSlot;       // New field
+    private String timeSlot;
 
     public LionPathCourse(String courseID, String courseTitle, String instructorName, int credits,
                           String departmentName, int availableSeats, String dateEnrolled,

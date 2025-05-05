@@ -23,7 +23,7 @@ public class ModifyCourseDetails {
 
         try {
             PreparedStatement viewCourse = connection.prepareStatement(
-                    "SELECT * FROM coursescheduling_db.Course WHERE id = ?");
+                    "SELECT * FROM Course WHERE id = ?");
             viewCourse.setString(1, courseId);
             ResultSet resultSet = viewCourse.executeQuery();
 
@@ -68,7 +68,7 @@ public class ModifyCourseDetails {
 
         try {
             PreparedStatement updateCourse = connection.prepareStatement(
-                    "UPDATE coursescheduling_db.Course SET name = ?, credits = ?, department_code = ?, " +
+                    "UPDATE Course SET name = ?, credits = ?, department_code = ?, " +
                             "seats = ?, professor_id = ?, prerequisites = ?, semester = ?, timeslot = ? " +
                             "WHERE id = ?");
 
@@ -79,7 +79,7 @@ public class ModifyCourseDetails {
             updateCourse.setString(5, course.getProfessor());
             updateCourse.setString(6, course.getPrerequisites());
             updateCourse.setString(7, course.getSemesterOffered());
-            updateCourse.setString(8, course.getTimeslot());  // Set the timeslot field
+            updateCourse.setString(8, course.getTimeslot());
             updateCourse.setString(9, course.getCourseID());
 
             int rowsAffected = updateCourse.executeUpdate();
@@ -104,13 +104,13 @@ public class ModifyCourseDetails {
 
         try {
             PreparedStatement deletePrereqs = connection.prepareStatement(
-                    "DELETE FROM coursescheduling_db.Prerequisites WHERE course_id = ? OR prerequisite_id = ?");
+                    "DELETE FROM Prerequisites WHERE course_id = ? OR prerequisite_id = ?");
             deletePrereqs.setString(1, courseId);
             deletePrereqs.setString(2, courseId);
             deletePrereqs.executeUpdate();
 
             PreparedStatement deleteCourse = connection.prepareStatement(
-                    "DELETE FROM coursescheduling_db.Course WHERE id = ?");
+                    "DELETE FROM Course WHERE id = ?");
             deleteCourse.setString(1, courseId);
 
             int rowsAffected = deleteCourse.executeUpdate();

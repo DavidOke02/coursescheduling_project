@@ -18,9 +18,11 @@ public class GraduationHomeView extends JFrame {
     private JPanel buttonPanel;
 
     private GraduationHomeViewController controller;
+    private String studentID;
 
     public GraduationHomeView(String studentID) {
-        controller = new GraduationHomeViewController(this);
+        this.controller = new GraduationHomeViewController(this);
+        this.studentID = studentID;
         this.add(graduationHomeView);
         this.setTitle("Graduation Home");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,14 +31,14 @@ public class GraduationHomeView extends JFrame {
         this.setSize(800, 600);
         this.setMinimumSize(new Dimension(200,150));
         displayContent();
-        controller.displayTables();
-        controller.displayRemainingTables();
+        controller.displayTables(studentID);
+        controller.displayRemainingTables(studentID);
     }
 
     public void displayContent() {
         viewAcademicRecordButton.addActionListener(e -> {
             dispose();
-            new AcademicRecordView("STU123");
+            new AcademicRecordView(studentID);
         });
 
         viewGraduationEligibilityButton.addActionListener(e -> {

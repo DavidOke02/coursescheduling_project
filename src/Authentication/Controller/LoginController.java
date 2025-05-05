@@ -90,12 +90,11 @@ public class LoginController {
         }
     }
 
-    // Method to insert a user directly
+    // Adding a User
     private void insertUser(String firstName, String lastName, String middleInitial, String password, String role, String userId) throws SQLException {
         Connection connection = DBConnection.getConnection();
 
-        // Prepare the insert statement to add the new user
-        String insertUserQuery = "INSERT INTO User (id, firstName, middleInitial, lastName, role, password) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertUserQuery = "INSERT IGNORE INTO User (id, firstName, middleInitial, lastName, role, password) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(insertUserQuery);
         ps.setString(1, userId);        // Set the userId
         ps.setString(2, firstName);     // Set the first name

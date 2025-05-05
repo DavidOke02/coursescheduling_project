@@ -14,6 +14,7 @@ public class GraduationStatusController {
     private List<String> requiredCourses = new ArrayList<>();
 
     public GraduationStatusController(GraduationStatusView view) {
+        createDegreeTable();
         createDegreeRequirementsTable();
         this.view = view;
     }
@@ -31,7 +32,27 @@ public class GraduationStatusController {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println("Could not degree requirement record table.");
+            System.out.println("Could not create degree requirement record table.");
+        }
+    }
+
+    public void createDegreeTable(){
+        Connection connection = DBConnection.getConnection();
+
+        try {
+            Statement createTable = connection.createStatement();
+            createTable.executeUpdate("CREATE TABLE IF NOT EXISTS degree (" +
+                    "id INT NOT NULL," +
+                    "total_credits varchar(45) NULL," +
+                    "degree_name varchar(45) NULL," +
+                    "minimum_gpa double(3,2) NULL," +
+                    "PRIMARY KEY(id)" +
+                    ")");
+            System.out.println("Degree table created, or already exists!");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Could not create degree record table.");
         }
     }
 

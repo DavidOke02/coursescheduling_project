@@ -25,8 +25,8 @@ public class RegisterCourseView extends JFrame {
     private JTextField PrerequisitesField;
     private JLabel SemesterLabel;
     private JTextField SemesterField;
-    private JLabel TimeslotLabel;  // New label for Timeslot
-    private JTextField TimeslotField;  // New field for Timeslot
+    private JLabel TimeslotLabel;
+    private JTextField TimeslotField;
     private JButton registerCourseButton;
 
     private RegisterCourseController controller;
@@ -55,10 +55,10 @@ public class RegisterCourseView extends JFrame {
                 String departmentCode = DepartmentCodeField.getText().trim();
                 String prerequisites = PrerequisitesField.getText().trim();
                 String semester = SemesterField.getText().trim();
-                String timeslot = TimeslotField.getText().trim();  // Get the timeslot input
+                String timeslot = TimeslotField.getText().trim();
 
                 if (courseID.isEmpty() || courseName.isEmpty() || instructor.isEmpty() ||
-                        CreditsField.getText().trim().isEmpty() || departmentCode.isEmpty() || timeslot.isEmpty()) {
+                        CreditsField.getText().trim().isEmpty() || departmentCode.isEmpty()) {
                     JOptionPane.showMessageDialog(RegisterCourseView.this,
                             "All fields are required",
                             "Validation Error",
@@ -88,9 +88,9 @@ public class RegisterCourseView extends JFrame {
                     return;
                 }
 
-                int availableSeats = 30;  // Set default value or get from input if necessary
+                int availableSeats = 30;
 
-                // Call registerCourse with timeslot added to the parameters
+
                 controller.registerCourse(courseID, courseName, instructor, credits, departmentCode, availableSeats, prerequisites, semester, timeslot);
             }
         });
@@ -102,7 +102,7 @@ public class RegisterCourseView extends JFrame {
                 "Registration Success",
                 JOptionPane.INFORMATION_MESSAGE);
 
-        // Clear the form fields, including the new Timeslot field
+        // Resetting Fields
         CourseIDField.setText("");
         CourseNameField.setText("");
         InstructorField.setText("");
@@ -110,7 +110,7 @@ public class RegisterCourseView extends JFrame {
         DepartmentCodeField.setText("");
         PrerequisitesField.setText("");
         SemesterField.setText("");
-        TimeslotField.setText("");  // Clear Timeslot field
+        TimeslotField.setText("");
     }
 
     public void displayRegistrationFailure() {

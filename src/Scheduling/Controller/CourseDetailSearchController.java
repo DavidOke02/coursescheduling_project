@@ -38,7 +38,7 @@ public class CourseDetailSearchController {
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement viewCourse = connection.prepareStatement(
-                     "SELECT * FROM coursescheduling_db.Course WHERE id = ?")) {
+                     "SELECT * FROM Course WHERE id = ?")) {
 
             viewCourse.setString(1, courseID);
             try (ResultSet resultSet = viewCourse.executeQuery()) {
@@ -52,7 +52,7 @@ public class CourseDetailSearchController {
                             resultSet.getString("professor_id"),
                             resultSet.getString("prerequisites"),
                             resultSet.getString("semester"),
-                            resultSet.getString("timeslot")  // New field
+                            resultSet.getString("timeslot")
                     );
                     System.out.println("Course found: " + course.getCourseName());
                 } else {
@@ -73,7 +73,7 @@ public class CourseDetailSearchController {
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement searchCourse = connection.prepareStatement(
-                     "SELECT * FROM coursescheduling_db.Course WHERE id LIKE ?")) {
+                     "SELECT * FROM Course WHERE id LIKE ?")) {
 
             searchCourse.setString(1, "%" + courseID + "%");
             try (ResultSet resultSet = searchCourse.executeQuery()) {
