@@ -21,7 +21,6 @@ public class AdvisorApprovalTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize controller
         advisorApprovalController = new AdvisorApproval();
         // Create test approval requests
         pendingRequest = new ApprovalRequest(1, "STU123", "CYBER 300",
@@ -52,7 +51,7 @@ public class AdvisorApprovalTest {
         boolean result = advisorApprovalController.approveRequest(approvedRequest);
         // Assert
         assertFalse(result);
-        assertEquals("Approved", approvedRequest.getStatus()); // Status should not change
+        assertEquals("Approved", approvedRequest.getStatus());
     }
 
     @Test
@@ -72,7 +71,7 @@ public class AdvisorApprovalTest {
         boolean result = advisorApprovalController.approveOverride(approvedOverride);
         // Assert
         assertFalse(result);
-        assertEquals("Approved", approvedOverride.getStatus()); // Status should not change
+        assertEquals("Approved", approvedOverride.getStatus());
     }
 
     @Test
