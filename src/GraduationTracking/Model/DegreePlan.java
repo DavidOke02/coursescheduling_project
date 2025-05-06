@@ -45,7 +45,7 @@ public class DegreePlan {
     }
 
     public void setDegree(String degree) {
-        this.degree = degree;
+        this.degreeName = degree;
     }
 
     public int getPlannedCredits() {
