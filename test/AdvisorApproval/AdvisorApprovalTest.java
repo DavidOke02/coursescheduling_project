@@ -22,12 +22,12 @@ public class AdvisorApprovalTest {
     @BeforeEach
     void setUp() {
         advisorApprovalController = new AdvisorApproval();
-        // Create test approval requests
+        //Create test approval requests
         pendingRequest = new ApprovalRequest(1, "STU123", "CYBER 300",
                 "Need override due to course conflict.", "", "Pending", "Fall 2025");
         approvedRequest = new ApprovalRequest(2, "STU456", "HCDD 350",
                 "Prerequisite not completed.", "Approved by advisor.", "Approved", "Spring 2025");
-        // Create test course overrides
+        //Create test course overrides
         pendingOverride = new CourseOverride(1, "STU123", "ENG 200",
                 "Course conflict", "Pending", "");
         approvedOverride = new CourseOverride(2, "STU456", "ENGL 400",
@@ -37,9 +37,9 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test approving a pending request")
     void testApproveRequest_WithPendingRequest_ShouldReturnTrue() {
-        // Act
+        //Act
         boolean result = advisorApprovalController.approveRequest(pendingRequest);
-        // Assert
+        //Assert
         assertTrue(result);
         assertEquals("Approved", pendingRequest.getStatus());
     }
@@ -47,9 +47,9 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test approving an already approved request")
     void testApproveRequest_WithApprovedRequest_ShouldReturnFalse() {
-        // Act
+        //Act
         boolean result = advisorApprovalController.approveRequest(approvedRequest);
-        // Assert
+        //Assert
         assertFalse(result);
         assertEquals("Approved", approvedRequest.getStatus());
     }
@@ -57,9 +57,9 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test approving a pending override")
     void testApproveOverride_WithPendingOverride_ShouldReturnTrue() {
-        // Act
+        //Act
         boolean result = advisorApprovalController.approveOverride(pendingOverride);
-        // Assert
+        //Assert
         assertTrue(result);
         assertEquals("Approved", pendingOverride.getStatus());
     }
@@ -67,9 +67,9 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test approving an already approved override")
     void testApproveOverride_WithApprovedOverride_ShouldReturnFalse() {
-        // Act
+        //Act
         boolean result = advisorApprovalController.approveOverride(approvedOverride);
-        // Assert
+        //Assert
         assertFalse(result);
         assertEquals("Approved", approvedOverride.getStatus());
     }
@@ -77,10 +77,10 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test ApprovalRequest constructor and getters")
     void testApprovalRequestConstructorAndGetters() {
-        // Arrange
+        //Arrange
         ApprovalRequest request = new ApprovalRequest(101, "STU999", "CS 101",
                 "Test comment", "Test advisor comment", "Pending", "Fall 2025");
-        // Assert
+        //Assert
         assertEquals(101, request.getRequestId());
         assertEquals("STU999", request.getStudentId());
         assertEquals("CS 101", request.getCourseId());
@@ -93,10 +93,10 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test ApprovalRequest setters")
     void testApprovalRequestSetters() {
-        // Arrange
+        //Arrange
         ApprovalRequest request = new ApprovalRequest(null, "OLD_ID", "OLD_COURSE",
                 "Old comment", "Old advisor comment", "Old status", "Old term");
-        // Act
+        //Act
         request.setRequestId(202);
         request.setStudentId("NEW_ID");
         request.setCourseId("NEW_COURSE");
@@ -104,7 +104,7 @@ public class AdvisorApprovalTest {
         request.setAdvisorComment("New advisor comment");
         request.setStatus("New status");
         request.setTerm("New term");
-        // Assert
+        //Assert
         assertEquals(202, request.getRequestId());
         assertEquals("NEW_ID", request.getStudentId());
         assertEquals("NEW_COURSE", request.getCourseId());
@@ -117,10 +117,10 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test CourseOverride constructor and getters")
     void testCourseOverrideConstructorAndGetters() {
-        // Arrange
+        //Arrange
         CourseOverride override = new CourseOverride(303, "STU777", "MATH 101",
                 "Test reason", "Test status", "Test comment");
-        // Assert
+        //Assert
         assertEquals(303, override.getOverrideID());
         assertEquals("STU777", override.getStudentID());
         assertEquals("MATH 101", override.getCourseID());
@@ -132,17 +132,17 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test CourseOverride setters")
     void testCourseOverrideSetters() {
-        // Arrange
+        //Arrange
         CourseOverride override = new CourseOverride(null, "OLD_ID", "OLD_COURSE",
                 "Old reason", "Old status", "Old comment");
-        // Act
+        //Act
         override.setOverrideID(404);
         override.setStudentID("NEW_ID");
         override.setCourseID("NEW_COURSE");
         override.setReason("New reason");
         override.setStatus("New status");
         override.setComment("New comment");
-        // Assert
+        //Assert
         assertEquals(404, override.getOverrideID());
         assertEquals("NEW_ID", override.getStudentID());
         assertEquals("NEW_COURSE", override.getCourseID());
@@ -154,9 +154,9 @@ public class AdvisorApprovalTest {
     @Test
     @DisplayName("Test Advisor default constructor and getters")
     void testAdvisorDefaultConstructor() {
-        // Arrange
+        //Arrange
         Advisor advisor = new Advisor();
-        // Assert
+        //Assert
         assertEquals("A0001", advisor.getAdvisorID());
         assertEquals("Default Advisor", advisor.getName());
     }

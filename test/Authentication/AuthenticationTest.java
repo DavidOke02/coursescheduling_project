@@ -15,7 +15,7 @@ public class AuthenticationTest {
 
     @BeforeEach
     void setUp() {
-        // Create test models without initializing the controller
+        //Create test models without initializing the controller
         studentModel = new Login("STU123", "Jane", "Smith", "Student", "password");
         advisorModel = new Login("ADV123", "John", "Doe", "Advisor", "password");
         adminModel = new Login("ADM123", "Sarah", "Peters", "Admin", "password");
@@ -54,64 +54,64 @@ public class AuthenticationTest {
     @Test
     @DisplayName("Test ID setter")
     void testIdSetter() {
-        // Arrange
+        //Arrange
         Login user = new Login("OLD_ID", "Jane", "Smith", "Student", "password");
-        // Act
+        //Act
         user.setId("NEW_ID");
-        // Assert
+        //Assert
         assertEquals("NEW_ID", user.getId());
     }
 
     @Test
     @DisplayName("Test firstname setter")
     void testFirstnameSetter() {
-        // Arrange
+        //Arrange
         Login user = new Login("STU123", "Jane", "Smith", "Student", "password");
-        // Act
+        //Act
         user.setFirstname("NewFirstName");
-        // Assert
+        //Assert
         assertEquals("NewFirstName", user.getFirstname());
     }
 
     @Test
     @DisplayName("Test lastname setter")
     void testLastnameSetter() {
-        // Arrange
+        //Arrange
         Login user = new Login("STU123", "Jane", "Smith", "Student", "password");
-        // Act
+        //Act
         user.setLastname("NewLastName");
-        // Assert
+        //Assert
         assertEquals("NewLastName", user.getLastname());
     }
 
     @Test
     @DisplayName("Test role setter")
     void testRoleSetter() {
-        // Arrange
+        //Arrange
         Login user = new Login("STU123", "Jane", "Smith", "Student", "password");
-        // Act
+        //Act
         user.setRole("NewRole");
-        // Assert
+        //Assert
         assertEquals("NewRole", user.getRole());
     }
 
     @Test
     @DisplayName("Test password setter")
     void testPasswordSetter() {
-        // Arrange
+        //Arrange
         Login user = new Login("STU123", "Jane", "Smith", "Student", "password");
-        // Act
+        //Act
         user.setPassword("NewPassword");
-        // Assert
+        //Assert
         assertEquals("NewPassword", user.getPassword());
     }
 
     @Test
     @DisplayName("Test Login model with null values")
     void testLoginModelWithNullValues() {
-        // Arrange & Act
+        //Arrange and Act
         Login user = new Login(null, null, null, null, null);
-        // Assert
+        //Assert
         assertNull(user.getId());
         assertNull(user.getFirstname());
         assertNull(user.getLastname());
@@ -122,9 +122,9 @@ public class AuthenticationTest {
     @Test
     @DisplayName("Test Login model with empty strings")
     void testLoginModelWithEmptyStrings() {
-        // Arrange & Act
+        //Arrange and Act
         Login user = new Login("", "", "", "", "");
-        // Assert
+        //Assert
         assertEquals("", user.getId());
         assertEquals("", user.getFirstname());
         assertEquals("", user.getLastname());
