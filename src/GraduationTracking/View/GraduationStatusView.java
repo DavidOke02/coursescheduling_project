@@ -16,9 +16,11 @@ public class GraduationStatusView extends JFrame {
     private JPanel buttonPanel;
 
     private GraduationStatusController controller;
+    private String studentID;
 
-    public GraduationStatusView() {
+    public GraduationStatusView(String studentID) {
         controller = new GraduationStatusController(this);
+        this.studentID = studentID;
         this.add(graduationStatusView);
         this.setTitle("Graduation Eligibility Status");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +43,7 @@ public class GraduationStatusView extends JFrame {
     public void displayContent() {
         goBackButton.addActionListener(e -> {
             dispose();
-            new GraduationHomeView("STU123");
+            new GraduationHomeView(studentID);
         });
     }
 
