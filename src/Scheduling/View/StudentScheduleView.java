@@ -1,7 +1,7 @@
 package Scheduling.View;
 
 import Scheduling.Controller.ScheduleViewer;
-import Scheduling.Controller.StudentDashboardController;
+import Authentication.StudentDashboard;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -30,13 +30,21 @@ public class StudentScheduleView {
     private ScheduleViewer controller;
     private String studentID;
 
-    // Setup
+    // Constructor
     public StudentScheduleView(String studentID) {
         this.controller = new ScheduleViewer(this);
         this.studentID = studentID;
 
         initializeButtons();
         controller.displayCourseList(studentID);
+
+        // Show panel inside a frame (if needed)
+        JFrame frame = new JFrame("Student Schedule");
+        frame.setContentPane(scheduleViewPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     // Button Logic
@@ -49,7 +57,7 @@ public class StudentScheduleView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
-                new StudentDashboardController();
+                new StudentDashboard(studentID);
             }
         });
 
@@ -62,8 +70,8 @@ public class StudentScheduleView {
         });
 
         addCourseButton.addActionListener(e -> {
-            SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose();
-            SwingUtilities.invokeLater(() -> new CourseSearchView().setVisible(true));
+            SwingUtilities.getWindowAncestor(scheduleViewPanel).dispose(); // Close current schedule view
+            SwingUtilities.invokeLater(() -> new CourseSearchView(studentID, this).setVisible(true)); // Open Course Search View
         });
 
         viewCourseButton.addActionListener(e -> {
@@ -75,10 +83,9 @@ public class StudentScheduleView {
                 return;
             } else if (selectedRowCart != -1) {
                 selectedCourseID = table1.getModel().getValueAt(selectedRowCart, 0);
-            } else if (selectedRowEnrollment !=1 ) {
+            } else if (selectedRowEnrollment != -1) {
                 selectedCourseID = table2.getModel().getValueAt(selectedRowEnrollment, 0);
-            }
-            else {
+            } else {
                 return;
             }
 
@@ -91,9 +98,24 @@ public class StudentScheduleView {
             if (selectedRowCart != -1) {
                 Object selectedCourseID = table1.getModel().getValueAt(selectedRowCart, 0);
                 controller.moveToEnrollment(studentID, selectedCourseID.toString());
+
+                // Refresh the course list after adding the course to the enrollment list
                 controller.displayCourseList(studentID);
+
+                // Keep the window open and refresh the content to show the updated enrollment list
+                updateScheduleView();
             }
         });
+    }
+
+    // Method to update the schedule view (i.e., refresh the tables)
+    private void updateScheduleView() {
+        // Reload the course list from the controller to update the enrollment cart and list
+        controller.displayCourseList(studentID);
+
+        // Revalidate and repaint the panel to refresh the UI components
+        scheduleViewPanel.revalidate();
+        scheduleViewPanel.repaint();
     }
 
     public void makeClickable(JLabel label) {
@@ -161,8 +183,11 @@ public class StudentScheduleView {
         return cancelButton;
     }
 
-    // Get Panel
     public JPanel getMainPanel() {
         return scheduleViewPanel;
+    }
+
+    public ScheduleViewer getController() {
+        return controller;
     }
 }

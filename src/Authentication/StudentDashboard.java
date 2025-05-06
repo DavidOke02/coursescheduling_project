@@ -1,5 +1,6 @@
 package Authentication;
 
+import GraduationTracking.View.GraduationHomeView;  // Import GraduationHomeView
 import AdvisorApproval.View.ScheduleApprovalUI;
 import AdvisorApproval.View.StudentDecisionViewer;
 import AdvisorApproval.View.OverrideRequestForm;
@@ -20,12 +21,8 @@ public class StudentDashboard extends JFrame {
     private JButton logoutButton;
     private JButton overrideRequestButton;
     private JButton goToScheduleButton;
-
-    // Track sub-windows
-    private JFrame decisionFrame;
-    private JFrame scheduleFrame;
-    private JFrame overrideFrame;
-    private JFrame scheduleViewFrame;
+    private JButton graduationTrackerButton;  // New button for Graduation Tracker
+    private JButton backToDashboardButton;
 
     public StudentDashboard(String studentId) {
         this.studentId = studentId;
@@ -49,7 +46,7 @@ public class StudentDashboard extends JFrame {
 
         // Panel for buttons
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10));
+        buttonPanel.setLayout(new GridLayout(6, 1, 10, 10));  // Increase grid to accommodate the new button
 
         // Buttons
         submitApprovalButton = new JButton("Submit Approval Request");
@@ -57,12 +54,14 @@ public class StudentDashboard extends JFrame {
         overrideRequestButton = new JButton("Override Request Form");
         goToScheduleButton = new JButton("View My Schedule");
         logoutButton = new JButton("Logout");
+        graduationTrackerButton = new JButton("View Graduation Tracker");  // Initialize new button
 
         // Add buttons to panel
         buttonPanel.add(submitApprovalButton);
         buttonPanel.add(viewDecisionsButton);
         buttonPanel.add(overrideRequestButton);
         buttonPanel.add(goToScheduleButton);
+        buttonPanel.add(graduationTrackerButton);  // Add the new button to the panel
         buttonPanel.add(logoutButton);
 
         add(buttonPanel, BorderLayout.CENTER);
@@ -72,16 +71,17 @@ public class StudentDashboard extends JFrame {
         viewDecisionsButton.addActionListener(e -> openStudentDecisionsViewer());
         overrideRequestButton.addActionListener(e -> openOverrideRequestForm());
         goToScheduleButton.addActionListener(e -> openStudentScheduleView());
+        graduationTrackerButton.addActionListener(e -> openGraduationHomeView());  // Action for Graduation Tracker
         logoutButton.addActionListener(e -> logout());
     }
 
     private void openScheduleApprovalUI() {
-        scheduleFrame = new ScheduleApprovalUI(studentId);
+        JFrame scheduleFrame = new ScheduleApprovalUI(studentId);
         addBackButton(scheduleFrame);
     }
 
     private void openStudentDecisionsViewer() {
-        decisionFrame = new JFrame("View My Decisions");
+        JFrame decisionFrame = new JFrame("View My Decisions");
         StudentDecisionViewer viewer = new StudentDecisionViewer(studentId);
         decisionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         decisionFrame.setSize(500, 400);
@@ -91,7 +91,7 @@ public class StudentDashboard extends JFrame {
     }
 
     private void openOverrideRequestForm() {
-        overrideFrame = new JFrame("Override Request Form");
+        JFrame overrideFrame = new JFrame("Override Request Form");
         OverrideRequestForm form = new OverrideRequestForm(studentId);
         overrideFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         overrideFrame.setSize(500, 400);
@@ -101,21 +101,27 @@ public class StudentDashboard extends JFrame {
     }
 
     private void openStudentScheduleView() {
-        scheduleViewFrame = new JFrame("View My Schedule");
+        JFrame scheduleViewFrame = new JFrame("View My Schedule");
         StudentScheduleView scheduleView = new StudentScheduleView(studentId);
         scheduleViewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        scheduleViewFrame.setSize(800, 600);
+        scheduleViewFrame.setSize(500, 400);
         scheduleViewFrame.setLocationRelativeTo(null);
         scheduleViewFrame.add(scheduleView.getMainPanel());
         addBackButton(scheduleViewFrame);
     }
 
-    private void logout() {
-        if (decisionFrame != null) decisionFrame.dispose();
-        if (scheduleFrame != null) scheduleFrame.dispose();
-        if (overrideFrame != null) overrideFrame.dispose();
-        if (scheduleViewFrame != null) scheduleViewFrame.dispose();
+    private void openGraduationHomeView() {
+        JFrame graduationViewFrame = new JFrame("View Graduation Tracker");
+        GraduationHomeView graduationView = new GraduationHomeView(studentId);
+        graduationViewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        graduationViewFrame.setSize(800, 600);
+        graduationViewFrame.setLocationRelativeTo(null);
+        graduationViewFrame.add(graduationView.getMainPanel());
+        addBackButton(graduationViewFrame);
+    }
 
+
+    private void logout() {
         dispose();
         JOptionPane.showMessageDialog(this, "You have been logged out.");
         new LoginUI().setVisible(true);
@@ -137,7 +143,7 @@ public class StudentDashboard extends JFrame {
     }
 
     public static void main(String[] args) {
-        String studentId = "ABC123";
+        String studentId = "ABC123"; // Replace with actual login
         SwingUtilities.invokeLater(() -> new StudentDashboard(studentId));
     }
 }

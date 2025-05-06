@@ -11,23 +11,27 @@ public class CourseSearchView extends JFrame {
     private CourseDetailSearchController controller;
     private JTextField courseIDnameField;
     private JButton searchButton;
-    private JPanel basePanel;
-    private JButton addButton;
     private JTextArea resultArea;
+    private JButton addButton;
     private JLabel courseIDLabel;
-    private JButton addbutton;
+    private JPanel basePanel;
+
+    private JTextArea detailArea;
     private DefaultListModel<Course> listModel;
     private JList<Course> courseList;
-    private JTextArea detailArea;
-    private String studentID = "STU123";
 
-    public CourseSearchView() {
-        controller = new CourseDetailSearchController();
+    private String studentID;
+    private StudentScheduleView parentView; // reference to refresh
+
+    // Updated constructor
+    public CourseSearchView(String studentID, StudentScheduleView parentView) {
+        this.studentID = studentID;
+        this.parentView = parentView;
+        this.controller = new CourseDetailSearchController();
         setTitle("Course Search");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-
         initUI();
     }
 
@@ -102,23 +106,23 @@ public class CourseSearchView extends JFrame {
     private void addSelectedCourse() {
         Course selected = courseList.getSelectedValue();
         if (selected != null) {
-            String message = "Do you want to add this course to your schedule?";
-            int response = JOptionPane.showConfirmDialog(this, message);
+            int response = JOptionPane.showConfirmDialog(this, "Do you want to add this course to your schedule?");
             if (response == JOptionPane.YES_OPTION) {
                 controller.addCourseToSchedule(studentID, selected);
                 JOptionPane.showMessageDialog(this, "Course added to schedule.");
-                dispose();
-                new StudentScheduleView(studentID);
+
+                // Refresh parent view (StudentScheduleView)
+                if (parentView != null) {
+                    parentView.getController().displayCourseList(studentID); // Refreshing the schedule view
+                }
+
+                dispose(); // Close the course search window
+
+                // Reopen the StudentScheduleView
+                SwingUtilities.invokeLater(() -> new StudentScheduleView(studentID)); // Reopen the schedule view
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please select a course to add.");
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            CourseSearchView view = new CourseSearchView();
-            view.setVisible(true);
-        });
     }
 }

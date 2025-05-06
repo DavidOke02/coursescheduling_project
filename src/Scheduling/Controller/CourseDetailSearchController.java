@@ -106,7 +106,7 @@ public class CourseDetailSearchController {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement addCourse = connection.prepareStatement(
-                    "INSERT INTO Schedule (student_id, course_id, registration_status, waitlist_status) " +
+                    "INSERT INTO coursescheduling_db.Schedule (student_id, course_id, registration_status, waitlist_status) " +
                             "VALUES (?, ?, ?, ?)");
             addCourse.setString(1, studentID);
             addCourse.setString(2, course.getCourseID());
