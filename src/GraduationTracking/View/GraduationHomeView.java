@@ -23,64 +23,34 @@ public class GraduationHomeView extends JFrame {
     public GraduationHomeView(String studentID) {
         this.controller = new GraduationHomeViewController(this);
         this.studentID = studentID;
-
-        // Initialize UI
-        graduationHomeView = new JPanel(new BorderLayout());
-        mainContentPanel = new JPanel(new GridLayout(3, 1, 10, 10));
-        buttonPanel = new JPanel(new FlowLayout());
-
-        // Title
-        titleLabel = new JLabel("Graduation Progress Tracker", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        graduationHomeView.add(titleLabel, BorderLayout.NORTH);
-
-        // Progress bar
-        degreeProgressBar = new JProgressBar();
-        degreeProgressBar.setStringPainted(true);
-        graduationHomeView.add(degreeProgressBar, BorderLayout.SOUTH);
-
-        // Tables
-        coursesCompletedTable = new JTable();
-        coursesRemainingTable = new JTable();
-        inProgressTable = new JTable();
-
-        mainContentPanel.add(new JScrollPane(coursesCompletedTable));
-        mainContentPanel.add(new JScrollPane(coursesRemainingTable));
-        mainContentPanel.add(new JScrollPane(inProgressTable));
-
-        graduationHomeView.add(mainContentPanel, BorderLayout.CENTER);
-
-        // Buttons
-        viewAcademicRecordButton = new JButton("View Academic Record");
-        viewGraduationEligibilityButton = new JButton("View Graduation Eligibility");
-        buttonPanel.add(viewAcademicRecordButton);
-        buttonPanel.add(viewGraduationEligibilityButton);
-        graduationHomeView.add(buttonPanel, BorderLayout.PAGE_END);
-
-        setTitle("Graduation Home");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setLocationRelativeTo(null);
-        setMinimumSize(new Dimension(200, 150));
-
+        this.add(graduationHomeView);
+        this.setTitle("Graduation Home");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        this.setSize(800, 600);
+        this.setMinimumSize(new Dimension(200,150));
         displayContent();
         controller.displayTables(studentID);
         controller.displayRemainingTables(studentID);
+        controller.updateProgressBar();
     }
 
     public void displayContent() {
         viewAcademicRecordButton.addActionListener(e -> {
-            dispose();
+            SwingUtilities.getWindowAncestor(graduationHomeView).dispose();
             new AcademicRecordView(studentID);
         });
 
         viewGraduationEligibilityButton.addActionListener(e -> {
-            dispose();
+            SwingUtilities.getWindowAncestor(graduationHomeView).dispose();
             new GraduationStatusView(studentID);
         });
     }
 
-    // GETTER to use in StudentDashboard
+    //Getters
+
+
     public JPanel getMainPanel() {
         return graduationHomeView;
     }
